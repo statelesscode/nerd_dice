@@ -1,8 +1,5 @@
 # NerdDice
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nerd_dice`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Nerd dice allows you to roll polyhedral dice and add bonuses as you would in a tabletop roleplaying game. You can choose to roll multiple dice and keep a specified number of dice such as rolling 4d6 and dropping the lowest for ability scores or rolling with advantage and disadvantage if those mechanics exist in your game.
 
 ## Installation
 
@@ -21,8 +18,18 @@ Or install it yourself as:
     $ gem install nerd_dice
 
 ## Usage
+### Rolling a number of dice and adding a bonus
+```ruby
+# roll a single d4
+NerdDice.total_dice(4) # => return random Integer between 1-4
 
-TODO: Write usage instructions here
+# roll 3d6
+NerdDice.total_dice(6, 3) => return Integer total of three 6-sided dice
+
+# roll a d20 and add 5 to the value
+NerdDice.total_dice(20, 1, { bonus: 5 })
+```
+__NOTE:__ If provided, the bonus must be an ```Integer``` or it will be ignored
 
 ## Development
 
@@ -32,7 +39,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/statelesscode/nerd_dice/issues.
+Bug reports and pull requests are welcome on GitHub at https://github.com/statelesscode/nerd_dice/issues. We welcome and encourage your participation in this open-source project. We welcome those of all backgrounds and abilities, but we refuse to adopt the Contributor Covenant for reasons outlined in [BURN_THE_CONTRIBUTOR_COVENANT_WITH_FIRE.md](https://github.com/statelesscode/nerd_dice/blob/master/BURN_THE_CONTRIBUTOR_COVENANT_WITH_FIRE.md)
 
 
 ## Unlicense, License, and Copyright

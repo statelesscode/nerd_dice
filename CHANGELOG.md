@@ -2,11 +2,7 @@
 
 ## master \(unreleased\)
 
-## 0.1.0 \(YYYY-MM-DD\)
+## 0.1.0 \(2020-12-06\)
 
 ### New Features
-* Add NerdDice.total_dice class method
-
-### Bug Fixes
-
-### Changes
+* Add NerdDice.total_dice class method with the ability to roll multiple polyhedral dice and add a bonus
