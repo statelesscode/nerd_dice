@@ -38,6 +38,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  # Certs and signing
+  spec.cert_chain  = ["certs/msducheminjr.pem"]
+  spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.match?(/gem\z/)
+
   # Dependencies
   spec.add_development_dependency "rubocop", "~> 1.5", ">= 1.5.2"
   spec.add_development_dependency "rubocop-performance", "~> 1.9", ">= 1.9.1"
