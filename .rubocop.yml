@@ -161,6 +161,14 @@ Layout/TrailingWhitespace:
 Style/RedundantPercentQ:
   Enabled: true
 
+# exclude spec from block length
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+    - 'nerd_dice.gemspec'
+
 Lint/ErbNewArguments:
   Enabled: true
 
