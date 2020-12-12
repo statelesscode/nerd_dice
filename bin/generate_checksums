@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require 'digest/sha2'
+require "digest/sha2"
 
 version = ARGV[0]
 built_gem_path = "pkg/nerd_dice-#{version}.gem"
 checksum = Digest::SHA512.new.hexdigest(File.read(built_gem_path))
 checksum_path = "checksum/nerd_dice-#{version}.gem.sha512"
-File.open(checksum_path, 'w' ) {|f| f.write(checksum) }
+File.open(checksum_path, "w") { |f| f.write(checksum) }
 sha256 = Digest::SHA256.new.hexdigest(File.read(built_gem_path))
 checksum_256_path = "checksum/nerd_dice-#{version}.gem.sha256"
-File.open(checksum_256_path, 'w' ) {|f| f.write(sha256) }
+File.open(checksum_256_path, "w") { |f| f.write(sha256) }

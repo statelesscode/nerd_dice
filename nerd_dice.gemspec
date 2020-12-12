@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
 
   # Certs and signing
   spec.cert_chain  = ["certs/msducheminjr.pem"]
-  spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.match?(/gem\z/)
+  spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.end_with?("gem")
 
   # Dependencies
   spec.add_development_dependency "rubocop", "~> 1.5", ">= 1.5.2"
