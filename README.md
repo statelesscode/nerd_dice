@@ -18,6 +18,34 @@ Or install it yourself as:
     $ gem install nerd_dice
 
 ## Usage
+### Configuration
+You can customize the behavior of NerdDice via a configuration block as below or by assigning an individual property via the ```NerdDice.configuration.property = value``` syntax \(where ```property``` is the config property and ```value``` is the value you want to assign\)\. The available configuration options as well as their defaults, if applicable, are listed in the example configuration block below:
+
+```ruby
+NerdDice.configure do | config|
+
+  # number of ability scores to place in an ability score array
+  config.ability_score_array_size = 6
+
+  # randomization technique options are:
+    # :securerandom => Uses SecureRandom.rand(). Good entropy, medium speed.
+    # :rand => Uses default rand(). Poor entropy, fast speed.
+      # (Seed is shared with other processes. Too predictable)
+    # :random_new_once => Uses Random.new() and calls rand()
+      # Medium entropy, fastest speed. (Performs the best under speed benchmark)
+    # :random_new_interval => Uses Random.new(), but refreshes periodically
+    #  by creating a new seed at configured interval.
+      # Speed varies, entropy varies. See below
+    # :randomized => Uses a random choice of the :securerandom, :rand, and :random_new_interval options above
+  config.randomization_technique = :random_new_once # fastest option, but don't use if running a casino
+
+  # Number of iterations to use on :random_new_interval technique before refreshing the seed
+    # 1 very slow and heavy pressure on processor and memory but very high entropy
+    # 1000 would refresh the object every 1000 times you call rand()
+  config.new_random_interval = 50 # refresh the seed every 50 times you roll
+end
+```
+
 ### Rolling a number of dice and adding a bonus
 ```ruby
 # roll a single d4

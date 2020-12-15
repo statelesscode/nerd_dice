@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "nerd_dice/version"
+require "nerd_dice/configuration"
 # Nerd dice allows you to roll polyhedral dice and add bonuses as you would in
 # a tabletop roleplaying game. You can choose to roll multiple dice and keep a
 # specified number of dice such as rolling 4d6 and dropping the lowest for
@@ -22,6 +23,16 @@ require "nerd_dice/version"
 #   The bonus in the options hash must be an Integer or it will be ignored
 module NerdDice
   class Error < StandardError; end
+
+  RANDOMIZATION_TECHNIQUES = %i[securerandom rand random_new_once random_new_interval randomized].freeze
+
+  def self.configure
+    yield configuration
+  end
+
+  def self.configuration
+    @configuration ||= Configuration.new
+  end
 
   ############################
   # total_dice class method

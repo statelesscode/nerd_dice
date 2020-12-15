@@ -1,0 +1,40 @@
+# frozen_string_literal: true
+
+module NerdDice
+  # The NerdDice::Configuration class allows you to configure and customize the
+  # options of the NerdDice gem to suit your specific needs. You can specify
+  # properties like the randomization technique used by the gem, the number of
+  # ability scores in an ability score array, etc. See the README for a list of
+  # configurable attributes.
+  #
+  # Usage:
+  #   The configuration can either be set via a configure block:
+  #   <tt>NerdDice.configure do |config|
+  #         config.randomization_technique = :random_new_interval
+  #         config.new_random_interval     = 100
+  #       end
+  #   </tt>
+  #
+  #   You can also set a particular property without a block using inline assignment
+  #   <tt>NerdDice.configuration.randomization_technique = :random_new_once</tt>
+  class Configuration
+    attr_reader :randomization_technique
+    attr_accessor :ability_score_array_size, :new_random_interval
+
+    def randomization_technique=(value)
+      unless RANDOMIZATION_TECHNIQUES.include?(value)
+        raise NerdDice::Error, "randomization_technique must be one of #{RANDOMIZATION_TECHNIQUES.join(', ')}"
+      end
+
+      @randomization_technique = value
+    end
+
+    private
+
+      def initialize
+        @ability_score_array_size = 6
+        @randomization_technique = :random_new_once
+        @new_random_interval = 50
+      end
+  end
+end
