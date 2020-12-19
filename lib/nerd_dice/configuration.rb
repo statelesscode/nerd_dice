@@ -19,7 +19,7 @@ module NerdDice
   #   <tt>NerdDice.configuration.randomization_technique = :random_new_once</tt>
   class Configuration
     attr_reader :randomization_technique
-    attr_accessor :ability_score_array_size, :new_random_interval
+    attr_accessor :ability_score_array_size, :refresh_seed_interval
 
     def randomization_technique=(value)
       unless RANDOMIZATION_TECHNIQUES.include?(value)
@@ -33,8 +33,7 @@ module NerdDice
 
       def initialize
         @ability_score_array_size = 6
-        @randomization_technique = :random_new_once
-        @new_random_interval = 50
+        @randomization_technique = :random_object
       end
   end
 end

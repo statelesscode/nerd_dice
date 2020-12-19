@@ -29,20 +29,17 @@ NerdDice.configure do | config|
 
   # randomization technique options are:
     # :securerandom => Uses SecureRandom.rand(). Good entropy, medium speed.
-    # :rand => Uses default rand(). Poor entropy, fast speed.
+    # :random_rand => Uses Random.rand(). Class method. Poor entropy, fastest speed.
       # (Seed is shared with other processes. Too predictable)
-    # :random_new_once => Uses Random.new() and calls rand()
+    # :random_object => Uses Random.new() and calls rand()
       # Medium entropy, fastest speed. (Performs the best under speed benchmark)
-    # :random_new_interval => Uses Random.new(), but refreshes periodically
-    #  by creating a new seed at configured interval.
-      # Speed varies, entropy varies. See below
     # :randomized => Uses a random choice of the :securerandom, :rand, and :random_new_interval options above
-  config.randomization_technique = :random_new_once # fastest option, but don't use if running a casino
+  config.randomization_technique = :random_object # fast with independent seed
 
-  # Number of iterations to use on :random_new_interval technique before refreshing the seed
+  # Number of iterations to use on a generator before refreshing the seed
     # 1 very slow and heavy pressure on processor and memory but very high entropy
     # 1000 would refresh the object every 1000 times you call rand()
-  config.new_random_interval = 50 # refresh the seed every 50 times you roll
+  config.refresh_seed_interval = nil # don't refresh the seed
 end
 ```
 
