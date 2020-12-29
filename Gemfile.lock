@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     nerd_dice (0.2.0)
+      securerandom (~> 0.1, >= 0.1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -48,6 +49,7 @@ GEM
       rubocop (~> 1.0)
       rubocop-ast (>= 1.1.0)
     ruby-progressbar (1.10.1)
+    securerandom (0.1.0)
     unicode-display_width (1.7.0)
 
 PLATFORMS
@@ -63,4 +65,4 @@ DEPENDENCIES
   rubocop-rspec (~> 2.0, >= 2.0.1)
 
 BUNDLED WITH
-   2.1.4
+   2.2.3

@@ -43,6 +43,9 @@ Gem::Specification.new do |spec|
   spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.end_with?("gem")
 
   # Dependencies
+  spec.add_dependency "securerandom", "~> 0.1", ">= 0.1.0"
+
+  # Development Dependencies
   spec.add_development_dependency "rubocop", "~> 1.5", ">= 1.5.2"
   spec.add_development_dependency "rubocop-performance", "~> 1.9", ">= 1.9.1"
   spec.add_development_dependency "rubocop-rake", "~> 0.5", ">= 0.5.1"

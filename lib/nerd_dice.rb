@@ -27,15 +27,31 @@ module NerdDice
 
   RANDOMIZATION_TECHNIQUES = %i[securerandom random_rand random_object randomized].freeze
 
-  def self.configure
-    yield configuration
-  end
-
-  def self.configuration
-    @configuration ||= Configuration.new
-  end
-
   class << self
+    ############################
+    # configure class method
+    ############################
+    # Arguments: None
+    # Expects and yields to a block where configuration is specified.
+    # See README and NerdDice::Configuration class for config options
+    # Return (NerdDice::Configuration) the Configuration object tied to the
+    #   @configuration class instance variable
+    def configure
+      yield configuration
+      configuration
+    end
+
+    ############################
+    # configuration class method
+    ############################
+    # Arguments: None
+    # Provides the lazy-loaded class instance variable @configuration
+    # Return (NerdDice::Configuration) the Configuration object tied to the
+    #   @configuration class instance variable
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
     ############################
     # total_dice class method
     ############################
@@ -58,12 +74,21 @@ module NerdDice
       total
     end
 
-    private
+    ############################
+    # execute_die_roll class method
+    ############################
+    # Arguments:
+    #   number_of_sides (Integer) =>  the number of sides of the die to roll
+    #   using_generator (Symbol) => must be one of the symbols in
+    #     RANDOMIZATION_TECHNIQUES or nil
+    #
+    # Return (Integer) => Value of the single die rolled
+    def execute_die_roll(number_of_sides, using_generator = nil)
+      gen = get_number_generator(using_generator)
+      gen.rand(number_of_sides) + 1
+    end
 
-      def execute_die_roll(number_of_sides, using_generator = nil)
-        gen = get_number_generator(using_generator)
-        gen.rand(number_of_sides) + 1
-      end
+    private
 
       def get_number_generator(using_generator = nil)
         using_generator ||= configuration.randomization_technique
