@@ -28,6 +28,8 @@ module NerdDice
   RANDOMIZATION_TECHNIQUES = %i[securerandom random_rand random_object randomized].freeze
 
   class << self
+    attr_reader :count_since_last_refresh
+
     ############################
     # configure class method
     ############################
@@ -93,6 +95,7 @@ module NerdDice
       random_rand_new_seed = opts[:random_rand_seed]
       random_object_new_seed = opts[:random_object_seed]
       return_hash = {}
+      @count_since_last_refresh = 0
       case technique
       when :securerandom then return nil
       when :random_rand
