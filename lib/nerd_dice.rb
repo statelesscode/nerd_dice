@@ -88,6 +88,24 @@ module NerdDice
       gen.rand(number_of_sides) + 1
     end
 
+    def refresh_seed!(**opts)
+      technique = opts[:technique] || configuration.randomization_technique
+      random_rand_new_seed = opts[:random_rand_seed]
+      random_object_new_seed = opts[:random_object_seed]
+      return_hash = {}
+      case technique
+      when :securerandom then return nil
+      when :random_rand
+        return_hash[:random_rand_prior_seed] = refresh_random_rand_seed!(random_rand_new_seed)
+      when :random_object
+        return_hash[:random_object_prior_seed] = refresh_random_object_seed!(random_object_new_seed)
+      when :randomized
+        return_hash[:random_rand_prior_seed] = refresh_random_rand_seed!(random_rand_new_seed)
+        return_hash[:random_object_prior_seed] = refresh_random_object_seed!(random_object_new_seed)
+      end
+      return_hash
+    end
+
     private
 
       def get_number_generator(using_generator = nil)
@@ -104,6 +122,16 @@ module NerdDice
       def random_generator
         gen = RANDOMIZATION_TECHNIQUES.reject { |el| el == :randomized }.sample
         get_number_generator(gen)
+      end
+
+      def refresh_random_rand_seed!(new_seed)
+        new_seed ? Random.srand(new_seed) : Random.srand
+      end
+
+      def refresh_random_object_seed!(new_seed)
+        old_seed = @random_object&.seed
+        @random_object = new_seed ? Random.new(new_seed) : Random.new
+        old_seed
       end
   end
 end
