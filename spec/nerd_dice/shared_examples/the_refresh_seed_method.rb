@@ -18,7 +18,7 @@ RSpec.shared_examples "a nil return technique" do
   before { execute_with_config(*config_vars) }
 
   it "has a return value of nil" do
-    expect(@actual_return).to be_nil
+    expect(actual_return).to be_nil
   end
 end
 
@@ -26,7 +26,7 @@ RSpec.shared_examples "a non-nil return technique" do
   before { execute_with_config(*config_vars) }
 
   it "does not have a return value of nil" do
-    expect(@actual_return).not_to be_nil
+    expect(actual_return).not_to be_nil
   end
 end
 
@@ -34,7 +34,7 @@ RSpec.shared_examples "an expected return value" do
   before { execute_with_config(*config_vars) }
 
   it "matches expected return Hash" do
-    expect(@actual_return).to eq(@expected_return)
+    expect(actual_return).to eq(expected_return)
   end
 end
 

@@ -3,7 +3,12 @@
 require "nerd_dice/shared_examples/the_refresh_seed_method"
 
 RSpec.describe NerdDice, ".refresh_seed!" do
-  before { described_class.instance_variable_set(:@count_since_last_refresh, RefreshSeedHelper::COUNT_SINCE_LAST_REFRESH) }
+  before do
+    described_class.instance_variable_set(
+      :@count_since_last_refresh,
+      RefreshSeedHelper::COUNT_SINCE_LAST_REFRESH
+    )
+  end
 
   context "with no arguments" do
     describe "securerandom" do

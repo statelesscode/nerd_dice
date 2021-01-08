@@ -7,20 +7,27 @@ module RefreshSeedHelper
   NEW_RANDOM_OBJECT_SEED = 7_331
   COUNT_SINCE_LAST_REFRESH = 100
 
+  attr_reader :actual_return, :expected_return
+
   def setup_example(randomization_technique)
     NerdDice.instance_variable_set(:@count_since_last_refresh, COUNT_SINCE_LAST_REFRESH)
     NerdDice.configuration.randomization_technique = randomization_technique if randomization_technique
   end
 
+  def extract_seeds_from_options(expected_return)
+    arr = [nil, nil]
+    if expected_return.is_a?(Hash)
+      arr[0] = expected_return[:random_rand_prior_seed]
+      arr[1] = expected_return[:random_object_prior_seed]
+    end
+    arr
+  end
+
   def execute_with_config(randomization_technique, arg_options, expected_return)
     setup_example(randomization_technique)
-    random_rand_prior_seed = nil
-    random_object_prior_seed = nil
     @expected_return = expected_return
-    if expected_return.is_a?(Hash)
-      random_rand_prior_seed = expected_return[:random_rand_prior_seed]
-      random_object_prior_seed = expected_return[:random_object_prior_seed]
-    end
+    random_rand_prior_seed, random_object_prior_seed = extract_seeds_from_options(expected_return)
+
     Random.srand(random_rand_prior_seed) if random_rand_prior_seed
     NerdDice.instance_variable_set(:@random_object, Random.new(random_object_prior_seed)) if random_object_prior_seed
     @actual_return = if arg_options
