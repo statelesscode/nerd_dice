@@ -208,4 +208,33 @@ RSpec.describe NerdDice, ".refresh_seed!" do
       end
     end
   end
+
+  context "with all options specified" do
+    args = [:securerandom,
+            { randomization_technique: :randomized,
+              random_rand_seed: RefreshSeedHelper::NEW_RANDOM_RAND_SEED,
+              random_object_seed: RefreshSeedHelper::NEW_RANDOM_OBJECT_SEED },
+            {
+              random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED,
+              random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED
+            }]
+    it_behaves_like "a properly refreshed seed" do
+      let(:config_vars) { args }
+    end
+    it_behaves_like "a non-nil return technique" do
+      let(:config_vars) { args }
+    end
+    it_behaves_like "an expected return value" do
+      let(:config_vars) { args }
+    end
+    it_behaves_like "a specified random_rand seed" do
+      let(:config_vars) { args }
+    end
+    it_behaves_like "a specified random_object seed" do
+      let(:config_vars) { args }
+    end
+    it_behaves_like "a specified randomization technique" do
+      let(:config_vars) { args }
+    end
+  end
 end

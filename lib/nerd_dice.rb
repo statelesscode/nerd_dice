@@ -90,6 +90,15 @@ module NerdDice
       gen.rand(number_of_sides) + 1
     end
 
+    ############################
+    # refresh_seed! class method
+    ############################
+    # Options: (none required)
+    #   randomization_technique (Symbol) => must be one of the symbols in
+    #     RANDOMIZATION_TECHNIQUES if specified
+    #   random_rand_seed (Integer) => Seed to set for Random
+    #   random_object_seed (Integer) => Seed to set for new Random object
+    # Return (Hash or nil) => Previous values of generator seeds that were refreshed
     def refresh_seed!(**opts)
       technique, random_rand_new_seed, random_object_new_seed = parse_refresh_options(opts)
       @count_since_last_refresh = 0
@@ -130,8 +139,7 @@ module NerdDice
         [
           opts[:randomization_technique] || configuration.randomization_technique,
           opts[:random_rand_seed],
-          opts[:random_object_seed],
-          {}
+          opts[:random_object_seed]
         ]
       end
 

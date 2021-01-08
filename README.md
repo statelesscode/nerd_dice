@@ -56,6 +56,23 @@ NerdDice.total_dice(20, 1, { bonus: 5 })
 ```
 __NOTE:__ If provided, the bonus must be an ```Integer``` or it will be ignored
 
+### Manually setting or refreshing the random generator seed
+For randomization techniques other than `:securerandom` you can manually set or refresh the generator's seed by calling the `refresh_seed!` method. This is automatically called at the interval specified in `NerdDice.configuration.refresh_seed_interval` if it is not nil.
+
+```ruby
+# no arguments, will refresh the seed for the configured generator(s) only
+NerdDice.refresh_seed! # => hash with old seed(s) or nil if :securerandom
+
+# OPTIONS:
+    #   randomization_technique (Symbol) => NerdDice::RANDOMIZATION_TECHNIQUES
+    #   random_rand_seed (Integer) => Seed to set for Random
+    #   random_object_seed (Integer) => Seed to set for new Random object
+NerdDice.refresh_seed!(randomization_technique:  :randomized,
+                       random_rand_seed:         1337,
+                       random_object_seed:       24601)
+```
+__NOTE:__ Ability to specify a seed it primarily provided for testing purposes. This makes all random numbers generated _transparently deterministic_ and should not be used if you want behavior approximating randomness.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
