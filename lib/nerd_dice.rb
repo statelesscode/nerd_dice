@@ -91,7 +91,7 @@ module NerdDice
     end
 
     def refresh_seed!(**opts)
-      technique = opts[:technique] || configuration.randomization_technique
+      technique = opts[:randomization_technique] || configuration.randomization_technique
       random_rand_new_seed = opts[:random_rand_seed]
       random_object_new_seed = opts[:random_object_seed]
       return_hash = {}
