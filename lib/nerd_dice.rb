@@ -28,6 +28,8 @@ module NerdDice
   RANDOMIZATION_TECHNIQUES = %i[securerandom random_rand random_object randomized].freeze
 
   class << self
+    attr_reader :count_since_last_refresh
+
     ############################
     # configure class method
     ############################
@@ -88,6 +90,23 @@ module NerdDice
       gen.rand(number_of_sides) + 1
     end
 
+    ############################
+    # refresh_seed! class method
+    ############################
+    # Options: (none required)
+    #   randomization_technique (Symbol) => must be one of the symbols in
+    #     RANDOMIZATION_TECHNIQUES if specified
+    #   random_rand_seed (Integer) => Seed to set for Random
+    #   random_object_seed (Integer) => Seed to set for new Random object
+    # Return (Hash or nil) => Previous values of generator seeds that were refreshed
+    def refresh_seed!(**opts)
+      technique, random_rand_new_seed, random_object_new_seed = parse_refresh_options(opts)
+      @count_since_last_refresh = 0
+      return nil if technique == :securerandom
+
+      reset_appropriate_seeds!(technique, random_rand_new_seed, random_object_new_seed)
+    end
+
     private
 
       def get_number_generator(using_generator = nil)
@@ -105,5 +124,39 @@ module NerdDice
         gen = RANDOMIZATION_TECHNIQUES.reject { |el| el == :randomized }.sample
         get_number_generator(gen)
       end
+
+      def refresh_random_rand_seed!(new_seed)
+        new_seed ? Random.srand(new_seed) : Random.srand
+      end
+
+      def refresh_random_object_seed!(new_seed)
+        old_seed = @random_object&.seed
+        @random_object = new_seed ? Random.new(new_seed) : Random.new
+        old_seed
+      end
+
+      def parse_refresh_options(opts)
+        [
+          opts[:randomization_technique] || configuration.randomization_technique,
+          opts[:random_rand_seed],
+          opts[:random_object_seed]
+        ]
+      end
+
+      # rubocop:disable Metrics/MethodLength
+      def reset_appropriate_seeds!(technique, random_rand_new_seed, random_object_new_seed)
+        return_hash = {}
+        case technique
+        when :random_rand
+          return_hash[:random_rand_prior_seed] = refresh_random_rand_seed!(random_rand_new_seed)
+        when :random_object
+          return_hash[:random_object_prior_seed] = refresh_random_object_seed!(random_object_new_seed)
+        when :randomized
+          return_hash[:random_rand_prior_seed] = refresh_random_rand_seed!(random_rand_new_seed)
+          return_hash[:random_object_prior_seed] = refresh_random_object_seed!(random_object_new_seed)
+        end
+        return_hash
+      end
+    # rubocop:enable Metrics/MethodLength
   end
 end
