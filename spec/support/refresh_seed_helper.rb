@@ -23,10 +23,10 @@ module RefreshSeedHelper
     end
     Random.srand(random_rand_prior_seed) if random_rand_prior_seed
     NerdDice.instance_variable_set(:@random_object, Random.new(random_object_prior_seed)) if random_object_prior_seed
-    if arg_options
-      @actual_return = described_class.refresh_seed!(**arg_options)
+    @actual_return = if arg_options
+      described_class.refresh_seed!(**arg_options)
     else
-      @actual_return = described_class.refresh_seed!
+      described_class.refresh_seed!
     end
   end
 end

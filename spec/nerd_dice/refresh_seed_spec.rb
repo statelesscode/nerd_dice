@@ -72,9 +72,8 @@ RSpec.describe NerdDice, ".refresh_seed!" do
 
     describe "random_rand" do
       args = [:random_rand,
-        {random_rand_seed: RefreshSeedHelper::NEW_RANDOM_RAND_SEED},
-        { random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED }
-      ]
+              { random_rand_seed: RefreshSeedHelper::NEW_RANDOM_RAND_SEED },
+              { random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED }]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
@@ -91,8 +90,8 @@ RSpec.describe NerdDice, ".refresh_seed!" do
 
     describe "random_object" do
       args = [:random_object,
-        {random_object_seed: RefreshSeedHelper::NEW_RANDOM_OBJECT_SEED},
-        { random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED }]
+              { random_object_seed: RefreshSeedHelper::NEW_RANDOM_OBJECT_SEED },
+              { random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED }]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
@@ -105,19 +104,16 @@ RSpec.describe NerdDice, ".refresh_seed!" do
       it_behaves_like "a specified random_object seed" do
         let(:config_vars) { args }
       end
-
     end
 
     describe "randomized" do
       args = [:randomized,
-        { random_rand_seed: RefreshSeedHelper::NEW_RANDOM_RAND_SEED,
-          random_object_seed: RefreshSeedHelper::NEW_RANDOM_OBJECT_SEED
-        },
-        {
-        random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED,
-        random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED
-      }
-      ]
+              { random_rand_seed: RefreshSeedHelper::NEW_RANDOM_RAND_SEED,
+                random_object_seed: RefreshSeedHelper::NEW_RANDOM_OBJECT_SEED },
+              {
+                random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED,
+                random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED
+              }]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
@@ -133,13 +129,12 @@ RSpec.describe NerdDice, ".refresh_seed!" do
       it_behaves_like "a specified random_object seed" do
         let(:config_vars) { args }
       end
-
     end
   end
 
   context "with randomization techniques supplied" do
     describe "securerandom" do
-      args = [:randomized, {randomization_technique: :securerandom}, nil]
+      args = [:randomized, { randomization_technique: :securerandom }, nil]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
@@ -153,9 +148,8 @@ RSpec.describe NerdDice, ".refresh_seed!" do
 
     describe "random_rand" do
       args = [:securerandom,
-        {randomization_technique: :random_rand},
-        { random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED }
-      ]
+              { randomization_technique: :random_rand },
+              { random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED }]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
@@ -172,8 +166,8 @@ RSpec.describe NerdDice, ".refresh_seed!" do
 
     describe "random_object" do
       args = [:securerandom,
-        {randomization_technique: :random_object},
-        { random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED }]
+              { randomization_technique: :random_object },
+              { random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED }]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
@@ -190,12 +184,11 @@ RSpec.describe NerdDice, ".refresh_seed!" do
 
     describe "randomized" do
       args = [:securerandom,
-        {randomization_technique: :randomized},
-        {
-        random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED,
-        random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED
-      }
-      ]
+              { randomization_technique: :randomized },
+              {
+                random_rand_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_RAND_SEED,
+                random_object_prior_seed: RefreshSeedHelper::ORIGINAL_RANDOM_OBJECT_SEED
+              }]
       it_behaves_like "a properly refreshed seed" do
         let(:config_vars) { args }
       end
