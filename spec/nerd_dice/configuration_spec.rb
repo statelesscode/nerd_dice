@@ -11,13 +11,25 @@ RSpec.describe NerdDice::Configuration do
     expect(config.randomization_technique).to eq(:random_object)
   end
 
-  it "has default refresh_seed_interval of 50" do
+  it "has default refresh_seed_interval of nil" do
     expect(config.refresh_seed_interval).to be_nil
   end
 
-  it "allows you to set refresh_seed_interval of 50" do
+  it "allows you to set refresh_seed_interval to 5000" do
     config.refresh_seed_interval = 5000
     expect(config.refresh_seed_interval).to eq(5000)
+  end
+
+  it "does not allow a zero refresh_seed_interval" do
+    expect { config.refresh_seed_interval = 0 }.to raise_error(
+      NerdDice::Error, "refresh_seed_interval must be a positive integer or nil"
+    )
+  end
+
+  it "does not allow negative refresh_seed_interval" do
+    expect { config.refresh_seed_interval = -6 }.to raise_error(
+      NerdDice::Error, "refresh_seed_interval must be a positive integer or nil"
+    )
   end
 
   it "will not let you choose a randomization_technique unless it's on the list" do

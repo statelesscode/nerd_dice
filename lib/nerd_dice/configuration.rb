@@ -18,8 +18,8 @@ module NerdDice
   #   You can also set a particular property without a block using inline assignment
   #   <tt>NerdDice.configuration.randomization_technique = :random_new_once</tt>
   class Configuration
-    attr_reader :randomization_technique
-    attr_accessor :ability_score_array_size, :refresh_seed_interval
+    attr_reader :randomization_technique, :refresh_seed_interval
+    attr_accessor :ability_score_array_size
 
     def randomization_technique=(value)
       unless RANDOMIZATION_TECHNIQUES.include?(value)
@@ -27,6 +27,14 @@ module NerdDice
       end
 
       @randomization_technique = value
+    end
+
+    def refresh_seed_interval=(value)
+      unless value.nil?
+        value = value&.to_i
+        raise NerdDice::Error, "refresh_seed_interval must be a positive integer or nil" unless value.positive?
+      end
+      @refresh_seed_interval = value
     end
 
     private
