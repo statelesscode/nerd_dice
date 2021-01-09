@@ -86,8 +86,11 @@ module NerdDice
     #
     # Return (Integer) => Value of the single die rolled
     def execute_die_roll(number_of_sides, using_generator = nil)
+      @count_since_last_refresh ||= 0
       gen = get_number_generator(using_generator)
-      gen.rand(number_of_sides) + 1
+      result = gen.rand(number_of_sides) + 1
+      increment_and_evalutate_refresh_seed
+      result
     end
 
     ############################
@@ -157,6 +160,13 @@ module NerdDice
         end
         return_hash
       end
-    # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength
+
+      def increment_and_evalutate_refresh_seed
+        @count_since_last_refresh += 1
+        return unless configuration.refresh_seed_interval
+
+        refresh_seed! if @count_since_last_refresh >= configuration.refresh_seed_interval
+      end
   end
 end
