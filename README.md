@@ -49,10 +49,10 @@ end
 NerdDice.total_dice(4) # => return random Integer between 1-4
 
 # roll 3d6
-NerdDice.total_dice(6, 3) => return Integer total of three 6-sided dice
+NerdDice.total_dice(6, 3) # => return Integer total of three 6-sided dice
 
 # roll a d20 and add 5 to the value
-NerdDice.total_dice(20, 1, { bonus: 5 })
+NerdDice.total_dice(20, bonus: 5)
 ```
 __NOTE:__ If provided, the bonus must be an ```Integer``` or it will be ignored
 
