@@ -72,7 +72,11 @@ module NerdDice
       number_of_dice.times do
         total += execute_die_roll(number_of_sides)
       end
-      total += opts[:bonus] if opts[:bonus].is_a?(Integer)
+      begin
+        total += opts[:bonus].to_i
+      rescue NoMethodError
+        raise ArgumentError, "Bonus must be a value that responds to :to_i"
+      end
       total
     end
 
