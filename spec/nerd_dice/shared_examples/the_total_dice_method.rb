@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+require "support/nerd_dice_helper"
+
+RSpec.configure do |config|
+  config.include NerdDiceHelper
+end
+
 RSpec.shared_examples "the total_dice method" do
   before { NerdDice.configuration.randomization_technique = randomization_technique }
 
@@ -20,7 +26,7 @@ RSpec.shared_examples "the total_dice method" do
     end
   end
 
-  context "with options" do
+  context "with bonus option" do
     it "calculates with a positive bonus correctly" do
       sample_size.times do
         result = described_class.total_dice(6, 3, bonus: 2)
@@ -88,6 +94,31 @@ RSpec.shared_examples "the total_dice method" do
       expect { described_class.total_dice(6, bonus: Kernel) }.to raise_error(
         ArgumentError, "Bonus must be a value that responds to :to_i"
       )
+    end
+  end
+
+  context "with randomization_technique option" do
+    let(:option_gen) { get_different_technique(described_class.configuration.randomization_technique) }
+
+    it "uses the specified option when provided" do
+      sample_size.times do
+        result = described_class.total_dice(20, randomization_technique: option_gen)
+        expect(result).to be_between(1, 20)
+      end
+    end
+
+    it "handles nil" do
+      sample_size.times do
+        result = described_class.total_dice(20, randomization_technique: nil)
+        expect(result).to be_between(1, 20)
+      end
+    end
+
+    it "calclulates the bonus correctly and uses generator with both options" do
+      sample_size.times do
+        result = described_class.total_dice(6, 3, randomization_technique: option_gen, bonus: 3)
+        expect(result).to be_between(6, 21)
+      end
     end
   end
 end

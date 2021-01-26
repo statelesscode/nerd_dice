@@ -5,6 +5,7 @@
 * Add ability to configure with `NerdDice.configure` block or `NerdDice.configuration`
   - Configure `randomization_technique` as `:random_rand`, `:securerandom`, `:random_object`, or `randomized`
   - Configure `refresh_seed_interval` to allow a periodic refresh of the seed
+* Add `randomization_technique` option to `NerdDice.total_dice` method keyword arguments
 * Add a lower-level `execute_die_roll` method that allows you to roll a single die with a generator specified
 * Add ability to manually refresh or specify seed with `:refresh_seed!` method
 * Added branding .svgs and .pngs to assets/branding

@@ -53,8 +53,12 @@ NerdDice.total_dice(6, 3) # => return Integer total of three 6-sided dice
 
 # roll a d20 and add 5 to the value
 NerdDice.total_dice(20, bonus: 5)
+
+# roll a d20 and overide the configured randomization_technique one time
+# without changing the config
+NerdDice.total_dice(20, randomization_technique: :randomized)
 ```
-__NOTE:__ If provided, the bonus must be an ```Integer``` or it will be ignored
+__NOTE:__ If provided, the bonus must respond to `:to_i` or an `ArgumentError` will be raised
 
 ### Manually setting or refreshing the random generator seed
 For randomization techniques other than `:securerandom` you can manually set or refresh the generator's seed by calling the `refresh_seed!` method. This is automatically called at the interval specified in `NerdDice.configuration.refresh_seed_interval` if it is not nil.

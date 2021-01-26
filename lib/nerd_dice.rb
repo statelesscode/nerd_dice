@@ -70,7 +70,7 @@ module NerdDice
     def total_dice(number_of_sides, number_of_dice = 1, **opts)
       total = 0
       number_of_dice.times do
-        total += execute_die_roll(number_of_sides)
+        total += execute_die_roll(number_of_sides, opts[:randomization_technique])
       end
       begin
         total += opts[:bonus].to_i
