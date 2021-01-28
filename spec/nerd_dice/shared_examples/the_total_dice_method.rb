@@ -114,7 +114,7 @@ RSpec.shared_examples "the total_dice method" do
       end
     end
 
-    it "calclulates the bonus correctly and uses generator with both options" do
+    it "calculates the bonus correctly and uses generator with both options" do
       sample_size.times do
         result = described_class.total_dice(6, 3, randomization_technique: option_gen, bonus: 3)
         expect(result).to be_between(6, 21)

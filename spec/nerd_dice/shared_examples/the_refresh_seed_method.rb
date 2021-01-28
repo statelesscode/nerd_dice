@@ -41,10 +41,12 @@ end
 RSpec.shared_examples "a specified random_rand seed" do
   before { execute_with_config(*config_vars) }
 
+  # rubocop:disable Lint/DeprecatedConstants
   it "matches supplied new random_rand value" do
     random_rand = RUBY_VERSION.to_f < 3 ? Random::DEFAULT : Random
     expect(random_rand.seed).to eq(RefreshSeedHelper::NEW_RANDOM_RAND_SEED)
   end
+  # rubocop:enable Lint/DeprecatedConstants
 end
 
 RSpec.shared_examples "a specified random_object seed" do

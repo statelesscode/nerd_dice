@@ -46,8 +46,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "securerandom", "~> 0.1", ">= 0.1.0"
 
   # Development Dependencies
-  spec.add_development_dependency "rubocop", "~> 1.5", ">= 1.5.2"
+  spec.add_development_dependency "rubocop", "~> 1.8", ">= 1.8.1"
   spec.add_development_dependency "rubocop-performance", "~> 1.9", ">= 1.9.1"
   spec.add_development_dependency "rubocop-rake", "~> 0.5", ">= 0.5.1"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.0", ">= 2.0.1"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.1", ">= 2.1.0"
 end
