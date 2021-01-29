@@ -1,6 +1,17 @@
 ---
 language: ruby
 cache: bundler
+os:
+  - osx
+  - linux
+osx_image:
+  - xcode12
+  - xcode11
+dist:
+  - precise
+  - trusty
+  - xenial
+  - bionic
 rvm:
   - 2.7.2
   - 3.0.0
