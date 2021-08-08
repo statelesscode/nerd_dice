@@ -1,5 +1,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/statelesscode/nerd_dice/badge.svg?branch=master)](https://coveralls.io/github/statelesscode/nerd_dice?branch=master)
 ![Build](https://github.com/statelesscode/nerd_dice/actions/workflows/main.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/721f587b792d583065be/maintainability)](https://codeclimate.com/github/statelesscode/nerd_dice/maintainability)
 # NerdDice
 Nerd dice allows you to roll polyhedral dice and add bonuses as you would in a tabletop roleplaying game. You can choose to roll multiple dice and keep a specified number of dice such as rolling 4d6 and dropping the lowest for ability scores or rolling with advantage and disadvantage if those mechanics exist in your game.
 
