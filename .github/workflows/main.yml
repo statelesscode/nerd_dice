@@ -44,6 +44,18 @@ jobs:
     - name: Run rubocop
       run: bundle exec rubocop --parallel
 
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'
+        bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    - name: Run benchmark script
+      run: bin/nerd_dice_benchmark
+
   finish:
     needs: test_rspec
     runs-on: ubuntu-latest
