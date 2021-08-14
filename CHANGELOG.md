@@ -2,10 +2,19 @@
 
 ## master \(unreleased\)
 ### Added
+* Add `coveralls_reborn` to RSpec and GitHub actions
+* Add build badge to README
+* Add Code Climate maintainability integration and badge to README
+* Add `nerd_dice_benchmark` script to bin directory
+* Add GitHub Action CI build
+  - Run RSpec test suite, fail if specs fail, report coverage via Coveralls
+  - Run RuboCop and fail if violations
+  - Run benchmark suite and fail if outside of allowed ratios
 ### Changed
+* Update RuboCop version and configuration
 ### Fixed
 
-## 0.2.0 \(2020-12-12\)
+## 0.2.0 \(2021-01-28\)
 ### Added
 * Add ability to configure with `NerdDice.configure` block or `NerdDice.configuration`
   - Configure `randomization_technique` as `:random_rand`, `:securerandom`, `:random_object`, or `randomized`
