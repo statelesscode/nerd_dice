@@ -334,3 +334,61 @@ Style/EndlessMethod: # (new in 1.8)
 
 Style/HashExcept: # (new in 1.7)
   Enabled: true
+
+# Added 2021-08-14
+Gemspec/DateAssignment: # (new in 1.10)
+  Enabled: true
+
+Layout/LineEndStringConcatenationIndentation: # (new in 1.18)
+  Enabled: true
+
+Lint/EmptyInPattern: # (new in 1.16)
+  Enabled: true
+
+Lint/NumberedParameterAssignment: # (new in 1.9)
+  Enabled: true
+
+Lint/OrAssignmentToConstant: # (new in 1.9)
+  Enabled: true
+
+Lint/SymbolConversion: # (new in 1.9)
+  Enabled: true
+
+Lint/TripleQuotes: # (new in 1.9)
+  Enabled: true
+
+Naming/InclusiveLanguage: # (new in 1.18)
+  Enabled: false
+
+Style/HashConversion: # (new in 1.10)
+  Enabled: true
+
+Style/IfWithBooleanLiteralBranches: # (new in 1.9)
+  Enabled: true
+
+Style/InPatternThen: # (new in 1.16)
+  Enabled: true
+
+Style/MultilineInPatternThen: # (new in 1.16)
+  Enabled: true
+
+Style/QuotedSymbols: # (new in 1.16)
+  Enabled: true
+
+Style/StringChars: # (new in 1.12)
+  Enabled: true
+
+Performance/MapCompact: # (new in 1.11)
+  Enabled: true
+
+Performance/RedundantEqualityComparisonBlock: # (new in 1.10)
+  Enabled: true
+
+Performance/RedundantSplitRegexpArgument: # (new in 1.10)
+  Enabled: true
+
+RSpec/IdenticalEqualityAssertion: # (new in 2.4)
+  Enabled: true
+
+RSpec/Rails/AvoidSetupHook: # (new in 2.4)
+  Enabled: true

@@ -18,7 +18,7 @@ RATIOS = {
   nerd_dice_randomized_3d6: 14.5
 }.freeze
 
-def run_baseline(baseline_value, test_value)
+def check_against_baseline!(baseline_value, test_value)
   ratio = RATIOS[test_value.label.to_sym]
   error_message = "Failed benchmark for #{test_value.label}. "
   error_message += "Allowed ratio was #{ratio} actual ratio was #{test_value.real / baseline_value}"
@@ -66,13 +66,13 @@ total_dice_d1000_results = Benchmark.bmbm do |x|
 end
 
 total_dice_securerandom = total_dice_d1000_results[0]
-run_baseline securerandom_baseline, total_dice_securerandom
+check_against_baseline! securerandom_baseline, total_dice_securerandom
 total_dice_random_rand = total_dice_d1000_results[1]
-run_baseline random_rand_baseline, total_dice_random_rand
+check_against_baseline! random_rand_baseline, total_dice_random_rand
 total_dice_random_object = total_dice_d1000_results[2]
-run_baseline random_rand_baseline, total_dice_random_object
+check_against_baseline! random_rand_baseline, total_dice_random_object
 total_dice_randomized = total_dice_d1000_results[3]
-run_baseline ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), total_dice_randomized
+check_against_baseline! ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), total_dice_randomized
 
 puts "Roll 3d6"
 total_dice_3d6_results = Benchmark.bmbm do |x|
@@ -99,10 +99,10 @@ total_dice_3d6_results = Benchmark.bmbm do |x|
 end
 
 total_dice_3d6_securerandom = total_dice_3d6_results[0]
-run_baseline securerandom_baseline, total_dice_3d6_securerandom
+check_against_baseline! securerandom_baseline, total_dice_3d6_securerandom
 total_dice_3d6_random_rand = total_dice_3d6_results[1]
-run_baseline random_rand_baseline, total_dice_3d6_random_rand
+check_against_baseline! random_rand_baseline, total_dice_3d6_random_rand
 total_dice_3d6_random_object = total_dice_3d6_results[2]
-run_baseline random_rand_baseline, total_dice_3d6_random_object
+check_against_baseline! random_rand_baseline, total_dice_3d6_random_object
 total_dice_3d6_randomized = total_dice_3d6_results[3]
-run_baseline ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), total_dice_3d6_randomized
+check_against_baseline! ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), total_dice_3d6_randomized
