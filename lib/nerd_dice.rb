@@ -2,6 +2,7 @@
 
 require "nerd_dice/version"
 require "nerd_dice/configuration"
+require "nerd_dice/die"
 require "securerandom"
 # Nerd dice allows you to roll polyhedral dice and add bonuses as you would in
 # a tabletop roleplaying game. You can choose to roll multiple dice and keep a

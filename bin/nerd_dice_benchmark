@@ -15,7 +15,7 @@ RATIOS = {
   nerd_dice_securerandom_3d6: 5.5,
   nerd_dice_random_rand_3d6: 25.0,
   nerd_dice_random_object_3d6: 25.5,
-  nerd_dice_randomized_3d6: 14.5
+  nerd_dice_randomized_3d6: 15.5
 }.freeze
 
 def check_against_baseline!(baseline_value, test_value)
