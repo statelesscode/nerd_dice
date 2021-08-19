@@ -88,4 +88,32 @@ RSpec.describe NerdDice::Die do
       )
     end
   end
+
+  describe "comparable_methods" do
+    before do
+      NerdDice.configuration.randomization_technique = :random_rand
+      NerdDice.refresh_seed!(random_rand_new_seed: 1337)
+    end
+
+    let(:die1) { described_class.new 6 }
+    let(:die2) { described_class.new 100 }
+    let(:die3) { described_class.new 1 }
+    let(:die4) { described_class.new 1 }
+
+    it "has working > method" do
+      expect(die2 > die1).to be(true)
+    end
+
+    it "has working < method" do
+      expect(die1 < die2).to be(true)
+    end
+
+    it "has working == method for unequal" do
+      expect(die1 == die2).to be(false)
+    end
+
+    it "has working == method for equal" do
+      expect(die3 == die4).to be(true)
+    end
+  end
 end
