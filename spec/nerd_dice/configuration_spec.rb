@@ -15,6 +15,14 @@ RSpec.describe NerdDice::Configuration do
     expect(config.refresh_seed_interval).to be_nil
   end
 
+  it "has default die_background_color of #0000DD" do
+    expect(config.die_background_color).to eq("#0000DD")
+  end
+
+  it "has default die_background_color of #DDDDDD" do
+    expect(config.die_foreground_color).to eq("#DDDDDD")
+  end
+
   it "allows you to set refresh_seed_interval to 5000" do
     config.refresh_seed_interval = 5000
     expect(config.refresh_seed_interval).to eq(5000)
@@ -41,5 +49,15 @@ RSpec.describe NerdDice::Configuration do
   it "will let you set randomization_technique to a valid value" do
     config.randomization_technique = :securerandom
     expect(config.randomization_technique).to eq(:securerandom)
+  end
+
+  it "will let you set the die_background_color" do
+    config.die_background_color = "#DD0000"
+    expect(config.die_background_color).to eq("#DD0000")
+  end
+
+  it "will let you set the die_foreground_color" do
+    config.die_foreground_color = "#00DD00"
+    expect(config.die_foreground_color).to eq("#00DD00")
   end
 end

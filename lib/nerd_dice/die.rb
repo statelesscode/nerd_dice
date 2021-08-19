@@ -20,10 +20,7 @@ module NerdDice
     include Comparable
 
     attr_reader :number_of_sides, :generator_override, :value
-    attr_accessor :background_color, :foreground_color
-
-    DEFAULT_BACKGROUND = "#0000FF"
-    DEFAULT_FOREGROUND = "#FFFFFF"
+    attr_accessor :background_color, :foreground_color, :damage_type
 
     def <=>(other)
       value <=> other.value
@@ -47,8 +44,9 @@ module NerdDice
       def initialize(number_of_sides, **opts)
         @number_of_sides = number_of_sides
         self.generator_override = opts[:generator_override]
-        @background_color = opts[:background_color] || DEFAULT_BACKGROUND
-        @foreground_color = opts[:foreground_color] || DEFAULT_FOREGROUND
+        @background_color = opts[:background_color] || NerdDice.configuration.die_background_color
+        @foreground_color = opts[:foreground_color] || NerdDice.configuration.die_foreground_color
+        @damage_type = opts[:damage_type]
         roll
       end
   end

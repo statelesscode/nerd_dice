@@ -12,12 +12,16 @@ RSpec.describe NerdDice::Die do
       expect(die.generator_override).to be_nil
     end
 
-    it "has expected default foreground_color of #FFFFFF" do
-      expect(die.foreground_color).to eq("#FFFFFF")
+    it "has expected default foreground_color of #DDDDDD" do
+      expect(die.foreground_color).to eq("#DDDDDD")
     end
 
-    it "has expected default background_color of #0000FF" do
-      expect(die.background_color).to eq("#0000FF")
+    it "has expected default background_color of #0000DD" do
+      expect(die.background_color).to eq("#0000DD")
+    end
+
+    it "has a damage_type of nil" do
+      expect(die.damage_type).to be_nil
     end
 
     it "has a value between 1 and number of sides" do
@@ -30,23 +34,28 @@ RSpec.describe NerdDice::Die do
       described_class.new(12,
                           generator_override: :randomized,
                           foreground_color: "#FF0000",
-                          background_color: "#FFFFFF")
+                          background_color: "#FFFFFF",
+                          damage_type: "fire")
     end
 
     it "sets the number of sides from the first argument" do
       expect(die_with_options.number_of_sides).to eq(12)
     end
 
-    it "has applies the generator_override from options" do
+    it "applies the generator_override from options" do
       expect(die_with_options.generator_override).to eq(:randomized)
     end
 
-    it "has applies the provided foreground_color of #FF0000" do
+    it "applies the provided foreground_color of #FF0000" do
       expect(die_with_options.foreground_color).to eq("#FF0000")
     end
 
-    it "has expected default background_color of #FFFFFF" do
+    it "applies the provided background_color of #FFFFFF" do
       expect(die_with_options.background_color).to eq("#FFFFFF")
+    end
+
+    it "applies the provided damage_type of fire" do
+      expect(die_with_options.damage_type).to eq("fire")
     end
 
     it "has a value between 1 and number of sides" do
@@ -90,13 +99,10 @@ RSpec.describe NerdDice::Die do
   end
 
   describe "comparable_methods" do
-    before do
-      NerdDice.configuration.randomization_technique = :random_rand
-      NerdDice.refresh_seed!(random_rand_new_seed: 1337)
-    end
+    before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 1337) }
 
-    let(:die1) { described_class.new 6 }
-    let(:die2) { described_class.new 100 }
+    let(:die1) { described_class.new 6, generator_override: :random_rand }
+    let(:die2) { described_class.new 100, generator_override: :random_rand }
     let(:die3) { described_class.new 1 }
     let(:die4) { described_class.new 1 }
 
