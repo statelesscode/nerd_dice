@@ -3,6 +3,7 @@
 require "nerd_dice/version"
 require "nerd_dice/configuration"
 require "nerd_dice/die"
+require "nerd_dice/dice_set"
 require "securerandom"
 # Nerd dice allows you to roll polyhedral dice and add bonuses as you would in
 # a tabletop roleplaying game. You can choose to roll multiple dice and keep a
@@ -66,6 +67,8 @@ module NerdDice
     #     :bonus (Integer) => The total bonus (positive integer) or penalty
     #       (negative integer) to modify the total by. Is added to the total of
     #       all dice after they are totaled, not to each die rolled
+    #     :randomization_technique (Symbol) => must be one of the symbols in
+    #       RANDOMIZATION_TECHNIQUES or nil
     #
     # Return (Integer) => Total of the dice rolled, plus modifier if applicable
     def total_dice(number_of_sides, number_of_dice = 1, **opts)

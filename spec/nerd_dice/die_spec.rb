@@ -3,13 +3,13 @@
 RSpec.describe NerdDice::Die do
   subject(:die) { described_class.new(20) }
 
-  context "with instantiation options" do
+  context "without instantiation options" do
     it "sets the number of sides from the first argument" do
       expect(die.number_of_sides).to eq(20)
     end
 
-    it "has expected default generator_override of nil" do
-      expect(die.generator_override).to be_nil
+    it "has expected default randomization_technique of nil" do
+      expect(die.randomization_technique).to be_nil
     end
 
     it "has expected default foreground_color of #DDDDDD" do
@@ -29,10 +29,10 @@ RSpec.describe NerdDice::Die do
     end
   end
 
-  context "without instantiation options" do
+  context "with instantiation options" do
     let(:die_with_options) do
       described_class.new(12,
-                          generator_override: :randomized,
+                          randomization_technique: :randomized,
                           foreground_color: "#FF0000",
                           background_color: "#FFFFFF",
                           damage_type: "fire")
@@ -42,8 +42,8 @@ RSpec.describe NerdDice::Die do
       expect(die_with_options.number_of_sides).to eq(12)
     end
 
-    it "applies the generator_override from options" do
-      expect(die_with_options.generator_override).to eq(:randomized)
+    it "applies the randomization_technique from options" do
+      expect(die_with_options.randomization_technique).to eq(:randomized)
     end
 
     it "applies the provided foreground_color of #FF0000" do
@@ -59,7 +59,7 @@ RSpec.describe NerdDice::Die do
     end
 
     it "has a value between 1 and number of sides" do
-      expect(die_with_options.value).to be_between(1, 20)
+      expect(die_with_options.value).to be_between(1, 12)
     end
   end
 
@@ -91,9 +91,9 @@ RSpec.describe NerdDice::Die do
   end
 
   describe "error handling" do
-    it "raises error if bad generator_override provided" do
-      expect { described_class.new(6, generator_override: :invalid) }.to raise_error(
-        NerdDice::Error, "generator_override must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
+    it "raises error if bad randomization_technique provided" do
+      expect { described_class.new(6, randomization_technique: :invalid) }.to raise_error(
+        NerdDice::Error, "randomization_technique must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
       )
     end
   end
@@ -101,8 +101,8 @@ RSpec.describe NerdDice::Die do
   describe "comparable_methods" do
     before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 1337) }
 
-    let(:die1) { described_class.new 6, generator_override: :random_rand }
-    let(:die2) { described_class.new 100, generator_override: :random_rand }
+    let(:die1) { described_class.new 6, randomization_technique: :random_rand }
+    let(:die2) { described_class.new 100, randomization_technique: :random_rand }
     let(:die3) { described_class.new 1 }
     let(:die4) { described_class.new 1 }
 

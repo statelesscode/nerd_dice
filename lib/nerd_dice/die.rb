@@ -12,38 +12,39 @@ module NerdDice
   #   </tt>
   #
   #   You can also specify options when instantiating
-  #   <tt>NerdDice::Die.new(12, generator_override: :randomized,
+  #   <tt>NerdDice::Die.new(12, randomization_technique: :randomized,
   #                        foreground_color: "#FF0000",
-  #                        background_color: "#FFFFFF"))
+  #                        background_color: "#FFFFFF",
+  #                        damage_type: "necrotic"))
   #   </tt>
   class Die
     include Comparable
 
-    attr_reader :number_of_sides, :generator_override, :value
+    attr_reader :number_of_sides, :randomization_technique, :value
     attr_accessor :background_color, :foreground_color, :damage_type
 
     def <=>(other)
       value <=> other.value
     end
 
-    def generator_override=(new_value)
+    def randomization_technique=(new_value)
       unless RANDOMIZATION_TECHNIQUES.include?(new_value) || new_value.nil?
-        raise NerdDice::Error, "generator_override must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
+        raise NerdDice::Error, "randomization_technique must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
       end
 
-      @generator_override = new_value
+      @randomization_technique = new_value
     end
 
     # rolls the die, setting the value to the new roll and returning that value
     def roll
-      @value = NerdDice.execute_die_roll(@number_of_sides, @generator_override)
+      @value = NerdDice.execute_die_roll(@number_of_sides, @randomization_technique)
     end
 
     private
 
       def initialize(number_of_sides, **opts)
         @number_of_sides = number_of_sides
-        self.generator_override = opts[:generator_override]
+        self.randomization_technique = opts[:randomization_technique]
         @background_color = opts[:background_color] || NerdDice.configuration.die_background_color
         @foreground_color = opts[:foreground_color] || NerdDice.configuration.die_foreground_color
         @damage_type = opts[:damage_type]
