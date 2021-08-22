@@ -45,11 +45,11 @@ RSpec.describe NerdDice::DiceSet do
     end
 
     it "has a dice property with a length of 1" do
-      expect(one_die.dice.length).to eq(1)
+      expect(one_die.length).to eq(1)
     end
 
     it "has an element in dice that is a Die object" do
-      expect(one_die.dice[0]).to be_a(NerdDice::Die)
+      expect(one_die[0]).to be_a(NerdDice::Die)
     end
   end
 
@@ -83,11 +83,11 @@ RSpec.describe NerdDice::DiceSet do
     end
 
     it "has a dice property with a length equal to number of dice" do
-      expect(dice_set.dice.length).to eq(3)
+      expect(dice_set.length).to eq(3)
     end
 
     it "has elements in dice that are all Die objects" do
-      expect(dice_set.dice).to all(be_a(NerdDice::Die))
+      expect(dice_set).to all(be_a(NerdDice::Die))
     end
   end
 
@@ -124,30 +124,30 @@ RSpec.describe NerdDice::DiceSet do
     end
 
     it "has a dice property with a length of 1" do
-      expect(one_die_with_options.dice.length).to eq(1)
+      expect(one_die_with_options.length).to eq(1)
     end
 
     it "has an element in dice that is a Die object" do
-      expect(one_die_with_options.dice[0]).to be_a(NerdDice::Die)
+      expect(one_die_with_options[0]).to be_a(NerdDice::Die)
     end
 
     it "applies randomization_technique to die object" do
-      die = one_die_with_options.dice[0]
+      die = one_die_with_options[0]
       expect(die.randomization_technique).to eq(:randomized)
     end
 
     it "applies foreground_color to die object" do
-      die = one_die_with_options.dice[0]
+      die = one_die_with_options[0]
       expect(die.foreground_color).to eq("#FF0000")
     end
 
     it "applies background_color to die object" do
-      die = one_die_with_options.dice[0]
+      die = one_die_with_options[0]
       expect(die.background_color).to eq("#FFFFFF")
     end
 
     it "applies damage_type to die object" do
-      die = one_die_with_options.dice[0]
+      die = one_die_with_options[0]
       expect(die.damage_type).to eq("fire")
     end
   end
@@ -185,33 +185,33 @@ RSpec.describe NerdDice::DiceSet do
     end
 
     it "has a dice property with a length equal to number of dice" do
-      expect(three_dice_with_options.dice.length).to eq(3)
+      expect(three_dice_with_options.length).to eq(3)
     end
 
     it "has elements in dice that are all Die objects" do
-      expect(three_dice_with_options.dice).to all(be_a(NerdDice::Die))
+      expect(three_dice_with_options).to all(be_a(NerdDice::Die))
     end
 
     it "applies randomization_technique to all dice" do
-      three_dice_with_options.dice.each do |die|
+      three_dice_with_options.each do |die|
         expect(die.randomization_technique).to eq(:randomized)
       end
     end
 
     it "applies foreground_color to all dice" do
-      three_dice_with_options.dice.each do |die|
+      three_dice_with_options.each do |die|
         expect(die.foreground_color).to eq("#FF0000")
       end
     end
 
     it "applies background_color to all dice" do
-      three_dice_with_options.dice.each do |die|
+      three_dice_with_options.each do |die|
         expect(die.background_color).to eq("#FFFFFF")
       end
     end
 
     it "applies damage_type to to all dice" do
-      three_dice_with_options.dice.each do |die|
+      three_dice_with_options.each do |die|
         expect(die.damage_type).to eq("fire")
       end
     end
@@ -228,6 +228,28 @@ RSpec.describe NerdDice::DiceSet do
       expect { described_class.new(6, 3, bonus: :flump) }.to raise_error(
         ArgumentError, "Bonus must be a value that responds to :to_i"
       )
+    end
+  end
+
+  describe "the reroll_all method" do
+    before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 1337) }
+
+    let(:dice) { described_class.new 6, 3, randomization_technique: :random_rand }
+
+    it "changes the total" do
+      expect { dice.reroll_all }.to change(dice, :total)
+    end
+
+    it "changes the first die" do
+      expect { dice.reroll_all }.to change(dice[0], :value)
+    end
+
+    it "changes the second die" do
+      expect { dice.reroll_all }.to change(dice[1], :value)
+    end
+
+    it "changes the third die" do
+      expect { dice.reroll_all }.to change(dice[2], :value)
     end
   end
 end

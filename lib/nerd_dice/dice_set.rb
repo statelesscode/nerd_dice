@@ -26,8 +26,26 @@ module NerdDice
   #                        damage_type: "necrotic"))
   #   </tt>
   class DiceSet
+    include Enumerable
+
     attr_reader :number_of_sides, :number_of_dice, :randomization_technique, :dice, :bonus
     attr_accessor :background_color, :foreground_color, :damage_type
+
+    def each(&block)
+      @dice.each(&block)
+    end
+
+    def [](index)
+      @dice[index]
+    end
+
+    def length
+      @dice.length
+    end
+
+    def reroll_all
+      @dice.map(&:roll)
+    end
 
     def randomization_technique=(new_value)
       unless RANDOMIZATION_TECHNIQUES.include?(new_value) || new_value.nil?
