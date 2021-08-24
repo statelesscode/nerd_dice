@@ -21,7 +21,7 @@ module NerdDice
     include Comparable
 
     attr_reader :number_of_sides, :randomization_technique, :value
-    attr_accessor :background_color, :foreground_color, :damage_type
+    attr_accessor :background_color, :foreground_color, :damage_type, :is_included_in_total
 
     def <=>(other)
       value <=> other.value
@@ -40,6 +40,8 @@ module NerdDice
       @value = NerdDice.execute_die_roll(@number_of_sides, @randomization_technique)
     end
 
+    alias included_in_total? is_included_in_total
+
     private
 
       def initialize(number_of_sides, **opts)
@@ -48,6 +50,7 @@ module NerdDice
         @background_color = opts[:background_color] || NerdDice.configuration.die_background_color
         @foreground_color = opts[:foreground_color] || NerdDice.configuration.die_foreground_color
         @damage_type = opts[:damage_type]
+        @is_included_in_total = true
         roll
       end
   end

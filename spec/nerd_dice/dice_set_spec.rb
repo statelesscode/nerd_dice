@@ -252,4 +252,79 @@ RSpec.describe NerdDice::DiceSet do
       expect { dice.reroll_all }.to change(dice[2], :value)
     end
   end
+
+  describe "highest and with_advantage methods" do
+    before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 24_601) }
+
+    let(:dice_4d6) { described_class.new 6, 4, randomization_technique: :random_rand }
+    let(:dice_2d20) { described_class.new 20, 2, randomization_technique: :random_rand }
+    let(:dice_d100) { described_class.new 100, randomization_technique: :random_rand }
+
+    it "returns self" do
+      expect(dice_4d6.highest(2)).to be_a(described_class)
+    end
+
+    it "eliminates only the lowest die if no argument" do
+      # a 17 and a 19
+      expect(dice_2d20.highest.total).to eq(19)
+    end
+
+    it "returns the highest n of the dice" do
+      # 3, 1, 4, 1
+      expect(dice_4d6.highest(3).total).to eq(8)
+    end
+
+    it "aliases highest as with_advantage" do
+      # 3, 1, 4, 1
+      expect(dice_4d6.with_advantage(3).total).to eq(8)
+    end
+
+    it "returns all dice if the argument matches number_of_dice" do
+      puts "d100 #{dice_d100.total}"
+      expect(dice_d100.highest(1).total).to eq(dice_d100.total)
+    end
+
+    it "raises error if the argument exceeds the number_of_dice" do
+      expect { dice_4d6.highest(5) }.to raise_error(
+        ArgumentError, "Argument cannot exceed number of dice"
+      )
+    end
+  end
+
+  describe "lowest and with_disadvantage methods" do
+    before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 24_601) }
+
+    let(:dice_4d6) { described_class.new 6, 4, randomization_technique: :random_rand }
+    let(:dice_2d20) { described_class.new 20, 2, randomization_technique: :random_rand }
+    let(:dice_d100) { described_class.new 100, randomization_technique: :random_rand }
+
+    it "returns self" do
+      expect(dice_4d6.lowest(2)).to be_a(described_class)
+    end
+
+    it "eliminates only the highest die if no argument" do
+      # a 17 and a 19
+      expect(dice_2d20.lowest.total).to eq(17)
+    end
+
+    it "returns the lowest n of the dice" do
+      # 3, 1, 4, 1
+      expect(dice_4d6.lowest(3).total).to eq(5)
+    end
+
+    it "aliases lowest as with_disadvantage" do
+      # 3, 1, 4, 1
+      expect(dice_4d6.with_disadvantage(3).total).to eq(5)
+    end
+
+    it "returns all dice if the argument matches number_of_dice" do
+      expect(dice_d100.lowest.total).to eq(dice_d100.total)
+    end
+
+    it "raises error if the argument exceeds the number_of_dice" do
+      expect { dice_4d6.lowest(5) }.to raise_error(
+        ArgumentError, "Argument cannot exceed number of dice"
+      )
+    end
+  end
 end

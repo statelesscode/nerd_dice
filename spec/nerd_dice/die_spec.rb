@@ -27,6 +27,10 @@ RSpec.describe NerdDice::Die do
     it "has a value between 1 and number of sides" do
       expect(die.value).to be_between(1, 20)
     end
+
+    it "has a included_in_total? of true" do
+      expect(die.is_included_in_total).to be(true)
+    end
   end
 
   context "with instantiation options" do
@@ -61,6 +65,10 @@ RSpec.describe NerdDice::Die do
     it "has a value between 1 and number of sides" do
       expect(die_with_options.value).to be_between(1, 12)
     end
+
+    it "has a included_in_total? of true" do
+      expect(die.is_included_in_total).to be(true)
+    end
   end
 
   describe "roll method" do
@@ -87,6 +95,19 @@ RSpec.describe NerdDice::Die do
     it "returns the new value" do
       roll_value = die.roll
       expect(roll_value).to eq(die.value)
+    end
+  end
+
+  describe "setting included_in_total? attribute" do
+    it "can be set to false" do
+      die.is_included_in_total = false
+      expect(die.included_in_total?).to be(false)
+    end
+
+    it "can be set to true" do
+      die.is_included_in_total = false
+      die.is_included_in_total = true
+      expect(die.included_in_total?).to be(true)
     end
   end
 

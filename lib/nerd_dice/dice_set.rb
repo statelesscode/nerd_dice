@@ -47,6 +47,28 @@ module NerdDice
       @dice.map(&:roll)
     end
 
+    def highest(number_to_take = nil)
+      number_to_take = check_low_high_argument!(number_to_take)
+      get_default_to_take if number_to_take.nil?
+      @dice.sort.reverse.each_with_index do |die, index|
+        die.is_included_in_total = false if index >= number_to_take
+      end
+      self
+    end
+
+    alias with_advantage highest
+
+    def lowest(number_to_take = nil)
+      number_to_take = check_low_high_argument!(number_to_take)
+      get_default_to_take if number_to_take.nil?
+      @dice.sort.each_with_index do |die, index|
+        die.is_included_in_total = false if index >= number_to_take
+      end
+      self
+    end
+
+    alias with_disadvantage lowest
+
     def randomization_technique=(new_value)
       unless RANDOMIZATION_TECHNIQUES.include?(new_value) || new_value.nil?
         raise NerdDice::Error, "randomization_technique must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
@@ -56,7 +78,7 @@ module NerdDice
     end
 
     def total
-      @dice.sum(&:value) + @bonus
+      @dice.select(&:included_in_total?).sum(&:value) + @bonus
     end
 
     private
@@ -79,6 +101,13 @@ module NerdDice
         rescue NoMethodError
           raise ArgumentError, "Bonus must be a value that responds to :to_i"
         end
+      end
+
+      def check_low_high_argument!(number_to_take)
+        number_to_take ||= number_of_dice == 1 ? 1 : number_of_dice - 1
+        raise ArgumentError, "Argument cannot exceed number of dice" if number_to_take > number_of_dice
+
+        number_to_take
       end
   end
 end
