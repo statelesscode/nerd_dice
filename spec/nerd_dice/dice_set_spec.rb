@@ -327,4 +327,14 @@ RSpec.describe NerdDice::DiceSet do
       )
     end
   end
+
+  describe "include_all_dice! method" do
+    it "changes is_included_in_total to true for all dice" do
+      dice_set.each { |die| die.is_included_in_total = false }
+      dice_set.include_all_dice!
+      dice_set.each do |die|
+        expect(die.included_in_total?).to eq(true)
+      end
+    end
+  end
 end

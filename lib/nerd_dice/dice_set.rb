@@ -47,7 +47,12 @@ module NerdDice
       @dice.map(&:roll)
     end
 
+    def include_all_dice!
+      @dice.map { |die| die.is_included_in_total = true }
+    end
+
     def highest(number_to_take = nil)
+      include_all_dice!
       number_to_take = check_low_high_argument!(number_to_take)
       get_default_to_take if number_to_take.nil?
       @dice.sort.reverse.each_with_index do |die, index|
@@ -59,6 +64,7 @@ module NerdDice
     alias with_advantage highest
 
     def lowest(number_to_take = nil)
+      include_all_dice!
       number_to_take = check_low_high_argument!(number_to_take)
       get_default_to_take if number_to_take.nil?
       @dice.sort.each_with_index do |die, index|
