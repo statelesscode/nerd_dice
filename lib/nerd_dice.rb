@@ -2,6 +2,7 @@
 
 require "nerd_dice/version"
 require "nerd_dice/configuration"
+require "nerd_dice/sets_randomization_technique"
 require "nerd_dice/die"
 require "nerd_dice/dice_set"
 require "securerandom"

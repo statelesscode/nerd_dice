@@ -19,20 +19,13 @@ module NerdDice
   #   </tt>
   class Die
     include Comparable
+    include SetsRandomizationTechnique
 
-    attr_reader :number_of_sides, :randomization_technique, :value
+    attr_reader :number_of_sides, :value
     attr_accessor :background_color, :foreground_color, :damage_type, :is_included_in_total
 
     def <=>(other)
       value <=> other.value
-    end
-
-    def randomization_technique=(new_value)
-      unless RANDOMIZATION_TECHNIQUES.include?(new_value) || new_value.nil?
-        raise NerdDice::Error, "randomization_technique must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
-      end
-
-      @randomization_technique = new_value
     end
 
     # rolls the die, setting the value to the new roll and returning that value
