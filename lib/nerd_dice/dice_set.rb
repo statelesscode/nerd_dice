@@ -83,6 +83,12 @@ module NerdDice
       @randomization_technique = new_value
     end
 
+    def bonus=(new_value)
+      @bonus = new_value.to_i
+    rescue NoMethodError
+      raise ArgumentError, "Bonus must be a value that responds to :to_i"
+    end
+
     def total
       @dice.select(&:included_in_total?).sum(&:value) + @bonus
     end
@@ -102,11 +108,7 @@ module NerdDice
         @background_color = opts[:background_color] || NerdDice.configuration.die_background_color
         @foreground_color = opts[:foreground_color] || NerdDice.configuration.die_foreground_color
         @damage_type = opts[:damage_type]
-        begin
-          @bonus = opts[:bonus].to_i
-        rescue NoMethodError
-          raise ArgumentError, "Bonus must be a value that responds to :to_i"
-        end
+        self.bonus = opts[:bonus]
       end
 
       def check_low_high_argument!(number_to_take)

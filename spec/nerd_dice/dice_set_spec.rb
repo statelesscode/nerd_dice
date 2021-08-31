@@ -337,4 +337,19 @@ RSpec.describe NerdDice::DiceSet do
       end
     end
   end
+
+  describe "custom attribute writers" do
+    describe "bonus= method" do
+      it "lets you set the bonus" do
+        dice_set.bonus = 14
+        expect(dice_set.bonus).to eq(14)
+      end
+
+      it "errors out if you provide invalid input" do
+        expect { dice_set.bonus = :flump }.to raise_error(
+          ArgumentError, "Bonus must be a value that responds to :to_i"
+        )
+      end
+    end
+  end
 end
