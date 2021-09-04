@@ -279,6 +279,7 @@ RSpec.describe NerdDice::DiceSet do
 
     describe "reverse! method" do
       before { dice.sort! }
+
       it "returns the dice in reverse order" do
         expect(dice.reverse!.map(&:value)).to eq([6, 5, 1])
       end

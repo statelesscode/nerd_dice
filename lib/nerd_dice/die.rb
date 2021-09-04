@@ -24,6 +24,7 @@ module NerdDice
     attr_reader :number_of_sides, :value
     attr_accessor :background_color, :foreground_color, :damage_type, :is_included_in_total
 
+    # comparison operator override using value: required to implement Comparable
     def <=>(other)
       value <=> other.value
     end

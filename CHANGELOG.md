@@ -2,6 +2,11 @@
 
 ## master \(unreleased\)
 ### Added
+* Add `NerdDice::Die` class that represents a single die object and mixes in the `Comparable` module
+* Add `NerdDice::DiceSet` class that represents a collection of `Die` objects and mixes in the `Enumerable` module
+* Add `NerdDice::SetsRandomizationTechnique` mixin module and include in the `DiceSet` and `Die` classes
+* Add `die_background_color` and `die_foreground_color` to `Configuration` class with defaults defined as constants
+* Add `NerdDice.roll_dice` method that behaves in a similar fashion to `total_dice` but returns a `DiceSet` object instead of an `Integer` and has additional optional arguments relating to the non-numeric attributes of the dice
 * Add `coveralls_reborn` to RSpec and GitHub actions
 * Add build badge to README
 * Add Code Climate maintainability integration and badge to README
