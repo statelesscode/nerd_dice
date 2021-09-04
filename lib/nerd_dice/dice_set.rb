@@ -44,6 +44,14 @@ module NerdDice
       @dice.length
     end
 
+    def sort!
+      @dice.sort!
+    end
+
+    def reverse!
+      @dice.reverse!
+    end
+
     def reroll_all
       @dice.map(&:roll)
     end

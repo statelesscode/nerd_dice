@@ -253,6 +253,35 @@ RSpec.describe NerdDice::DiceSet do
     end
   end
 
+  describe "collection methods" do
+    before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 1337) }
+
+    let(:dice) { described_class.new 6, 3, randomization_technique: :random_rand }
+
+    describe "sort! method" do
+      it "returns the dice sorted in order" do
+        expect(dice.sort!.map(&:value)).to eq([1, 5, 6])
+      end
+
+      it "changes the order of the dice collection on the dice set" do
+        dice.sort!
+        expect(dice[0].value).to eq(1)
+      end
+    end
+
+    describe "reverse! method" do
+      before { dice.sort! }
+      it "returns the dice in reverse order" do
+        expect(dice.reverse!.map(&:value)).to eq([6, 5, 1])
+      end
+
+      it "changes the order of the dice collection on the dice set" do
+        dice.reverse!
+        expect(dice[0].value).to eq(6)
+      end
+    end
+  end
+
   describe "highest and with_advantage methods" do
     before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 24_601) }
 
