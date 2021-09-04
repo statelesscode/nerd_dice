@@ -231,25 +231,33 @@ RSpec.describe NerdDice::DiceSet do
     end
   end
 
-  describe "the reroll_all method" do
+  describe "the reroll_all! method" do
     before { NerdDice.refresh_seed!(randomization_technique: :random_rand, random_rand_seed: 1337) }
 
     let(:dice) { described_class.new 6, 3, randomization_technique: :random_rand }
 
     it "changes the total" do
-      expect { dice.reroll_all }.to change(dice, :total)
+      expect { dice.reroll_all! }.to change(dice, :total)
     end
 
     it "changes the first die" do
-      expect { dice.reroll_all }.to change(dice[0], :value)
+      expect { dice.reroll_all! }.to change(dice[0], :value)
     end
 
     it "changes the second die" do
-      expect { dice.reroll_all }.to change(dice[1], :value)
+      expect { dice.reroll_all! }.to change(dice[1], :value)
     end
 
     it "changes the third die" do
-      expect { dice.reroll_all }.to change(dice[2], :value)
+      expect { dice.reroll_all! }.to change(dice[2], :value)
+    end
+
+    it "resets is_included_in_total to true for all dice" do
+      dice.each { |die| die.is_included_in_total = false }
+      dice.reroll_all!
+      dice.each do |die|
+        expect(die.is_included_in_total).to eq(true)
+      end
     end
   end
 

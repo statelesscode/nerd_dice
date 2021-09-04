@@ -52,8 +52,11 @@ module NerdDice
       @dice.reverse!
     end
 
-    def reroll_all
-      @dice.map(&:roll)
+    def reroll_all!
+      @dice.map do |die|
+        die.roll
+        die.is_included_in_total = true
+      end
     end
 
     def include_all_dice!
