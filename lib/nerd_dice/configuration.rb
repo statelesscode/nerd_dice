@@ -42,53 +42,28 @@ module NerdDice
     end
 
     def ability_score_array_size=(value)
-      error_message = "ability_score_array_size must be must be a positive value that responds to :to_i"
-      new_value = value.to_i
-      raise ArgumentError, error_message unless new_value.positive?
-
-      @ability_score_array_size = new_value
-    rescue NoMethodError
-      raise ArgumentError, error_message
+      @ability_score_array_size = ensure_positive_integer!("ability_score_array_size", value)
     end
 
     def ability_score_number_of_sides=(value)
-      error_message = "ability_score_number_of_sides must be must be a positive value that responds to :to_i"
-      new_value = value.to_i
-      raise ArgumentError, error_message unless new_value.positive?
-
-      @ability_score_number_of_sides = new_value
-    rescue NoMethodError
-      raise ArgumentError, error_message
+      @ability_score_number_of_sides = ensure_positive_integer!("ability_score_number_of_sides", value)
     end
 
-    # will refactor
-    # rubocop:disable Metrics/MethodLength
     def ability_score_dice_rolled=(value)
-      error_message = "ability_score_dice_rolled must be must be a positive value that responds to :to_i"
-      new_value = value.to_i
-      raise ArgumentError, error_message unless new_value.positive?
+      @ability_score_dice_rolled = ensure_positive_integer!("ability_score_dice_rolled", value)
+      return unless ability_score_dice_kept > @ability_score_dice_rolled
 
-      @ability_score_dice_rolled = new_value
-      if @ability_score_dice_rolled < ability_score_dice_kept
-        warn "WARNING: ability_score_dice_rolled set to lower value than ability_score_dice_kept. " \
-             "Reducing ability_score_dice_kept from #{ability_score_dice_kept} to #{new_value}"
-        self.ability_score_dice_kept = new_value
-      end
-    rescue NoMethodError
-      raise ArgumentError, error_message
+      warn "WARNING: ability_score_dice_rolled set to lower value than ability_score_dice_kept. " \
+           "Reducing ability_score_dice_kept from #{ability_score_dice_kept} to #{@ability_score_dice_rolled}"
+      self.ability_score_dice_kept = @ability_score_dice_rolled
     end
-    # rubocop:enable Metrics/MethodLength
 
     def ability_score_dice_kept=(value)
-      duck_type_error_message = "ability_score_dice_kept must be must be a positive value that responds to :to_i"
       compare_error_message = "cannot set ability_score_dice_kept greater than ability_score_dice_rolled"
-      new_value = value.to_i
-      raise ArgumentError, duck_type_error_message unless new_value.positive?
+      new_value = ensure_positive_integer!("ability_score_dice_kept", value)
       raise NerdDice::Error, compare_error_message if new_value > @ability_score_dice_rolled
 
       @ability_score_dice_kept = new_value
-    rescue NoMethodError
-      raise ArgumentError, duck_type_error_message
     end
 
     private
@@ -101,6 +76,16 @@ module NerdDice
         @randomization_technique = :random_object
         @die_background_color = DEFAULT_BACKGROUND_COLOR
         @die_foreground_color = DEFAULT_FOREGROUND_COLOR
+      end
+
+      def ensure_positive_integer!(attribute_name, argument_value)
+        error_message = "#{attribute_name} must be must be a positive value that responds to :to_i"
+        new_value = argument_value.to_i
+        raise ArgumentError, error_message unless new_value.positive?
+
+        new_value
+      rescue NoMethodError
+        raise ArgumentError, error_message
       end
   end
 end
