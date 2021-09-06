@@ -64,7 +64,7 @@ module NerdDice
     #   number_of_sides (Integer) =>  the number of sides of the dice to roll
     #   number_of_dice (Integer, DEFAULT: 1) => the quantity to roll of the type
     #     of die specified in the number_of_sides argument.
-    #   options (Hash, DEFAULT: {}) any additional options you wish to include
+    #   opts (options Hash, DEFAULT: {}) any additional options you wish to include
     #     :bonus (Integer) => The total bonus (positive integer) or penalty
     #       (negative integer) to modify the total by. Is added to the total of
     #       all dice after they are totaled, not to each die rolled
@@ -92,7 +92,7 @@ module NerdDice
     #   number_of_sides (Integer) =>  the number of sides of the dice to roll
     #   number_of_dice (Integer, DEFAULT: 1) => the quantity to roll of the type
     #     of die specified in the number_of_sides argument.
-    #   options (Hash, DEFAULT: {}) any additional options you wish to include
+    #   opts (options Hash, DEFAULT: {}) any additional options you wish to include
     #     :bonus (Integer) => The total bonus (positive integer) or penalty
     #       (negative integer) to modify the total by. Is added to the total of
     #       all dice after they are totaled, not to each die rolled
@@ -108,6 +108,35 @@ module NerdDice
     # or you can chain methods together roll_dice(6, 4, bonus: 3).with_advantage(3).total
     def roll_dice(number_of_sides, number_of_dice = 1, **opts)
       DiceSet.new(number_of_sides, number_of_dice, **opts)
+    end
+
+    ############################
+    # roll_ability_scores method
+    ############################
+    # Arguments:
+    #   opts (options Hash, DEFAULT: {}) any options you wish to include
+    #     ABILITY SCORE OPTIONS
+    #     :ability_score_array_size DEFAULT NerdDice.configuration.ability_score_array_size
+    #     :ability_score_number_of_sides DEFAULT NerdDice.configuration.ability_score_number_of_sides
+    #     :ability_score_dice_rolled DEFAULT NerdDice.configuration.ability_score_dice_rolled
+    #     :ability_score_dice_kept DEFAULT NerdDice.configuration.ability_score_dice_kept
+    #
+    #     DICE SET OPTIONS
+    #     :randomization_technique (Symbol) => must be one of the symbols in
+    #       RANDOMIZATION_TECHNIQUES or nil
+    #     :foreground_color (String) => should resolve to a valid CSS color (format flexible)
+    #     :background_color (String) => should resolve to a valid CSS color (format flexible)
+    #
+    # Return (Array of NerdDice::DiceSet) => One NerdDice::DiceSet element for each ability score
+    def roll_ability_scores(**opts)
+      dice_opts = opts.reject { |key, _value| key.to_s.match?(/\Aability_score_[a-z_]+\z/) }
+      ability_score_options = interpret_ability_score_options(opts)
+      ability_score_array = []
+      ability_score_options[:ability_score_array_size].times do
+        ability_score_array << roll_dice(ability_score_options[:ability_score_number_of_sides],
+                                         ability_score_options[:ability_score_dice_rolled], **dice_opts).highest(ability_score_options[:ability_score_dice_kept])
+      end
+      ability_score_array
     end
 
     ############################
@@ -201,6 +230,18 @@ module NerdDice
         return unless configuration.refresh_seed_interval
 
         refresh_seed! if @count_since_last_refresh >= configuration.refresh_seed_interval
+      end
+
+      def interpret_ability_score_options(opts)
+        return_hash = {}
+        return_hash[:ability_score_array_size] =
+          opts[:ability_score_array_size] || configuration.ability_score_array_size
+        return_hash[:ability_score_number_of_sides] =
+          opts[:ability_score_number_of_sides] || configuration.ability_score_number_of_sides
+        return_hash[:ability_score_dice_rolled] =
+          opts[:ability_score_dice_rolled] || configuration.ability_score_dice_rolled
+        return_hash[:ability_score_dice_kept] = opts[:ability_score_dice_kept] || configuration.ability_score_dice_kept
+        return_hash
       end
   end
 end
