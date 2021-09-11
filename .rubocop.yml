@@ -395,3 +395,8 @@ RSpec/Rails/AvoidSetupHook: # (new in 2.4)
 
 RSpec/MessageSpies:
   EnforcedStyle: receive
+
+Lint/AmbiguousRange: # new in 1.19
+  Enabled: true
+Style/RedundantSelfAssignmentBranch: # new in 1.19
+  Enabled: true

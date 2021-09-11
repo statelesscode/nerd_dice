@@ -2,6 +2,11 @@
 
 ## master \(unreleased\)
 ### Added
+### Changed
+### Fixed
+
+## 0.3.0 \(2021-09-11\)
+### Added
 * Add new options to `NerdDice::Configuration`
   - `ability_score_number_of_sides`
   - `ability_score_dice_rolled`

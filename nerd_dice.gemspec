@@ -47,9 +47,9 @@ Gem::Specification.new do |spec|
 
   # Development Dependencies
   spec.add_development_dependency "coveralls_reborn", "~> 0.22.0"
-  spec.add_development_dependency "rubocop", "~> 1.8", ">= 1.8.1"
-  spec.add_development_dependency "rubocop-performance", "~> 1.9", ">= 1.9.1"
-  spec.add_development_dependency "rubocop-rake", "~> 0.5", ">= 0.5.1"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.1", ">= 2.1.0"
+  spec.add_development_dependency "rubocop", "~> 1.20", ">= 1.20.0"
+  spec.add_development_dependency "rubocop-performance", "~> 1.11", ">= 1.11.5"
+  spec.add_development_dependency "rubocop-rake", "~> 0.6", ">= 0.6.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.4", ">= 2.4.0"
   spec.add_development_dependency "simplecov-lcov", "~> 0.8.0"
 end

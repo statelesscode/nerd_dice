@@ -8,7 +8,7 @@ require "nerd_dice"
 n = 50_000
 
 RATIOS = {
-  total_dice_securerandom: 1.9,
+  total_dice_securerandom: 2.1,
   total_dice_random_rand: 11.1,
   total_dice_random_object: 13.0,
   total_dice_randomized: 5.5,
