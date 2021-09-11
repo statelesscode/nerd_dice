@@ -26,7 +26,6 @@ RSpec.shared_examples "the execute_die_roll method" do
     expect(described_class.count_since_last_refresh).to eq(6)
   end
 
-  # rubocop:disable RSpec/MessageSpies
   context "with nil refresh_seed_interval" do
     it "does not call refresh_seed!" do
       described_class.configuration.refresh_seed_interval = nil
@@ -62,5 +61,4 @@ RSpec.shared_examples "the execute_die_roll method" do
       expect(described_class.count_since_last_refresh).to eq(0)
     end
   end
-  # rubocop:enable RSpec/MessageSpies
 end

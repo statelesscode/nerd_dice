@@ -392,3 +392,6 @@ RSpec/IdenticalEqualityAssertion: # (new in 2.4)
 
 RSpec/Rails/AvoidSetupHook: # (new in 2.4)
   Enabled: true
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
