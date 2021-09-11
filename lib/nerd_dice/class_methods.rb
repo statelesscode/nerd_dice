@@ -6,6 +6,7 @@ require "nerd_dice/class_methods/execute_die_roll"
 require "nerd_dice/class_methods/total_dice"
 require "nerd_dice/class_methods/roll_dice"
 require "nerd_dice/class_methods/roll_ability_scores"
+require "nerd_dice/class_methods/harvest_totals"
 
 ############################
 # NerdDice class methods
