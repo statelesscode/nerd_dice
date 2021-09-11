@@ -18,6 +18,7 @@
 #       ability_score_number_of_sides: 8,
 #       ability_score_dice_rolled: 5,
 #       ability_score_dice_kept: 4,
+#       randomization_technique: :randomized,
 #       foreground_color: "#FF0000",
 #       background_color: "#FFFFFF"
 #     )

@@ -4,6 +4,9 @@
 # NerdDice
 Nerd dice allows you to roll polyhedral dice and add bonuses as you would in a tabletop roleplaying game. You can choose to roll multiple dice and keep a specified number of dice such as rolling 4d6 and dropping the lowest for ability scores or rolling with advantage and disadvantage if those mechanics exist in your game.
 
+## Educational Videos By Stateless Code
+The end-to-end process of developing this gem has been captured as [instructional videos](https://www.youtube.com/playlist?list=PL9kkbu1kLUeOnUtMpAnJOCtHdThx1Efkt). The videos are in a one-take style so that the mistakes along the way have troubleshooting and the concepts used to develop the gem are explained as they are covered.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -28,7 +31,17 @@ You can customize the behavior of NerdDice via a configuration block as below or
 NerdDice.configure do | config|
 
   # number of ability scores to place in an ability score array
-  config.ability_score_array_size = 6
+  config.ability_score_array_size = 6 # must duck-type to positive Integer
+
+  # number of sides for each ability score Die
+  config.ability_score_number_of_sides = 6 # must duck-type to positive Integer
+
+  # total number of dice rolled for each ability score
+  config.ability_score_dice_rolled = 4 # must duck-type to positive Integer
+
+  # highest(n) dice from the total number of dice rolled that are included in the ability score total
+  # CANNOT EXCEED ability_score_dice_rolled see Note below
+  config.ability_score_dice_kept = 3 # must duck-type to positive Integer
 
   # randomization technique options are:
     # :securerandom => Uses SecureRandom.rand(). Good entropy, medium speed.
@@ -50,6 +63,7 @@ NerdDice.configure do | config|
   config.die_foreground_color = "#000"
 end
 ```
+**Note:** You cannot set `ability_score_dice_kept` greater than `ability_score_dice_rolled`. If you try to set `ability_score_dice_kept` higher than `ability_score_dice_rolled`, an error will be raised. If you set `ability_score_dice_rolled` _lower_ than the existing value of `ability_score_dice_kept`, no error will be thrown, but `ability_score_dice_kept` will be _**modified**_ to match `ability_score_dice_rolled` and a warning will be printed.
 
 ### Rolling a number of dice and adding a bonus
 You can use two different methods to roll dice. The `total_dice` method returns an `Integer` representing the total of the dice plus any applicable bonuses. The `total_dice` method does not support chaining additional methods like `highest`, `lowest`, `with_advantage`, `with_disadvantage`. The `roll_dice` method returns a `DiceSet` collection object, and allows for chaining  the methods mentioned above and iterating over the individual `Die` objects. `NerdDice.roll_dice.total` and `NerdDice.total_dice` are roughly equivalent.
@@ -92,9 +106,9 @@ dice_set = NerdDice::DiceSet.new(6, 3, bonus: 2, randomization_technique: :rando
 There are a number of options that can be provided when initializing a `NerdDice::DiceSet` object after specifying the mandatory number of sides and the optional number of dice \(default: 1\). The list below provides the options and indicates whether they are cascaded to the Die objects in the collection.
 * `bonus` \(Duck-type Integer, _default: 0_\): Bonus or penalty to apply to the total after all dice are rolled.  _**Not applied** to Die objects_
 * `randomization_technique` \(Symbol, _default: nil_\): Randomization technique override to use for the `DiceSet`. If `nil` it will use the value in `NerdDice.configuration`. _**Applied** to Die objects by default with ability modify_
-* `damage_type` (\String, _default: nil_\): Optional string indicating the damage type associated with the dice for systems where it is relevant. _**Applied** to Die objects by default with ability modify_
-* `foreground_color` (\String, _default: `NerdDice.configuration.die_foreground_color`_\): Intended foreground color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability modify_
-* `background_color` (\String, _default: `NerdDice.configuration.die_background_color`_\): Intended background color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability modify_
+* `damage_type` \(String, _default: nil_\): Optional string indicating the damage type associated with the dice for systems where it is relevant. _**Applied** to Die objects by default with ability modify_
+* `foreground_color` \(String, _default: `NerdDice.configuration.die_foreground_color`_\): Intended foreground color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability modify_
+* `background_color` \(String, _default: `NerdDice.configuration.die_background_color`_\): Intended background color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability modify_
 
 #### Properties of individual Die objects
 When initialized from a `DiceSet` object most of the properties of the `Die` object are inherited from the `DiceSet` object. In addition, there is an `is_included_in_total` public attribute that can be set to indicate whether the value of that particular die should be included in the total for its parent `DiceSet`. This property always starts out as true when the `Die` is initialized, but can be set to false.
@@ -163,6 +177,46 @@ dice_set.reroll_all! # rerolls each of the Die objects in the collection and re-
 dice_set.include_all_dice! # resets is_included_in_total to true for all Die objects
 ```
 
+### Rolling Ability Scores
+You can call `roll_ability_scores` or `total_ability_scores` to get back an array of `DiceSet` objects or `Integer` objects, respectively. The `total_ability_scores` method calls `total` on each `DiceSet` and returns those numbers with one value per ability score. The `Configuration` object defaults to 6 ability scores using a methodology of __4d6 drop the lowest__ by default.
+
+```ruby
+# return an array of DiceSet objects including info about the discarded dice
+#
+NerdDice.roll_ability_scores
+#=> [DiceSet0, DiceSet1, ...]
+   # => DiceSet0 hash representation { total: 12, dice: [
+   #             {value: 2, is_included_in_total: true},
+   #             {value: 6, is_included_in_total: true},
+   #             {value: 4, is_included_in_total: true},
+   #             {value: 1, is_included_in_total: false}
+   #         ]}
+# if you want to get back DiceSet objects that you can interact with
+
+# just return an array of totaled ability scores
+NerdDice.total_ability_scores
+#=> [12, 14, 13, 15, 10, 8]
+```
+
+Both methods can be called without arguments to use the values specified in `NerdDice.configuration` or passed a set of options.
+```ruby
+
+# total_dice and roll_dice take the same set of options
+NerdDice.roll_ability_scores(
+       ability_score_array_size: 7,
+       ability_score_number_of_sides: 8,
+       ability_score_dice_rolled: 5,
+       ability_score_dice_kept: 4,
+       randomization_technique: :randomized,
+       foreground_color: "#FF0000",
+       background_color: "#FFFFFF"
+     )
+# => [DiceSet0, DiceSet1, ...] with 7 ability scores that each roll 5d8 dropping the lowest
+# or if called with total_ability_scores
+# => [27, 17, 21, 17, 23, 13, 27]
+```
+**Note:** If you try to call this method with `ability_score_dice_kept` greater than `ability_score_dice_rolled` an error will be raised.
+
 ### Manually setting or refreshing the random generator seed
 For randomization techniques other than `:securerandom` you can manually set or refresh the generator's seed by calling the `refresh_seed!` method. This is automatically called at the interval specified in `NerdDice.configuration.refresh_seed_interval` if it is not nil.
 
@@ -180,6 +234,23 @@ NerdDice.refresh_seed!(randomization_technique:  :randomized,
 ```
 __NOTE:__ Ability to specify a seed it primarily provided for testing purposes. This makes all random numbers generated _transparently deterministic_ and should not be used if you want behavior approximating randomness.
 
+### Utility Methods
+
+#### Harvesting Totals from DiceSets
+The `harvest_totals` method take any collection of objects where each element responds to `total` and return an array of the results of the total method.
+```ruby
+ability_score_array = NerdDice.roll_ability_scores
+# => Array of 6 DiceSet objects
+
+# Arguments:
+#   collection (Enumerable) a collection where each element responds to total
+#
+# Return (Array) => Data type of each element will be whatever is returned by total method
+totals_array = NerdDice.harvest_totals(totals_array)
+# => [15, 14, 13, 12, 10, 8]
+# yes, it just happened to be the standard array by amazing coincidence
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
@@ -193,4 +264,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/statel
 
 ## Unlicense, License, and Copyright
 
-The document is dual-licensed under the [MIT](https://opensource.org/licenses/MIT) license and the [UNLICENSE](https://unlicense.org/) \(with strong preference toward the UNLICENSE\)\. The content is released under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) \(no rights reserved\). You are free to include it in its original form or modified with or without modification in your own project\.
+The document is dual-licensed under the [MIT](https://opensource.org/licenses/MIT) license and the [UNLICENSE](https://unlicense.org/) \(with strong preference toward the UNLICENSE\)\. The content is released under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) \(no rights reserved\). You are free to include it in its original form or modified with or without additional modification in your own project\.

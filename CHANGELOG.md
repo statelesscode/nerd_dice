@@ -2,6 +2,13 @@
 
 ## master \(unreleased\)
 ### Added
+* Add new options to `NerdDice::Configuration`
+  - `ability_score_number_of_sides`
+  - `ability_score_dice_rolled`
+  - `ability_score_dice_kept`
+* Add `NerdDice.harvest_totals` method that takes in a collection and returns the results of calling `total` on each element
+* Add `NerdDice.roll_ability_scores` convenience method that returns an array of `DiceSet` objects based on options and/or configuration
+* Add `NerdDice.total_ability_scores` convenience method that returns an array of integers based on options and/or configuration
 * Add `NerdDice::Die` class that represents a single die object and mixes in the `Comparable` module
 * Add `NerdDice::DiceSet` class that represents a collection of `Die` objects and mixes in the `Enumerable` module
 * Add `NerdDice::SetsRandomizationTechnique` mixin module and include in the `DiceSet` and `Die` classes
@@ -17,6 +24,8 @@
   - Run benchmark suite and fail if outside of allowed ratios
 ### Changed
 * Update RuboCop version and configuration
+* Break up the NerdDice source code file into several smaller files that are included by the module
+* Enforce that `NerdDice.configuration.ability_score_array_size` must be a positive duck-type integer
 ### Fixed
 
 ## 0.2.0 \(2021-01-28\)
