@@ -1,8 +1,9 @@
 # Nerd Dice Changelog
 
-## master \(unreleased\)
+## version-0-3-x-stable \(unreleased\)
 ### Added
 ### Changed
+* Replace `Benchmark.bmbm` with `Benchmark.bm` in the nerd_dice_benchmark
 ### Fixed
 
 ## 0.3.0 \(2021-09-11\)

@@ -24,8 +24,8 @@ RATIOS = {
   roll_dice_random_rand_3d6: 79.0,
   roll_dice_random_object_3d6: 86.0,
   roll_dice_randomized_3d6: 26.5,
-  roll_ability_scores_randomized: 26.5,
-  total_ability_scores_randomized: 26.5
+  roll_ability_scores_randomized: 30.5,
+  total_ability_scores_randomized: 30.5
 }.freeze
 
 def check_against_baseline!(baseline_value, test_value)
@@ -36,7 +36,7 @@ def check_against_baseline!(baseline_value, test_value)
 end
 
 puts "Set baseline"
-baselines = Benchmark.bmbm do |x|
+baselines = Benchmark.bm do |x|
   # Random.rand()
   x.report("Random.rand") do # standard rand()
     n.times { Random.rand(1000) }
@@ -52,7 +52,7 @@ random_rand_baseline = baselines[0].real
 securerandom_baseline = baselines[1].real
 
 puts "Roll d1000s"
-total_dice_d1000_results = Benchmark.bmbm do |x|
+total_dice_d1000_results = Benchmark.bm do |x|
   # NerdDice.total_dice securerandom
   x.report("total_dice_securerandom") do
     NerdDice.configuration.randomization_technique = :securerandom
@@ -84,7 +84,7 @@ check_against_baseline! random_rand_baseline, total_dice_random_object
 total_dice_randomized = total_dice_d1000_results[3]
 check_against_baseline! ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), total_dice_randomized
 
-roll_dice_d1000_results = Benchmark.bmbm do |x|
+roll_dice_d1000_results = Benchmark.bm do |x|
   # NerdDice.roll_dice securerandom
   x.report("roll_dice_securerandom") do
     NerdDice.configuration.randomization_technique = :securerandom
@@ -117,7 +117,7 @@ roll_dice_randomized = roll_dice_d1000_results[3]
 check_against_baseline! ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), roll_dice_randomized
 
 puts "Roll 3d6"
-total_dice_3d6_results = Benchmark.bmbm do |x|
+total_dice_3d6_results = Benchmark.bm do |x|
   # NerdDice.total_dice securerandom
   x.report("total_dice_securerandom_3d6") do
     NerdDice.configuration.randomization_technique = :securerandom
@@ -149,7 +149,7 @@ check_against_baseline! random_rand_baseline, total_dice_3d6_random_object
 total_dice_3d6_randomized = total_dice_3d6_results[3]
 check_against_baseline! ((random_rand_baseline * 0.75) + (securerandom_baseline * 0.25)), total_dice_3d6_randomized
 
-roll_dice_3d6_results = Benchmark.bmbm do |x|
+roll_dice_3d6_results = Benchmark.bm do |x|
   # NerdDice.roll_dice securerandom
   x.report("roll_dice_securerandom_3d6") do
     NerdDice.configuration.randomization_technique = :securerandom
@@ -185,7 +185,7 @@ puts "Setting n down to 5,000 due to more intensive methods"
 n = 5_000
 
 puts "Roll and total ability scores"
-roll_ability_scores_results = Benchmark.bmbm do |x|
+roll_ability_scores_results = Benchmark.bm do |x|
   x.report("roll_ability_scores_randomized") do
     NerdDice.configuration.randomization_technique = :randomized
     n.times { NerdDice.roll_ability_scores }
