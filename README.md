@@ -39,7 +39,9 @@ NerdDice.configure do | config|
   # total number of dice rolled for each ability score
   config.ability_score_dice_rolled = 4 # must duck-type to positive Integer
 
-  # highest(n) dice from the total number of dice rolled that are included in the ability score total
+  # highest(n) dice from the total number of dice rolled
+  # that are included in the ability scoretotal
+  #
   # CANNOT EXCEED ability_score_dice_rolled see Note below
   config.ability_score_dice_kept = 3 # must duck-type to positive Integer
 
@@ -49,14 +51,16 @@ NerdDice.configure do | config|
       # (Seed is shared with other processes. Too predictable)
     # :random_object => Uses Random.new() and calls rand()
       # Medium entropy, fastest speed. (Performs the best under speed benchmark)
-    # :randomized => Uses a random choice of the :securerandom, :rand, and :random_new_interval options above
+    # :randomized =>
+    #  Uses a random choice of the :securerandom, :rand, and :random_new_interval options above
   config.randomization_technique = :random_object # fast with independent seed
 
   # Number of iterations to use on a generator before refreshing the seed
     # 1 very slow and heavy pressure on processor and memory but very high entropy
     # 1000 would refresh the object every 1000 times you call rand()
   config.refresh_seed_interval = nil # don't refresh the seed
-  # Background and foreground die colors are string values. By default these correspond to the constants in the class
+  # Background and foreground die colors are string values.
+  # By default these correspond to the constants in the class
     # Defaults: DEFAULT_BACKGROUND_COLOR = "#0000DD" DEFAULT_FOREGROUND_COLOR = "#DDDDDD"
     # It is recommended but not enforced that these should be valid CSS color property attributes
   config.die_background_color = "red"
@@ -70,25 +74,26 @@ You can use two different methods to roll dice. The `total_dice` method returns 
 
 ```ruby
 # roll a single d4
-NerdDice.total_dice(4) # => return random Integer between 1-4
-NerdDice.roll_dice(4) # => return a DiceSet with one 4-sided Die with a value between 1-4
-NerdDice.roll_dice(4).total # => return random Integer between 1-4
+NerdDice.total_dice(4) # => Integer: between 1-4
+NerdDice.roll_dice(4) # => DiceSet: with one 4-sided Die with a value between 1-4
+NerdDice.roll_dice(4).total # => Integer: between 1-4
 
 # roll 3d6
-NerdDice.total_dice(6, 3) # => return Integer total of three 6-sided dice
-NerdDice.roll_dice(6, 3) # => return a DiceSet  with three 6-sided Die objects, each with values between 1-6
-NerdDice.roll_dice(6, 3).total # => return Integer total of three 6-sided dice
+NerdDice.total_dice(6, 3) # => Integer: total of three 6-sided dice
+NerdDice.roll_dice(6, 3) # => DiceSet: three 6-sided Die objects, each with values between 1-6
+NerdDice.roll_dice(6, 3).total # => Integer: total of three 6-sided dice
 
 # roll a d20 and add 5 to the value
-NerdDice.total_dice(20, bonus: 5) # rolls a d20 and adds the bonus to the total => Integer
-NerdDice.roll_dice(20, bonus: 5) # return a DiceSet with one 20-sided Die with a value between 1-20 and a bonus attribute of 5
-NerdDice.roll_dice(20, bonus: 5).total # rolls a d20 and adds the bonus to the total => Integer
+NerdDice.total_dice(20, bonus: 5) # => Integer: roll a d20 and add the bonus to the total
+NerdDice.roll_dice(20, bonus: 5) # => DiceSet: one 20-sided Die and bonus of 5
+NerdDice.roll_dice(20, bonus: 5).total # => Integer: roll a d20 and add the bonus to the total
 
 # without changing the config at the module level
 # roll a d20 and overide the configured randomization_technique one time
 NerdDice.total_dice(20, randomization_technique: :randomized) # => Integer
-# roll a d20 and overide the configured randomization_technique for the DiceSet object will persist on the DiceSet object for subsequent rerolls
-NerdDice.roll_dice(20, randomization_technique: :randomized) # => DiceSet with randomization_technique: :randomized
+# roll a d20 and overide the configured randomization_technique for the DiceSet
+# object will persist on the DiceSet object for subsequent rerolls
+NerdDice.roll_dice(20, randomization_technique: :randomized) # => DiceSet with :randomized
 ```
 __NOTE:__ If provided, the bonus must respond to `:to_i` or an `ArgumentError` will be raised
 
@@ -96,26 +101,29 @@ __NOTE:__ If provided, the bonus must respond to `:to_i` or an `ArgumentError` w
 The `NerdDice.roll_dice` method or the `NerdDice::DiceSet.new` methods return a collection object with an array of one or more `Die` objects. There are properties on both the `DiceSet` object and the `Die` object. Applicable properties are cascaded from the `DiceSet` to the `Die` objects in the collection by default.
 
 ```ruby
-# These are equivalent
-dice_set = NerdDice.roll_dice(6, 3, bonus: 2, randomization_technique: :randomized, damage_type: 'psychic', foreground_color: '#FFF', background_color: '#0FF')
-# => NerdDice::DiceSet
-dice_set = NerdDice::DiceSet.new(6, 3, bonus: 2, randomization_technique: :randomized, damage_type: 'psychic', foreground_color: '#FFF', background_color: '#0FF')
-# => NerdDice::DiceSet
+# These are equivalent. Both return a NerdDice::DiceSet
+dice_set = NerdDice.roll_dice(6, 3, bonus: 2, randomization_technique: :randomized,
+                       damage_type: 'psychic', foreground_color: '#FFF', background_color: '#0FF')
+
+dice_set = NerdDice::DiceSet.new(6, 3, bonus: 2, randomization_technique: :randomized,
+                       damage_type: 'psychic', foreground_color: '#FFF', background_color: '#0FF')
+
 ```
 #### Available options for NerdDice::DiceSet objects
 There are a number of options that can be provided when initializing a `NerdDice::DiceSet` object after specifying the mandatory number of sides and the optional number of dice \(default: 1\). The list below provides the options and indicates whether they are cascaded to the Die objects in the collection.
 * `bonus` \(Duck-type Integer, _default: 0_\): Bonus or penalty to apply to the total after all dice are rolled.  _**Not applied** to Die objects_
-* `randomization_technique` \(Symbol, _default: nil_\): Randomization technique override to use for the `DiceSet`. If `nil` it will use the value in `NerdDice.configuration`. _**Applied** to Die objects by default with ability modify_
-* `damage_type` \(String, _default: nil_\): Optional string indicating the damage type associated with the dice for systems where it is relevant. _**Applied** to Die objects by default with ability modify_
-* `foreground_color` \(String, _default: `NerdDice.configuration.die_foreground_color`_\): Intended foreground color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability modify_
-* `background_color` \(String, _default: `NerdDice.configuration.die_background_color`_\): Intended background color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability modify_
+* `randomization_technique` \(Symbol, _default: nil_\): Randomization technique override to use for the `DiceSet`. If `nil` it will use the value in `NerdDice.configuration`. _**Applied** to Die objects by default with ability to modify_
+* `damage_type` \(String, _default: nil_\): Optional string indicating the damage type associated with the dice for systems where it is relevant. _**Applied** to Die objects by default with ability to modify_
+* `foreground_color` \(String, _default: `NerdDice.configuration.die_foreground_color`_\): Intended foreground color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability to modify_
+* `background_color` \(String, _default: `NerdDice.configuration.die_background_color`_\): Intended background color to apply to the dice in the `DiceSet`. Should be a valid CSS color but is not validated or enforced and doesn\'t currently have any real functionality associated with it.   _**Applied** to Die objects by default with ability to modify_
 
 #### Properties of individual Die objects
 When initialized from a `DiceSet` object most of the properties of the `Die` object are inherited from the `DiceSet` object. In addition, there is an `is_included_in_total` public attribute that can be set to indicate whether the value of that particular die should be included in the total for its parent `DiceSet`. This property always starts out as true when the `Die` is initialized, but can be set to false.
 
 ```ruby
 # six sided die
-die = NerdDice::Die.new(6, randomization_technique: :randomized, damage_type: 'psychic', foreground_color: '#FFF', background_color: '#0FF')
+die = NerdDice::Die.new(6, randomization_technique: :randomized, damage_type: 'psychic',
+                        foreground_color: '#FFF', background_color: '#0FF')
 die.is_included_in_total # => true
 die.included_in_total? # => true
 die.is_included_in_total  = false
@@ -123,9 +131,11 @@ die.included_in_total? # => false
 
 # value property
 die.value # =>  Integer between 1 and number_of_sides
-die.roll # => Integer. Rolls/rerolls the Die and sets value to the result of the roll. Returns the new value
+
+# Rolls/rerolls the Die, sets value to the result of the roll, and returns the new value
+die.roll # => Integer.
 ```
-#### Iterating through dices in a DiceSet
+#### Iterating through dice in a DiceSet
 The `DiceSet` class mixes in the `Enumerable` module and the `Die` object mixes in the `Comparable` module. This allows you to iterate over the dice in the collection. The `sort` method on the dice will return the die objects in ascending value from lowest to highest.
 
 ```ruby
@@ -155,23 +165,31 @@ Since the DiceSet is an object, you can call methods that operate on the result 
 #       assuming 4d6 with values of [1, 3, 4, 6]
 ##############################################
 dice_set = NerdDice.roll_dice(6, 4)
+
 # the 6, 4, and 3 will have is_included_in_total true while the 1 has it false
-dice_set.highest(3) # => Returns the existing DiceSet object with the changes made to dice inclusion
-dice_set.with_advantage(3) # => Alias of highest method
+# Returns the existing DiceSet object with the changes made to dice inclusion
+dice_set.highest(3) # => DiceSet
+dice_set.with_advantage(3) # => DiceSet (Alias of highest method)
+
 # calling total after highest/with_advantage for this DiceSet
 dice_set.total # => 13
-# same DiceSet using lowest. The 1, 3, and 4 will have is_included_in_total true while the 6 has it false
-dice_set.lowest(3) # => Returns the existing DiceSet object with the changes made to dice inclusion
-dice_set.with_disadvantage(3) # => Alias of lowest method
+
+# same DiceSet using lowest.
+# The 1, 3, and 4 will have is_included_in_total true while the 6 has it false
+dice_set.lowest(3) # => DiceSet
+dice_set.with_disadvantage(3) # => DiceSet (Alias of lowest method)
+
 # calling total after lowest/with_disadvantage for this DiceSet
 dice_set.total # => 8
+
 # you can chain these methods (assumes the same seed as the above examples)
 NerdDice.roll_dice(6, 4).with_advantage(3).total # => 13
 NerdDice.roll_dice(6, 4).lowest(3).total # => 8
 
 # reroll_all! method
 dice_set = NerdDice.roll_dice(6, 4)
-dice_set.reroll_all! # rerolls each of the Die objects in the collection and re-includes them in the total
+# rerolls each of the Die objects in the collection and re-includes them in the total
+dice_set.reroll_all!
 
 # include_all_dice! method
 dice_set.include_all_dice! # resets is_included_in_total to true for all Die objects
@@ -232,7 +250,7 @@ NerdDice.refresh_seed!(randomization_technique:  :randomized,
                        random_rand_seed:         1337,
                        random_object_seed:       24601)
 ```
-__NOTE:__ Ability to specify a seed it primarily provided for testing purposes. This makes all random numbers generated _transparently deterministic_ and should not be used if you want behavior approximating randomness.
+__NOTE:__ Ability to specify a seed is primarily provided for testing purposes. This makes all random numbers generated _transparently deterministic_ and should not be used if you want behavior approximating randomness.
 
 ### Utility Methods
 
@@ -264,4 +282,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/statel
 
 ## Unlicense, License, and Copyright
 
-The document is dual-licensed under the [MIT](https://opensource.org/licenses/MIT) license and the [UNLICENSE](https://unlicense.org/) \(with strong preference toward the UNLICENSE\)\. The content is released under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) \(no rights reserved\). You are free to include it in its original form or modified with or without additional modification in your own project\.
+The project is dual-licensed under the [MIT](https://opensource.org/licenses/MIT) license and the [UNLICENSE](https://unlicense.org/) \(with strong preference toward the UNLICENSE\)\. The content is released under [CC0](https://creativecommons.org/share-your-work/public-domain/cc0/) \(no rights reserved\). You are free to include it in its original form or modified with or without additional modification in your own project\.

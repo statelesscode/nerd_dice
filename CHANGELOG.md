@@ -5,6 +5,7 @@
 ### Changed
 * Replace `Benchmark.bmbm` with `Benchmark.bm` in the nerd_dice_benchmark
 ### Fixed
+* Fix typos and horizontal scrolling in README
 
 ## 0.3.0 \(2021-09-11\)
 ### Added
