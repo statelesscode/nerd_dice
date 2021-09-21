@@ -24,12 +24,17 @@ module NerdDice
     def harvest_totals(collection)
       collection.map(&:total)
     rescue NoMethodError => e
-      specific_message =
-        case e.message
+      specific_message = get_harvest_totals_error_message(e)
+      specific_message ? raise(ArgumentError, "You must provide a valid collection. #{specific_message}") : raise
+    end
+
+    private
+
+      def get_harvest_totals_error_message(rescued_error)
+        case rescued_error.message
         when /`total'/ then "Each element must respond to :total."
         when /`map'/ then "Argument must respond to :map."
         end
-      specific_message ? raise(ArgumentError, "You must provide a valid collection. #{specific_message}") : raise
-    end
+      end
   end
 end
