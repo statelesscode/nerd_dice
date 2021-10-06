@@ -21,5 +21,13 @@ RSpec.describe NerdDice::ConvenienceMethods do
         NoMethodError, /undefined method `roll_d20_with_advantage_lowest' for /
       )
     end
+
+    it "responds to methods matching the pattern" do
+      expect(magic.respond_to?(:roll_d10)).to eq(true)
+    end
+
+    it "does not respond to methods that do not match the pattern" do
+      expect(magic.respond_to?(:taxation_is_theft!)).to eq(false)
+    end
   end
 end
