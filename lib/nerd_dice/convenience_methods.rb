@@ -97,6 +97,7 @@ module NerdDice
       def match_pattern_and_delegate(method_name, *args, **kwargs, &block)
         case method_name.to_s
         when /\Aroll_\d+d\d+\z/ then define_roll_nndnn(method_name, *args, **kwargs, &block)
+        when /\Atotal_\d+d\d+\z/ then define_total_nndnn(method_name, *args, **kwargs, &block)
         when /\Aroll_d\d+\z/ then define_roll_dnn(method_name, *args, **kwargs, &block)
         when /\Atotal_d\d+\z/ then define_total_dnn(method_name, *args, **kwargs, &block)
         else
@@ -128,6 +129,16 @@ module NerdDice
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.total_dice(sides, **kwargs)
+          end
+        end
+      end
+
+      def define_total_nndnn(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        number_of_dice = get_number_of_dice_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            NerdDice.total_dice(sides, number_of_dice, **kwargs)
           end
         end
       end
