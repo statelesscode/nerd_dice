@@ -77,7 +77,7 @@ module NerdDice
   #     roll_d20_with_advantage_lowest # will raise NameError using super method_missing
   #     total_4d6_lowest3_highest2 # will raise NameError using super method_missing
   module ConvenienceMethods
-    OVERALL_REGEXP = /\A(roll|total)_d\d+\z/.freeze
+    OVERALL_REGEXP = /\A(roll|total)_\d*d\d+\z/.freeze
 
     def method_missing(method_name, *args, **kwargs, &block)
       if match_pattern_and_delegate(method_name, *args, **kwargs, &block)
@@ -96,6 +96,7 @@ module NerdDice
 
       def match_pattern_and_delegate(method_name, *args, **kwargs, &block)
         case method_name.to_s
+        when /\Aroll_\d+d\d+\z/ then define_roll_nndnn(method_name, *args, **kwargs, &block)
         when /\Aroll_d\d+\z/ then define_roll_dnn(method_name, *args, **kwargs, &block)
         when /\Atotal_d\d+\z/ then define_total_dnn(method_name, *args, **kwargs, &block)
         else
@@ -108,6 +109,16 @@ module NerdDice
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.roll_dice(sides, **kwargs)
+          end
+        end
+      end
+
+      def define_roll_nndnn(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        number_of_dice = get_number_of_dice_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            NerdDice.roll_dice(sides, number_of_dice, **kwargs)
           end
         end
       end
@@ -125,6 +136,12 @@ module NerdDice
         match_data = method_name.to_s.match(/d\d+/)
         # return the Integer portion after the d
         match_data.to_s[1..].to_i
+      end
+
+      def get_number_of_dice_from_method_name(method_name)
+        match_data = method_name.to_s.match(/_\d+d/)
+        # return the Integer portion after the d
+        match_data.to_s[1...-1].to_i
       end
   end
 end
