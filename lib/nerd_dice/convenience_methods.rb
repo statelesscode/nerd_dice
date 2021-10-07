@@ -76,6 +76,7 @@ module NerdDice
   #     roll_3d8_plus3 bonus: 1 # raise NerdDice::Error
   #     roll_d20_with_advantage_lowest # will raise NameError using super method_missing
   #     total_4d6_lowest3_highest2 # will raise NameError using super method_missing
+  # rubocop:disable Metrics/ModuleLength
   module ConvenienceMethods
     OVERALL_REGEXP = /\A(roll|total)_\d*d\d+(_p(lus)?\d+|_m(inus)?\d+)?\z/.freeze
 
@@ -94,10 +95,14 @@ module NerdDice
 
     private
 
+      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/CyclomaticComplexity
       def match_pattern_and_delegate(method_name, *args, **kwargs, &block)
         case method_name.to_s
         when /\Aroll_\d+d\d+_m(inus)?\d+\z/ then define_roll_nndnn_minusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+_p(lus)?\d+\z/ then define_roll_nndnn_plusnn(method_name, *args, **kwargs, &block)
+        when /\Atotal_\d+d\d+_m(inus)?\d+\z/ then define_total_nndnn_minusnn(method_name, *args, **kwargs, &block)
+        when /\Atotal_\d+d\d+_p(lus)?\d+\z/ then define_total_nndnn_plusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+\z/ then define_roll_nndnn(method_name, *args, **kwargs, &block)
         when /\Atotal_\d+d\d+\z/ then define_total_nndnn(method_name, *args, **kwargs, &block)
         when /\Aroll_d\d+\z/ then define_roll_dnn(method_name, *args, **kwargs, &block)
@@ -106,6 +111,8 @@ module NerdDice
           false
         end
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/MethodLength
 
       def define_roll_dnn(method_name, *_args, **_kwargs)
         sides = get_sides_from_method_name(method_name)
@@ -171,6 +178,32 @@ module NerdDice
         end
       end
 
+      def define_total_nndnn_plusnn(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        number_of_dice = get_number_of_dice_from_method_name(method_name)
+        bonus = get_bonus_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            check_bonus_integrity!(kwargs, bonus)
+            kwargs[:bonus] = bonus
+            NerdDice.total_dice(sides, number_of_dice, **kwargs)
+          end
+        end
+      end
+
+      def define_total_nndnn_minusnn(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        number_of_dice = get_number_of_dice_from_method_name(method_name)
+        penalty = get_penalty_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            check_bonus_integrity!(kwargs, penalty)
+            kwargs[:bonus] = penalty
+            NerdDice.total_dice(sides, number_of_dice, **kwargs)
+          end
+        end
+      end
+
       def get_sides_from_method_name(method_name)
         match_data = method_name.to_s.match(/d\d+/)
         # return the Integer portion after the d
@@ -198,3 +231,4 @@ module NerdDice
       end
   end
 end
+# rubocop:enable Metrics/ModuleLength
