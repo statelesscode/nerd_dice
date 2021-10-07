@@ -78,7 +78,8 @@ module NerdDice
   #     total_4d6_lowest3_highest2 # will raise NameError using super method_missing
   # rubocop:disable Metrics/ModuleLength
   module ConvenienceMethods
-    OVERALL_REGEXP = /\A(roll|total)_\d*d\d+(_p(lus)?\d+|_m(inus)?\d+)?\z/.freeze
+    OVERALL_REGEXP =
+      /\A(roll|total)_\d*d\d+(_with_(dis)?advantage|_highest|_lowest)?(_p(lus)?\d+|_m(inus)?\d+)?\z/.freeze
 
     def method_missing(method_name, *args, **kwargs, &block)
       if match_pattern_and_delegate(method_name, *args, **kwargs, &block)
@@ -99,6 +100,9 @@ module NerdDice
       # rubocop:disable Metrics/CyclomaticComplexity
       def match_pattern_and_delegate(method_name, *args, **kwargs, &block)
         case method_name.to_s
+        when /\Aroll_d\d+_(with_disadvantage|lowest)\z/ then define_roll_dnn_lowest(method_name, *args, **kwargs,
+                                                                                    &block)
+        when /\Aroll_d\d+_(with_advantage|highest)\z/ then define_roll_dnn_highest(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+_m(inus)?\d+\z/ then define_roll_nndnn_minusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+_p(lus)?\d+\z/ then define_roll_nndnn_plusnn(method_name, *args, **kwargs, &block)
         when /\Atotal_\d+d\d+_m(inus)?\d+\z/ then define_total_nndnn_minusnn(method_name, *args, **kwargs, &block)
@@ -129,6 +133,24 @@ module NerdDice
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.roll_dice(sides, number_of_dice, **kwargs)
+          end
+        end
+      end
+
+      def define_roll_dnn_highest(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            NerdDice.roll_dice(sides, 2, **kwargs).highest(1)
+          end
+        end
+      end
+
+      def define_roll_dnn_lowest(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            NerdDice.roll_dice(sides, 2, **kwargs).lowest(1)
           end
         end
       end
