@@ -77,7 +77,7 @@ module NerdDice
   #     roll_d20_with_advantage_lowest # will raise NameError using super method_missing
   #     total_4d6_lowest3_highest2 # will raise NameError using super method_missing
   module ConvenienceMethods
-    OVERALL_REGEXP = /\A(roll|total)_\d*d\d+(_p(lus)?\d+)?\z/.freeze
+    OVERALL_REGEXP = /\A(roll|total)_\d*d\d+(_p(lus)?\d+|_m(inus)?\d+)?\z/.freeze
 
     def method_missing(method_name, *args, **kwargs, &block)
       if match_pattern_and_delegate(method_name, *args, **kwargs, &block)
@@ -96,6 +96,7 @@ module NerdDice
 
       def match_pattern_and_delegate(method_name, *args, **kwargs, &block)
         case method_name.to_s
+        when /\Aroll_\d+d\d+_m(inus)?\d+\z/ then define_roll_nndnn_minusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+_p(lus)?\d+\z/ then define_roll_nndnn_plusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+\z/ then define_roll_nndnn(method_name, *args, **kwargs, &block)
         when /\Atotal_\d+d\d+\z/ then define_total_nndnn(method_name, *args, **kwargs, &block)
@@ -138,6 +139,19 @@ module NerdDice
         end
       end
 
+      def define_roll_nndnn_minusnn(method_name, *_args, **_kwargs)
+        sides = get_sides_from_method_name(method_name)
+        number_of_dice = get_number_of_dice_from_method_name(method_name)
+        penalty = get_penalty_from_method_name(method_name)
+        (class << self; self; end).class_eval do
+          define_method method_name do |*_args, **kwargs|
+            check_bonus_integrity!(kwargs, penalty)
+            kwargs[:bonus] = penalty
+            NerdDice.roll_dice(sides, number_of_dice, **kwargs)
+          end
+        end
+      end
+
       def define_total_dnn(method_name, *_args, **_kwargs)
         sides = get_sides_from_method_name(method_name)
         (class << self; self; end).class_eval do
@@ -171,6 +185,10 @@ module NerdDice
 
       def get_bonus_from_method_name(method_name)
         method_name.to_s.match(/_p(lus)?\d+/).to_s.match(/\d+/).to_s.to_i
+      end
+
+      def get_penalty_from_method_name(method_name)
+        method_name.to_s.match(/_m(inus)?\d+/).to_s.match(/\d+/).to_s.to_i * -1
       end
 
       def check_bonus_integrity!(kwargs, bonus)
