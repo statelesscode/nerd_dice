@@ -17,7 +17,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     }
   end
 
-  describe "roll_dNN_with_disadvantage method" do
+  describe "roll_NdNN_with_disadvantage method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
       magic.roll_3d20_with_disadvantage2(**method_options)

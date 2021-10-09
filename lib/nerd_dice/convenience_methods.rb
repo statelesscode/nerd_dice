@@ -27,14 +27,14 @@ module NerdDice
   #
   # Keyword arguments are passed on to `roll_dice`/`total_dice` method
   #     <tt>
-  #     roll_2d20 color: 'blue' # => DiceSet: NerdDice.roll_dice(20, 2, color: 'blue')
-  #     roll_2d20 color: 'blue' # => DiceSet: NerdDice.roll_dice(20, 2, color: 'blue')
+  #     roll_2d20 foreground_color: 'blue' # => DiceSet: NerdDice.roll_dice(20, 2, foreground_color: 'blue')
+  #     roll_2d20 foreground_color: 'blue' # => DiceSet: NerdDice.roll_dice(20, 2, foreground_color: 'blue')
   #     total_d12 randomization_technique: :randomized
   #     # => Integer NerdDice.total_dice(12, randomization_technique: :randomized)
   #     total_22d1000 randomization_technique: :random_rand
   #     # => Integer NerdDice.total_dice(1000, 22, randomization_technique: :random_rand)
-  #     roll_4d6_with_advantage3 color: 'blue'
-  #     # => DiceSet: NerdDice.roll_dice(4, 3, color: 'blue').highest(3)
+  #     roll_4d6_with_advantage3 foreground_color: 'blue'
+  #     # => DiceSet: NerdDice.roll_dice(4, 3, foreground_color: 'blue').highest(3)
   #     total_4d6_with_advantage3 randomization_technique: :random_rand
   #     # => Integer: NerdDice.roll_dice(4, 3, randomization_technique: :random_rand).highest(3).total
   #     </tt>
@@ -118,10 +118,10 @@ module NerdDice
         )
         when /\Atotal_\d+d\d+_(with_advantage|highest)\d+\z/ then define_total_nndnn_highestn(method_name, *args,
                                                                                               **kwargs, &block)
-        when /\Aroll_\d+d\d+_m(inus)?\d+\z/ then define_roll_nndnn_minusnn(method_name, *args, **kwargs, &block)
-        when /\Aroll_\d+d\d+_p(lus)?\d+\z/ then define_roll_nndnn_plusnn(method_name, *args, **kwargs, &block)
-        when /\Atotal_\d+d\d+_m(inus)?\d+\z/ then define_total_nndnn_minusnn(method_name, *args, **kwargs, &block)
-        when /\Atotal_\d+d\d+_p(lus)?\d+\z/ then define_total_nndnn_plusnn(method_name, *args, **kwargs, &block)
+        when /\Aroll_\d*d\d+_m(inus)?\d+\z/ then define_roll_nndnn_minusnn(method_name, *args, **kwargs, &block)
+        when /\Aroll_\d*d\d+_p(lus)?\d+\z/ then define_roll_nndnn_plusnn(method_name, *args, **kwargs, &block)
+        when /\Atotal_\d*d\d+_m(inus)?\d+\z/ then define_total_nndnn_minusnn(method_name, *args, **kwargs, &block)
+        when /\Atotal_\d*d\d+_p(lus)?\d+\z/ then define_total_nndnn_plusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d+d\d+\z/ then define_roll_nndnn(method_name, *args, **kwargs, &block)
         when /\Atotal_\d+d\d+\z/ then define_total_nndnn(method_name, *args, **kwargs, &block)
         when /\Aroll_d\d+\z/ then define_roll_dnn(method_name, *args, **kwargs, &block)
@@ -313,7 +313,7 @@ module NerdDice
       def get_number_of_dice_from_method_name(method_name)
         match_data = method_name.to_s.match(/_\d+d/)
         # return the Integer portion after the d
-        match_data.to_s[1...-1].to_i
+        match_data ? match_data.to_s[1...-1].to_i : 1
       end
 
       def get_bonus_from_method_name(method_name)
