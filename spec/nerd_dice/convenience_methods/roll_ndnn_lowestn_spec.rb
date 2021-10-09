@@ -17,7 +17,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_lowestn" do
     }
   end
 
-  describe "roll_dNN_lowestN method" do
+  describe "roll_NdNN_lowestN method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
       magic.roll_3d20_lowest2(**method_options)
@@ -60,7 +60,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_lowestn" do
     end
   end
 
-  describe "roll_dNN_lowest method" do
+  describe "roll_NdNN_lowest method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
       # equivalent to roll_3d20_lowest2
@@ -114,6 +114,30 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_lowestn" do
     it "responds to methods matching the pattern" do
       # equivalent to roll_4d6_lowest3
       expect(magic.respond_to?(:roll_4d6_lowest)).to eq(true)
+    end
+  end
+
+  describe "roll_NdNN_lowest with bonuses and penalties" do
+    it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
+      merged_options = method_options.merge(bonus: 6)
+      expect(NerdDice).to receive(:roll_dice).with(20, 3, **merged_options).and_call_original
+      magic.roll_3d20_lowest2_plus6(**method_options)
+    end
+
+    it "calls calls NerdDice.roll_dice with correct arguments, keywords with penalty" do
+      merged_options = method_options.merge(bonus: -5)
+      expect(NerdDice).to receive(:roll_dice).with(20, 3, **merged_options).and_call_original
+      magic.roll_3d20_lowest_m5(**method_options)
+    end
+
+    it "raises error if bonus or penalty does not match the keyword argument" do
+      expect { magic.roll_3d20_lowest_minus4 bonus: 5 }.to raise_error(
+        NerdDice::Error, "bonus integrity failure"
+      )
+    end
+
+    it "responds to methods matching the pattern" do
+      expect(magic.respond_to?(:roll_3d20_lowest_minus4)).to eq(true)
     end
   end
 end

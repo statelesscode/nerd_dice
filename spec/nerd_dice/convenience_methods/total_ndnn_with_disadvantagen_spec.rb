@@ -107,4 +107,28 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_ndnn_with_disadvantagen" do
       expect(magic.respond_to?(:total_4d6_with_disadvantage)).to eq(true)
     end
   end
+
+  describe "total_NdNN_with_disadvantage with bonuses and penalties" do
+    it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
+      merged_options = method_options.merge(bonus: 6)
+      expect(NerdDice).to receive(:roll_dice).with(20, 3, **merged_options).and_call_original
+      magic.total_3d20_with_disadvantage2_plus6(**method_options)
+    end
+
+    it "calls calls NerdDice.roll_dice with correct arguments, keywords with penalty" do
+      merged_options = method_options.merge(bonus: -5)
+      expect(NerdDice).to receive(:roll_dice).with(20, 3, **merged_options).and_call_original
+      magic.total_3d20_with_disadvantage_m5(**method_options)
+    end
+
+    it "raises error if bonus or penalty does not match the keyword argument" do
+      expect { magic.total_3d20_with_disadvantage_minus4 bonus: 5 }.to raise_error(
+        NerdDice::Error, "bonus integrity failure"
+      )
+    end
+
+    it "responds to methods matching the pattern" do
+      expect(magic.respond_to?(:total_3d20_with_disadvantage_minus4)).to eq(true)
+    end
+  end
 end

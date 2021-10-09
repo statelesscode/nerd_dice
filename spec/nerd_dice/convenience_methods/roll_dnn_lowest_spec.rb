@@ -53,4 +53,28 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_lowest" do
       expect(magic.respond_to?(:roll_d6_lowest)).to eq(true)
     end
   end
+
+  describe "roll_dNN_lowest with bonuses and penalties" do
+    it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
+      merged_options = method_options.merge(bonus: 6)
+      expect(NerdDice).to receive(:roll_dice).with(20, 2, **merged_options).and_call_original
+      magic.roll_d20_lowest_plus6(**method_options)
+    end
+
+    it "calls calls NerdDice.roll_dice with correct arguments, keywords with penalty" do
+      merged_options = method_options.merge(bonus: -5)
+      expect(NerdDice).to receive(:roll_dice).with(20, 2, **merged_options).and_call_original
+      magic.roll_d20_lowest_m5(**method_options)
+    end
+
+    it "raises error if bonus or penalty does not match the keyword argument" do
+      expect { magic.roll_d20_lowest_minus4 bonus: 5 }.to raise_error(
+        NerdDice::Error, "bonus integrity failure"
+      )
+    end
+
+    it "responds to methods matching the pattern" do
+      expect(magic.respond_to?(:roll_d20_lowest_plus6)).to eq(true)
+    end
+  end
 end
