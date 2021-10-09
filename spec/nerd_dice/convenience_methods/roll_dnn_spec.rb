@@ -13,12 +13,12 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn" do
 
   describe "roll_dNN method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
-      expect(NerdDice).to receive(:roll_dice).with(20, **method_options).and_call_original
+      expect(NerdDice).to receive(:roll_dice).with(20, 1, **method_options).and_call_original
       magic.roll_d20(**method_options)
     end
 
     it "calls NerdDice.roll_dice with no keywords" do
-      expect(NerdDice).to receive(:roll_dice).with(8).and_call_original
+      expect(NerdDice).to receive(:roll_dice).with(8, 1).and_call_original
       magic.roll_d8
     end
 
