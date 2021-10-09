@@ -108,15 +108,15 @@ module NerdDice
                                                                                       &block)
         when /\Atotal_d\d+_(with_advantage|highest)\z/ then define_total_dnn_highest(method_name, *args, **kwargs,
                                                                                      &block)
-        when /\Aroll_\d+d\d+_(with_disadvantage|lowest)\d+\z/ then define_roll_nndnn_lowestn(
+        when /\Aroll_\d+d\d+_(with_disadvantage|lowest)\d*\z/ then define_roll_nndnn_lowestn(
           method_name, *args, **kwargs, &block
         )
-        when /\Aroll_\d+d\d+_(with_advantage|highest)\d+\z/ then define_roll_nndnn_highestn(method_name, *args,
+        when /\Aroll_\d+d\d+_(with_advantage|highest)\d*\z/ then define_roll_nndnn_highestn(method_name, *args,
                                                                                             **kwargs, &block)
-        when /\Atotal_\d+d\d+_(with_disadvantage|lowest)\d+\z/ then define_total_nndnn_lowestn(
+        when /\Atotal_\d+d\d+_(with_disadvantage|lowest)\d*\z/ then define_total_nndnn_lowestn(
           method_name, *args, **kwargs, &block
         )
-        when /\Atotal_\d+d\d+_(with_advantage|highest)\d+\z/ then define_total_nndnn_highestn(method_name, *args,
+        when /\Atotal_\d+d\d+_(with_advantage|highest)\d*\z/ then define_total_nndnn_highestn(method_name, *args,
                                                                                               **kwargs, &block)
         when /\Aroll_\d*d\d+_m(inus)?\d+\z/ then define_roll_nndnn_minusnn(method_name, *args, **kwargs, &block)
         when /\Aroll_\d*d\d+_p(lus)?\d+\z/ then define_roll_nndnn_plusnn(method_name, *args, **kwargs, &block)
@@ -165,7 +165,7 @@ module NerdDice
       def define_roll_nndnn_highestn(method_name, *_args, **_kwargs)
         sides = get_sides_from_method_name(method_name)
         number_of_dice = get_number_of_dice_from_method_name(method_name)
-        number_to_keep = get_number_to_keep_from_method_name(method_name)
+        number_to_keep = get_number_to_keep_from_method_name(method_name, number_of_dice)
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.roll_dice(sides, number_of_dice, **kwargs).highest(number_to_keep)
@@ -185,7 +185,7 @@ module NerdDice
       def define_roll_nndnn_lowestn(method_name, *_args, **_kwargs)
         sides = get_sides_from_method_name(method_name)
         number_of_dice = get_number_of_dice_from_method_name(method_name)
-        number_to_keep = get_number_to_keep_from_method_name(method_name)
+        number_to_keep = get_number_to_keep_from_method_name(method_name, number_of_dice)
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.roll_dice(sides, number_of_dice, **kwargs).lowest(number_to_keep)
@@ -250,7 +250,7 @@ module NerdDice
       def define_total_nndnn_highestn(method_name, *_args, **_kwargs)
         sides = get_sides_from_method_name(method_name)
         number_of_dice = get_number_of_dice_from_method_name(method_name)
-        number_to_keep = get_number_to_keep_from_method_name(method_name)
+        number_to_keep = get_number_to_keep_from_method_name(method_name, number_of_dice)
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.roll_dice(sides, number_of_dice, **kwargs).highest(number_to_keep).total
@@ -270,7 +270,7 @@ module NerdDice
       def define_total_nndnn_lowestn(method_name, *_args, **_kwargs)
         sides = get_sides_from_method_name(method_name)
         number_of_dice = get_number_of_dice_from_method_name(method_name)
-        number_to_keep = get_number_to_keep_from_method_name(method_name)
+        number_to_keep = get_number_to_keep_from_method_name(method_name, number_of_dice)
         (class << self; self; end).class_eval do
           define_method method_name do |*_args, **kwargs|
             NerdDice.roll_dice(sides, number_of_dice, **kwargs).lowest(number_to_keep).total
@@ -324,8 +324,15 @@ module NerdDice
         method_name.to_s.match(/_m(inus)?\d+/).to_s.match(/\d+/).to_s.to_i * -1
       end
 
-      def get_number_to_keep_from_method_name(method_name)
-        method_name.to_s.match(/(with_(dis)?advantage|highest|lowest)\d+/).to_s.match(/\d+/).to_s.to_i
+      def get_number_to_keep_from_method_name(method_name, number_of_dice)
+        match_data = method_name.to_s.match(/(with_(dis)?advantage|highest|lowest)\d+/)
+
+        # artificially set number of dice to two for purposes of the default if it is one
+        # so that the operator in the ternary operator returns 1 die if there is 1
+        number_of_dice = 2 if number_of_dice == 1
+
+        # return pattern match if one exists or number of dice -1 if no pattern match
+        match_data ? match_data.to_s.match(/\d+/).to_s.to_i : number_of_dice - 1
       end
 
       def check_bonus_integrity!(kwargs, bonus)
