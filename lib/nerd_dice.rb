@@ -24,4 +24,6 @@ module NerdDice
   RANDOMIZATION_TECHNIQUES = %i[securerandom random_rand random_object randomized].freeze
   ABILITY_SCORE_KEYS = %i[ability_score_array_size ability_score_number_of_sides ability_score_dice_rolled
                           ability_score_dice_kept].freeze
+
+  extend ConvenienceMethods
 end
