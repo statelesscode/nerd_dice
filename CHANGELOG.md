@@ -2,8 +2,12 @@
 
 ## master \(unreleased\)
 ### Added
+* Add `NerdDice::ConvenienceMethods` method_missing mixin module that allows for dynamic invocation of patterns in the method name that get converted into calls to `NerdDice.roll_dice` or `NerdDice.total_dice` along with allowing the advantage/disadvantage mechanic or bonuses to be parsed from the method name. Full documentation of the module can be found in the [Convenience Methods Mixin](README.md#convenience-methods-mixin) section of the README.
+* Add exensive specs to support the ConvenienceMethods module
 ### Changed
 * Replace `Benchmark.bmbm` with `Benchmark.bm` in the nerd_dice_benchmark
+* Add convenience_methods to nerd_dice_benchmark
+* Extend `NerdDice::ConvenienceMethods` into top-level module as class methods
 ### Fixed
 * Fix typos and horizontal scrolling in README
 * Fix CodeClimate Code Smell on harvest_totals

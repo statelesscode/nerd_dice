@@ -24,6 +24,15 @@ Or install it yourself as:
     $ gem install nerd_dice
 
 ## Usage
+After the gem is installed, you can require it as you would any other gem.
+
+```ruby
+require 'nerd_dice'
+```
+
+### Module methods or a dynamic method_missing DSL
+There are two main patterns for using NerdDice in your project. You can invoke the module-level methods like `NerdDice.total_dice` or you can include the `NerdDice::ConvenienceMethods` module to your class \(or IRB \). Once mixed in, you can dynamically invoke methods like `roll_d20_with_advantage` or `total_3d8_plus5`. See the [Convenience Methods Mixin](#convenience-methods-mixin)  section for usage details.
+
 ### Configuration
 You can customize the behavior of NerdDice via a configuration block as below or by assigning an individual property via the ```NerdDice.configuration.property = value``` syntax \(where ```property``` is the config property and ```value``` is the value you want to assign\)\. The available configuration options as well as their defaults, if applicable, are listed in the example configuration block below:
 
@@ -267,6 +276,126 @@ ability_score_array = NerdDice.roll_ability_scores
 totals_array = NerdDice.harvest_totals(totals_array)
 # => [15, 14, 13, 12, 10, 8]
 # yes, it just happened to be the standard array by amazing coincidence
+```
+<a name="convenience-methods-mixin"></a>
+### Convenience Methods Mixin
+NerdDice provides an optional mixin `NerdDice::ConvenienceMethods` that uses Ruby\'s `method_missing` metaprogramming pattern to allow you to roll any number of dice with bonuses and/or the advantage/disadvantage mechanic by dynamically responding to methods that you type that match the `roll_` or `total_` pattern.
+
+#### Considerations for ConvenienceMethods
+Before mixing in this method with a class, be aware of other `method_missing` gems that you are also mixing into your project and be sure to write robust tests. We have sought to use `method_missing` in a responsible manner that delegates back to the default implementation using `super` if the method does not match the `ConvenienceMethods` pattern, but there is no guarantee that other gems included in your project are doing the same. If you run into problems with the `ConvenienceMethods` module interacting with other `method_missing` gems, everything that the `ConvenienceMethods` module does can be replicated using the module\-level methods described above or by calling the convenience method on `NerdDice`.
+
+Once a particular method has been called, it will define that method so that the next time it will invoke the method directly instead of traversing up the call stack for `method_missing`, which improves performance. The method will remain defined for the duration of the Ruby interpreter process.
+
+#### Calling ConvenienceMethods as NerdDice class methods
+NerdDice extends the `ConvenienceMethods` module into the top-level module as class methods, so you can call the methods on the NerdDice module without needing to worry about the implications of extending it into your own class.
+```ruby
+require 'nerd_dice'
+# works with all the examples and patterns below
+NerdDice.roll_3d6_lowest2_minus1
+NerdDice.total_d20_with_advantage_p6
+```
+
+#### Mixing in the ConvenienceMethods module
+To mix the NerdDice DSL into your class, make sure the gem is required if not already and then use `include NerdDice::ConvenienceMethods` as shown below:
+```ruby
+# example of a class that mixes in NerdDice::ConvenienceMethods
+require 'nerd_dice'
+class Monster
+  include NerdDice::ConvenienceMethods
+
+  # hard-coding probably not the best solution
+  # but gives you an idea how to mix in to a simple class
+  def hits_the_monster
+    # using the ConvenienceMethods version
+    total_d20_plus5 >= @armor_class ? "hit" : "miss"
+  end
+
+  def initialize(armor_class=16)
+    @armor_class = armor_class
+  end
+end
+```
+To mix in the module as class methods, you can use `extend NerdDice::ConvenienceMethods`
+```ruby
+# example of a class that mixes in NerdDice::ConvenienceMethods
+require 'nerd_dice'
+class OtherClass
+  extend NerdDice::ConvenienceMethods
+end
+OtherClass.roll_3d6_lowest2_minus1 # returns NerdDice::DiceSet
+```
+
+#### ConvenienceMethods usage examples
+Any invocation of `NerdDice.roll_dice` and `NerdDice.total_dice` can be duplicated using the `NerdDice::ConvenienceMethods` mixin. Here are some examples of what you can do with the return types and equivalent methods in the comments:
+
+* `roll_dNN` and `total_dNN` roll one die
+```ruby
+roll_d20 # => DiceSet: NerdDice.roll_dice(20)
+roll_d8 # => DiceSet: NerdDice.roll_dice(8)
+roll_d1000 # => DiceSet: NerdDice.roll_dice(1000)
+total_d20 # => Integer NerdDice.total_dice(20)
+total_d8 # => Integer NerdDice.total_dice(8)
+total_d1000 # => Integer NerdDice.total_dice(1000)
+```
+* `roll_NNdNN` and `total_NNdNN` roll specified quantity of dice
+```ruby
+roll_2d20 # => DiceSet: NerdDice.roll_dice(20, 2)
+roll_3d8 # => DiceSet: NerdDice.roll_dice(8, 3)
+roll_22d1000 # => DiceSet: NerdDice.roll_dice(1000, 22)
+total_2d20 # => Integer NerdDice.total_dice(20, 2)
+total_3d8 # => Integer NerdDice.total_dice(8, 3)
+total_22d1000 # => Integer NerdDice.total_dice(1000, 22)
+```
+* Keyword arguments are passed on to `roll_dice`/`total_dice` method
+```ruby
+roll_2d20 foreground_color: "blue" # => DiceSet: NerdDice.roll_dice(20, 2, foreground_color: "blue")
+
+total_d12 randomization_technique: :randomized
+# => Integer NerdDice.total_dice(12, randomization_technique: :randomized)
+total_22d1000 randomization_technique: :random_rand
+# => Integer NerdDice.total_dice(1000, 22, randomization_technique: :random_rand)
+
+roll_4d6_with_advantage3 background_color: 'blue'
+# => DiceSet: NerdDice.roll_dice(4, 3, background_color: 'blue').highest(3)
+total_4d6_with_advantage3 randomization_technique: :random_rand
+# => Integer: NerdDice.roll_dice(4, 3, randomization_technique: :random_rand).highest(3).total
+```
+* Positive and negative bonuses can be used with `plus` (alias `p`) or `minus` (alias `m`)
+```ruby
+roll_d20_plus6 # => DiceSet: NerdDice.roll_dice(20, bonus: 6)
+total_3d8_p2 # => Integer: NerdDice.total_dice(8, 3, bonus: 2)
+total_d20_minus5 # => Integer: NerdDice.total_dice(20, bonus: -6)
+roll_3d8_m3 # => DiceSet: NerdDice.roll_dice(8, 3, bonus: -3)
+```
+* `_with_advantageN` or `highestN` roll with advantage
+* `_with_disadvantageN` or `lowestN` roll with disadvantage
+* Calling `roll_dNN_with_advantage` \(and variants\) rolls 2 dice and keeps one
+```ruby
+# equivalent
+roll_3d8_with_advantage1
+roll_3d8_highest1
+# => DiceSet: NerdDice.roll_dice(8, 3).with_advantage(1)
+
+# calls roll_dice and total to return an integer
+total_3d8_with_advantage1
+total_3d8_highest1
+# => Integer: NerdDice.roll_dice(8, 3).with_advantage(1).total
+
+# rolls two dice in this case
+# equal to roll_2d20_with_advantage but more natural
+roll_d20_with_advantage # => DiceSet: NerdDice.roll_dice(20, 2).with_advantage(1)
+# equal to total_2d20_with_advantage but more natural
+total_d20_with_advantage # => Integer: NerdDice.roll_dice(20, 2).with_advantage(1).total
+```
+#### ConvenienceMethods error handling
+* If you try to call with a plus and a minus, an Exception is raised
+* If you call with a bonus and a keyword argument and they don't match, an Exception is raised
+* Any combination not expressly allowed or matched will call `super` on `method_missing`
+```ruby
+roll_3d8_plus3_m2 # will raise NameError using super method_missing
+roll_3d8_plus3 bonus: 1 # will raise NerdDice::Error with message about "Bonus integrity failure"
+roll_d20_with_advantage_lowest # will raise NameError using super method_missing
+total_4d6_lowest3_highest2 # will raise NameError using super method_missing
 ```
 
 ## Development

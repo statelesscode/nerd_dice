@@ -5,10 +5,6 @@ require "bundler/setup"
 require "benchmark"
 require "nerd_dice"
 
-# rubocop:disable Style/MixinUsage
-include NerdDice::ConvenienceMethods
-# rubocop:enable Style/MixinUsage
-
 n = 50_000
 
 RATIOS = {
@@ -20,26 +16,26 @@ RATIOS = {
   total_dice_random_rand_3d6: 30.0,
   total_dice_random_object_3d6: 25.5,
   total_dice_randomized_3d6: 15.5,
-  total_magic_securerandom: 5.04,
-  total_magic_random_rand: 81.9,
-  total_magic_random_object: 84.42,
-  total_magic_randomized: 18.27,
+  total_magic_securerandom: 6.04,
+  total_magic_random_rand: 85.9,
+  total_magic_random_object: 89.42,
+  total_magic_randomized: 20.27,
   roll_dice_securerandom: 4.0,
   roll_dice_random_rand: 42.0,
   roll_dice_random_object: 44.0,
   roll_dice_randomized: 14.5,
-  roll_magic_securerandom: 5.04,
-  roll_magic_random_rand: 81.9,
-  roll_magic_random_object: 84.42,
-  roll_magic_randomized: 18.27,
+  roll_magic_securerandom: 6.04,
+  roll_magic_random_rand: 85.9,
+  roll_magic_random_object: 89.42,
+  roll_magic_randomized: 20.27,
   roll_dice_securerandom_3d6: 13.0,
   roll_dice_random_rand_3d6: 79.0,
   roll_dice_random_object_3d6: 86.0,
   roll_dice_randomized_3d6: 26.5,
-  roll_magic_securerandom_3d6: 16.38,
-  roll_magic_random_rand_3d6: 99.54,
-  roll_magic_random_object_3d6: 108.36,
-  roll_magic_randomized_3d6: 33.39,
+  roll_magic_securerandom_3d6: 18.38,
+  roll_magic_random_rand_3d6: 108.54,
+  roll_magic_random_object_3d6: 118.36,
+  roll_magic_randomized_3d6: 44.39,
   roll_ability_scores_randomized: 30.5,
   total_ability_scores_randomized: 30.5
 }.freeze
@@ -109,22 +105,22 @@ total_d1000_results = Benchmark.bm do |x|
   # NerdDice.total_dice securerandom
   x.report("total_magic_securerandom") do
     NerdDice.configuration.randomization_technique = :securerandom
-    n.times { total_d1000 }
+    n.times { NerdDice.total_d1000 }
   end
 
   x.report("total_magic_random_rand") do
     NerdDice.configuration.randomization_technique = :random_rand
-    n.times { total_d1000 }
+    n.times { NerdDice.total_d1000 }
   end
 
   x.report("total_magic_random_object") do
     NerdDice.configuration.randomization_technique = :random_object
-    n.times { total_d1000 }
+    n.times { NerdDice.total_d1000 }
   end
 
   x.report("total_magic_randomized") do
     NerdDice.configuration.randomization_technique = :randomized
-    n.times { total_d1000 }
+    n.times { NerdDice.total_d1000 }
   end
 end
 
@@ -175,22 +171,22 @@ roll_d1000_results = Benchmark.bm do |x|
   # NerdDice.roll_dice securerandom
   x.report("roll_magic_securerandom") do
     NerdDice.configuration.randomization_technique = :securerandom
-    n.times { roll_d1000 }
+    n.times { NerdDice.roll_d1000 }
   end
 
   x.report("roll_magic_random_rand") do
     NerdDice.configuration.randomization_technique = :random_rand
-    n.times { roll_d1000 }
+    n.times { NerdDice.roll_d1000 }
   end
 
   x.report("roll_magic_random_object") do
     NerdDice.configuration.randomization_technique = :random_object
-    n.times { roll_d1000 }
+    n.times { NerdDice.roll_d1000 }
   end
 
   x.report("roll_magic_randomized") do
     NerdDice.configuration.randomization_technique = :randomized
-    n.times { roll_d1000 }
+    n.times { NerdDice.roll_d1000 }
   end
 end
 
@@ -275,22 +271,22 @@ roll_magic_3d6_results = Benchmark.bm do |x|
   # NerdDice.roll_magic securerandom
   x.report("roll_magic_securerandom_3d6") do
     NerdDice.configuration.randomization_technique = :securerandom
-    n.times { roll_3d6 }
+    n.times { NerdDice.roll_3d6 }
   end
 
   x.report("roll_magic_random_rand_3d6") do
     NerdDice.configuration.randomization_technique = :random_rand
-    n.times { roll_3d6 }
+    n.times { NerdDice.roll_3d6 }
   end
 
   x.report("roll_magic_random_object_3d6") do
     NerdDice.configuration.randomization_technique = :random_object
-    n.times { roll_3d6 }
+    n.times { NerdDice.roll_3d6 }
   end
 
   x.report("roll_magic_randomized_3d6") do
     NerdDice.configuration.randomization_technique = :randomized
-    n.times { roll_3d6 }
+    n.times { NerdDice.roll_3d6 }
   end
 end
 
