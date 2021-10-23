@@ -2,24 +2,24 @@ PATH
   remote: .
   specs:
     nerd_dice (0.4.0)
-      securerandom (~> 0.1, >= 0.1.0)
+      securerandom (~> 0.1, >= 0.1.1)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    coveralls_reborn (0.22.0)
+    coveralls_reborn (0.23.0)
       simplecov (>= 0.18.1, < 0.22.0)
       term-ansicolor (~> 1.6)
       thor (>= 0.20.3, < 2.0)
       tins (~> 1.16)
     diff-lcs (1.4.4)
     docile (1.4.0)
-    parallel (1.20.1)
+    parallel (1.21.0)
     parser (3.0.2.0)
       ast (~> 2.4.1)
     rainbow (3.0.0)
-    rake (12.3.3)
+    rake (13.0.6)
     regexp_parser (2.1.1)
     rexml (3.2.5)
     rspec (3.10.0)
@@ -35,27 +35,26 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
     rspec-support (3.10.2)
-    rubocop (1.20.0)
+    rubocop (1.22.2)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.9.1, < 2.0)
+      rubocop-ast (>= 1.12.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
-    rubocop-ast (1.11.0)
+    rubocop-ast (1.12.0)
       parser (>= 3.0.1.1)
     rubocop-performance (1.11.5)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.4.0)
-      rubocop (~> 1.0)
-      rubocop-ast (>= 1.1.0)
+    rubocop-rspec (2.5.0)
+      rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
-    securerandom (0.1.0)
+    securerandom (0.1.1)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -69,20 +68,20 @@ GEM
     thor (1.1.0)
     tins (1.29.1)
       sync
-    unicode-display_width (2.0.0)
+    unicode-display_width (2.1.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  coveralls_reborn (~> 0.22.0)
+  coveralls_reborn (~> 0.23.0)
   nerd_dice!
-  rake (~> 12.0)
-  rspec (~> 3.0)
-  rubocop (~> 1.20, >= 1.20.0)
+  rake (~> 13.0)
+  rspec (~> 3.10)
+  rubocop (~> 1.22, >= 1.22.2)
   rubocop-performance (~> 1.11, >= 1.11.5)
   rubocop-rake (~> 0.6, >= 0.6.0)
-  rubocop-rspec (~> 2.4, >= 2.4.0)
+  rubocop-rspec (~> 2.5, >= 2.5.0)
   simplecov-lcov (~> 0.8.0)
 
 BUNDLED WITH

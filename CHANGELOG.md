@@ -2,6 +2,11 @@
 
 ## master \(unreleased\)
 ### Added
+### Changed
+### Fixed
+
+## 0.4.0 \(2021-10-23\)
+### Added
 * Add `NerdDice::ConvenienceMethods` method_missing mixin module that allows for dynamic invocation of patterns in the method name that get converted into calls to `NerdDice.roll_dice` or `NerdDice.total_dice` along with allowing the advantage/disadvantage mechanic or bonuses to be parsed from the method name. Full documentation of the module can be found in the [Convenience Methods Mixin](README.md#convenience-methods-mixin) section of the README.
 * Add exensive specs to support the ConvenienceMethods module
 ### Changed
