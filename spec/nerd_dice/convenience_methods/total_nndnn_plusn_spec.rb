@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# total_(N)dNN_plusN pattern spec
+# Covers situation pattern of /total_\d*d\d+_plus_\d+/
+# * Rolls specified number of dice or 1 die if not specified
+# * Returns an Integer
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * total_3d20_plus5 roll 3 d20 add 5
+#   * total_d8_plus5 => roll 1 d8 add 5
 RSpec.describe NerdDice::ConvenienceMethods, ".total_nndnn_plusn" do
   let(:magic) { Class.new { extend NerdDice::ConvenienceMethods } }
 
@@ -16,6 +24,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_nndnn_plusn" do
     }
   end
 
+  # specify number of dice to roll
   describe "total_NdNN_plusN method" do
     it "calls NerdDice.total_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:total_dice).with(20, 3, **merged_options).and_call_original
@@ -50,11 +59,12 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_nndnn_plusn" do
 
     it "raises error if bonus is inconsistent with kwargs" do
       expect { magic.total_2d12_plus6 bonus: 5 }.to raise_error(
-        NerdDice::Error, "bonus integrity failure"
+        NerdDice::Error, /#{get_bonus_error_message(5, 6)}/
       )
     end
   end
 
+  # implicitly roll 1 die
   describe "total_dNN_plusN method" do
     it "calls NerdDice.total_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:total_dice).with(20, 1, **merged_options).and_call_original
@@ -89,7 +99,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_nndnn_plusn" do
 
     it "raises error if bonus is inconsistent with kwargs" do
       expect { magic.total_d12_plus6 bonus: 5 }.to raise_error(
-        NerdDice::Error, "bonus integrity failure"
+        NerdDice::Error, /#{get_bonus_error_message(5, 6)}/
       )
     end
   end

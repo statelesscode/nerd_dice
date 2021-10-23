@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# roll_NdNN pattern spec
+# Covers situation pattern of /roll_\d+d\d+/
+# * Rolls specified number of dice
+# * Returns a NerdDice::DiceSet object
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * roll_2d20 randomization_technique: :random_rand => roll 2 d20 using Random.rand technique
+#   * roll_1d8 => roll 1 d8 (same as roll_d8)
 RSpec.describe NerdDice::ConvenienceMethods, ".roll_nndnn" do
   let(:magic) { Class.new { extend NerdDice::ConvenienceMethods } }
 

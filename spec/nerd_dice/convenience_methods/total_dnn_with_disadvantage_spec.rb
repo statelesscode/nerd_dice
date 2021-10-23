@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# total_dNN_with_disadvantage pattern spec
+# Covers situation pattern of /total_d\d+_with_disadvantage/ with no number to keep specified
+# * Rolls 2 dice and keeps the lowest
+# * Returns an Integer by calling NerdDice.roll_dice().lowest().total
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * total_d20_with_disadvantage => roll 2 d20 and take the lowest
+#   * total_d8_with_disadvantage_plus6 => roll 2 d8 and take the lowest then add 6
 RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_with_disadvantage" do
   let(:magic) { Class.new { extend NerdDice::ConvenienceMethods } }
 
@@ -50,6 +58,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_with_disadvantage" do
     end
   end
 
+  # combine with bonuses and penalties
   describe "total_dNN_with_disadvantage with bonuses and penalties" do
     it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
       merged_options = method_options.merge(bonus: 6)
@@ -65,7 +74,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_with_disadvantage" do
 
     it "raises error if bonus or penalty does not match the keyword argument" do
       expect { magic.total_d20_with_disadvantage_minus4 bonus: 5 }.to raise_error(
-        NerdDice::Error, "bonus integrity failure"
+        NerdDice::Error, /#{get_bonus_error_message(5, -4)}/
       )
     end
 

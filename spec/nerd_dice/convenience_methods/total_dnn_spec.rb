@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# total_dNN pattern spec
+# Covers situation pattern of /total_d\d+/
+# * Rolls 1 die
+# * Returns an Integer
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * total_d20 randomization_technique: :random_rand => roll 1 d20 using Random.rand technique
+#   * total_d8 => roll 1 d8
 RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn" do
   let(:magic) { Class.new { extend NerdDice::ConvenienceMethods } }
 

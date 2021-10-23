@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# roll_dNN_lowest pattern spec
+# Covers situation pattern of /roll_d\d+_lowest/ with no number to keep specified
+# * Rolls 2 dice and keeps the lowest
+# * Returns a NerdDice::DiceSet object
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * roll_d20_lowest => roll 2 d20 and take the lowest
+#   * roll_d8_lowest_plus6 => roll 2 d8 and take the lowest then add 6
 RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_lowest" do
   let(:magic) { Class.new { extend NerdDice::ConvenienceMethods } }
 
@@ -54,6 +62,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_lowest" do
     end
   end
 
+  # combine with bonuses and penalties
   describe "roll_dNN_lowest with bonuses and penalties" do
     it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
       merged_options = method_options.merge(bonus: 6)
@@ -69,7 +78,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_lowest" do
 
     it "raises error if bonus or penalty does not match the keyword argument" do
       expect { magic.roll_d20_lowest_minus4 bonus: 5 }.to raise_error(
-        NerdDice::Error, "bonus integrity failure"
+        NerdDice::Error, /#{get_bonus_error_message(5, -4)}/
       )
     end
 

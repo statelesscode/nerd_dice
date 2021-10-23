@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+# roll_dNN_highest(N) pattern spec
+# Covers situation pattern of /roll_\d+d\d+_highest\d*/
+# * Rolls specified dice and keeps the highest specified number of dice
+# * If number of dice not specified keeps number of dice -1 (minimum of 1)
+# * Returns a NerdDice::DiceSet object
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * roll_3d20_highest2 => roll 3 d20 and take the highest 2
+#   * roll_3d8_highest_plus6 => roll 3 d8 and take the highest 2 then add 6
 RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_highestn" do
   before do
     NerdDice.instance_variable_set(:@configuration, NerdDice::Configuration.new)
@@ -17,6 +26,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_highestn" do
     }
   end
 
+  # specify number to keep
   describe "roll_NdNN_highestN method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
@@ -60,6 +70,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_highestn" do
     end
   end
 
+  # without specifying number to keep
   describe "roll_NdNN_highest method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
@@ -117,6 +128,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_highestn" do
     end
   end
 
+  # combine with bonuses and penalties
   describe "roll_NdNN_highest with bonuses and penalties" do
     it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
       merged_options = method_options.merge(bonus: 6)
@@ -132,7 +144,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_highestn" do
 
     it "raises error if bonus or penalty does not match the keyword argument" do
       expect { magic.roll_3d20_highest_minus4 bonus: 5 }.to raise_error(
-        NerdDice::Error, "bonus integrity failure"
+        NerdDice::Error, /#{get_bonus_error_message(5, -4)}/
       )
     end
 

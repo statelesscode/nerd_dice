@@ -29,3 +29,9 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 end
+
+# called by ConvenienceMethods specs testing for bonus mismatch between kwargs and method_name
+def get_bonus_error_message(keyword, modifier)
+  "Bonus integrity failure: Modifier specified in keyword arguments was #{keyword}. " \
+    "Modifier specified in method_name was #{modifier}."
+end

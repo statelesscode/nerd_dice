@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+# roll_dNN_with_disadvantage(N) pattern spec
+# Covers situation pattern of /roll_\d+d\d+_with_disadvantage\d*/
+# * Rolls specified dice and keeps the lowest specified number of dice
+# * If number of dice not specified keeps number of dice -1 (minimum of 1)
+# * Returns a NerdDice::DiceSet object
+# * Specs cover keywords, use of method without keywords, testing method defined and errors
+# * Examples
+#   * roll_3d20_with_disadvantage2 => roll 3 d20 and take the lowest 2
+#   * roll_3d8_with_disadvantage_plus6 => roll 3 d8 and take the lowest 2 then add 6
 RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
   before do
     NerdDice.instance_variable_set(:@configuration, NerdDice::Configuration.new)
@@ -17,6 +26,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     }
   end
 
+  # specify number to keep
   describe "roll_NdNN_with_disadvantageN method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
@@ -61,6 +71,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     end
   end
 
+  # without specifying number to keep
   describe "roll_NdNN_with_disadvantage method" do
     it "calls NerdDice.roll_dice with correct arguments and keywords" do
       expect(NerdDice).to receive(:roll_dice).with(20, 3, **method_options).and_call_original
@@ -119,6 +130,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     end
   end
 
+  # combine with bonuses and penalties
   describe "roll_NdNN_with_disadvantage with bonuses and penalties" do
     it "calls calls NerdDice.roll_dice with correct arguments, keywords with bonus" do
       merged_options = method_options.merge(bonus: 6)
@@ -134,7 +146,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
 
     it "raises error if bonus or penalty does not match the keyword argument" do
       expect { magic.roll_3d20_with_disadvantage_minus4 bonus: 5 }.to raise_error(
-        NerdDice::Error, "bonus integrity failure"
+        NerdDice::Error, /#{get_bonus_error_message(5, -4)}/
       )
     end
 
