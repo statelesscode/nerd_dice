@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
 module NerdDice
   # The NerdDice::ConvenienceMethods module overrides the default behavior of method_missing to
   # provide the ability to dynamically roll dice with methods names that match specific patterns.
@@ -244,9 +245,27 @@ module NerdDice
         specified_number = method_name.to_s.match(/(#{ADV}|#{DIS})\d+/o)
 
         # set the default to 1 if only one die or number minus 1 if multiple
-        default = number_of_dice == 1 ? 1 : number_of_dice - 1
+        default = get_default_from_number_of_dice(number_of_dice)
 
         # return pattern match if one exists or number of dice -1 if no pattern match
+        get_pattern_match_or_default(specified_number, default)
+      end
+
+      # Determines what the default number_to_keep should be based on the number of dice being rolled
+      # using the advantage/disadvantage mechanics if you don't specify a number to keep
+      #
+      # If the number of dice being rolled is 1, you have to keep the one die. Otherwise
+      # you take the number of dice - 1. So if you do roll_4d6_with_advantage, you will get
+      # the highest three dice kept by default
+      def get_default_from_number_of_dice(number_of_dice)
+        number_of_dice == 1 ? 1 : number_of_dice - 1
+      end
+
+      # Takes the specified number match from the method name and determines
+      # whether it is only digits. If this matches and only contains digits
+      # the method returns the integer value of the specified digits. Otherwise
+      # it will return the default that was passed in the second parameter
+      def get_pattern_match_or_default(specified_number, default)
         specified_number ? specified_number.to_s.match(/\d+/).to_s.to_i : default
       end
 
@@ -277,3 +296,4 @@ module NerdDice
       end
   end
 end
+# rubocop:enable Metrics/ModuleLength
