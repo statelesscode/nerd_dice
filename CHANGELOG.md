@@ -1,51 +1,8 @@
 # Nerd Dice Changelog
 
-## master \(unreleased\)
-### Added
-* Add `coveralls_reborn` to RSpec and GitHub actions
-* Add build badge to README
-* Add Code Climate maintainability integration and badge to README
-* Add `nerd_dice_benchmark` script to bin directory
-* Add GitHub Action CI build
-  - Run RSpec test suite, fail if specs fail, report coverage via Coveralls
-  - Run RuboCop and fail if violations
-  - Run benchmark suite and fail if outside of allowed ratios
-### Changed
-* Update RuboCop version and configuration
-### Fixed
+<img src="https://i.kym-cdn.com/photos/images/newsfeed/000/186/610/thankyou.png?1318726198" alt="Our CHANGELOG is in another castle" />
 
-## 0.2.0 \(2021-01-28\)
-### Added
-* Add ability to configure with `NerdDice.configure` block or `NerdDice.configuration`
-  - Configure `randomization_technique` as `:random_rand`, `:securerandom`, `:random_object`, or `randomized`
-  - Configure `refresh_seed_interval` to allow a periodic refresh of the seed
-* Add `randomization_technique` option to `NerdDice.total_dice` method keyword arguments
-* Add a lower-level `execute_die_roll` method that allows you to roll a single die with a generator specified
-* Add ability to manually refresh or specify seed with `:refresh_seed!` method
-### Changed
-* Change `opts = {}` final argument to use keyword args `**opts` in the `NerdDice.total_dice` method. Now the method can be called as follows:
-```ruby
-# old
-NerdDice.total_dice(20, 1, {bonus: 5})
-NerdDice.total_dice(6, 3, {bonus: 1})
+## Legacy Branch: See master
+This is a legacy maintenance branch.
 
-# new
-NerdDice.total_dice(20, bonus: 5)
-NerdDice.total_dice(6, 3, bonus: 1)
-```
-* Call `:to_i` on bonus instead of using `:is_a?` and raise ArgumentError in the `NerdDice.total_dice` method if it doesn't respond to `:to_i`
-* Added `securerandom` as an explicit dependency due to Ruby 3.x change to bundled gem
-* `total_dice` no longer calls unqualified `.rand` which improves performance on all generators except for `:securerandom`
-### Fixed
-
-## 0.1.1 \(2020-12-12\)
-### Added
-### Changed
-### Fixed
-* Fix broken link to CHANGELOG in gemspec
-* Fix rubocop offenses from 0.1.0 and refactor specs
-
-## 0.1.0 \(2020-12-07\)
-
-### Added
-* Add NerdDice.total_dice class method with the ability to roll multiple polyhedral dice and add a bonus
+The [authoritative version of the CHANGELOG](https://github.com/statelesscode/nerd_dice/blob/master/CHANGELOG.md) is found on the master branch. All other release and maintenance branches are updated to point to master after being created.
