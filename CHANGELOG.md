@@ -1,13 +1,8 @@
 # Nerd Dice Changelog
 
-## master \(unreleased\)
+<img src="https://i.kym-cdn.com/photos/images/newsfeed/000/186/610/thankyou.png?1318726198" alt="Our CHANGELOG is in another castle" />
 
-## 0.1.1 \(2020-12-12\)
-### Bug Fixes
-* Fix broken link to CHANGELOG in gemspec
-* Fix rubocop offenses from 0.1.0 and refactor specs
+## Legacy Branch: See master
+This is a legacy maintenance branch.
 
-## 0.1.0 \(2020-12-07\)
-
-### New Features
-* Add NerdDice.total_dice class method with the ability to roll multiple polyhedral dice and add a bonus
+The [authoritative version of the CHANGELOG](https://github.com/statelesscode/nerd_dice/blob/master/CHANGELOG.md) is found on the master branch. All other release and maintenance branches are updated to point to master after being created.
