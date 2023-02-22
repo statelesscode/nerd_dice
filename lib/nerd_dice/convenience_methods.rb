@@ -78,10 +78,10 @@ module NerdDice
   #     roll_d20_with_advantage_lowest # will raise NameError using super method_missing
   #     total_4d6_lowest3_highest2 # will raise NameError using super method_missing
   module ConvenienceMethods
-    DIS = /_(with_disadvantage|lowest)/.freeze
-    ADV = /_(with_advantage|highest)/.freeze
-    MOD = /(_p(lus)?\d+|_m(inus)?\d+)/.freeze
-    OVERALL_REGEXP = /\A(roll|total)_\d*d\d+((#{ADV}|#{DIS})\d*)?#{MOD}?\z/.freeze
+    DIS = /_(with_disadvantage|lowest)/
+    ADV = /_(with_advantage|highest)/
+    MOD = /(_p(lus)?\d+|_m(inus)?\d+)/
+    OVERALL_REGEXP = /\A(roll|total)_\d*d\d+((#{ADV}|#{DIS})\d*)?#{MOD}?\z/
 
     # Override of method_missing
     # * Attempts to match pattern to the regular expression matching the methods

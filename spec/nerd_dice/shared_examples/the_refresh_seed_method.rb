@@ -42,8 +42,7 @@ RSpec.shared_examples "a specified random_rand seed" do
   before { execute_with_config(*config_vars) }
 
   it "matches supplied new random_rand value" do
-    random_rand = RUBY_VERSION.to_f < 3 ? Random::DEFAULT : Random
-    expect(random_rand.seed).to eq(RefreshSeedHelper::NEW_RANDOM_RAND_SEED)
+    expect(RefreshSeedHelper::NEW_RANDOM_RAND_SEED).to eq(Random.seed)
   end
 end
 
