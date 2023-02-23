@@ -43,7 +43,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_d6)).to eq(true)
+      expect(magic.respond_to?(:roll_d6)).to be(true)
     end
   end
 end

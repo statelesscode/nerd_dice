@@ -54,7 +54,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_with_disadvantage" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_d6_with_disadvantage)).to eq(true)
+      expect(magic.respond_to?(:total_d6_with_disadvantage)).to be(true)
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_with_disadvantage" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_d20_with_disadvantage_minus4)).to eq(true)
+      expect(magic.respond_to?(:total_d20_with_disadvantage_minus4)).to be(true)
     end
   end
 end

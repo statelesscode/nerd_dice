@@ -48,7 +48,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_nndnn" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_3d6)).to eq(true)
+      expect(magic.respond_to?(:total_3d6)).to be(true)
     end
   end
 end

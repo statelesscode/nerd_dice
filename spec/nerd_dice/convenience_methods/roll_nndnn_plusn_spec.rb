@@ -54,7 +54,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_nndnn_plusn" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_3d6_plus24)).to eq(true)
+      expect(magic.respond_to?(:roll_3d6_plus24)).to be(true)
     end
 
     it "raises error if bonus is inconsistent with kwargs" do
@@ -94,7 +94,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_nndnn_plusn" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_d6_plus24)).to eq(true)
+      expect(magic.respond_to?(:roll_d6_plus24)).to be(true)
     end
 
     it "raises error if bonus is inconsistent with kwargs" do

@@ -256,7 +256,7 @@ RSpec.describe NerdDice::DiceSet do
       dice.each { |die| die.is_included_in_total = false }
       dice.reroll_all!
       dice.each do |die|
-        expect(die.is_included_in_total).to eq(true)
+        expect(die.is_included_in_total).to be(true)
       end
     end
   end
@@ -371,7 +371,7 @@ RSpec.describe NerdDice::DiceSet do
       dice_set.each { |die| die.is_included_in_total = false }
       dice_set.include_all_dice!
       dice_set.each do |die|
-        expect(die.included_in_total?).to eq(true)
+        expect(die.included_in_total?).to be(true)
       end
     end
   end

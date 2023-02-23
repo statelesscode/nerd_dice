@@ -40,12 +40,12 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
 
     it "excludes highest die from total" do
       result = magic.roll_4d8_with_disadvantage3
-      expect(result.max.included_in_total?).to eq(false)
+      expect(result.max.included_in_total?).to be(false)
     end
 
     it "includes lowest N dice in total" do
       result = magic.roll_4d8_with_disadvantage3
-      result.sort[0...-1].each { |die| expect(die.included_in_total?).to eq(true) }
+      result.sort[0...-1].each { |die| expect(die.included_in_total?).to be(true) }
     end
 
     it "rolls 4 dice" do
@@ -67,7 +67,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_4d6_with_disadvantage3)).to eq(true)
+      expect(magic.respond_to?(:roll_4d6_with_disadvantage3)).to be(true)
     end
   end
 
@@ -88,13 +88,13 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     it "excludes highest die from total" do
       # equivalent to roll_4d8_with_disadvantage3
       result = magic.roll_4d8_with_disadvantage
-      expect(result.max.included_in_total?).to eq(false)
+      expect(result.max.included_in_total?).to be(false)
     end
 
     it "includes lowest N dice in total" do
       # equivalent to roll_4d8_with_disadvantage3
       result = magic.roll_4d8_with_disadvantage
-      result.sort[0...-1].each { |die| expect(die.included_in_total?).to eq(true) }
+      result.sort[0...-1].each { |die| expect(die.included_in_total?).to be(true) }
     end
 
     it "rolls 4 dice" do
@@ -106,7 +106,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     it "includes the only die if 1 specified" do
       # equivalent to roll_1d20_with_disadvantage1
       result = magic.roll_1d20_with_disadvantage
-      expect(result[0].included_in_total?).to eq(true)
+      expect(result[0].included_in_total?).to be(true)
     end
 
     it "defines the method after it is called" do
@@ -126,7 +126,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
 
     it "responds to methods matching the pattern" do
       # equivalent to roll_4d6_with_disadvantage3
-      expect(magic.respond_to?(:roll_4d6_with_disadvantage)).to eq(true)
+      expect(magic.respond_to?(:roll_4d6_with_disadvantage)).to be(true)
     end
   end
 
@@ -151,7 +151,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_ndnn_with_disadvantagen" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_3d20_with_disadvantage_minus4)).to eq(true)
+      expect(magic.respond_to?(:roll_3d20_with_disadvantage_minus4)).to be(true)
     end
   end
 end

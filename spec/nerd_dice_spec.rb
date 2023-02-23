@@ -2,7 +2,7 @@
 
 RSpec.describe NerdDice do
   it "has a version number" do
-    expect(NerdDice::VERSION).not_to be nil
+    expect(NerdDice::VERSION).not_to be_nil
   end
 
   it "can be configured" do
@@ -59,7 +59,7 @@ RSpec.describe NerdDice do
       end
 
       it "responds to methods matching the pattern" do
-        expect(described_class.respond_to?(:roll_3d6)).to eq(true)
+        expect(described_class.respond_to?(:roll_3d6)).to be(true)
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe NerdDice do
       end
 
       it "responds to methods matching the pattern" do
-        expect(described_class.respond_to?(:total_3d6)).to eq(true)
+        expect(described_class.respond_to?(:total_3d6)).to be(true)
       end
     end
   end

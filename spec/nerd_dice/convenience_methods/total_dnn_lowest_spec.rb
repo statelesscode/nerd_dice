@@ -53,7 +53,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_lowest" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_d6_lowest)).to eq(true)
+      expect(magic.respond_to?(:total_d6_lowest)).to be(true)
     end
   end
 
@@ -78,7 +78,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_dnn_lowest" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_d20_lowest_minus4)).to eq(true)
+      expect(magic.respond_to?(:total_d20_lowest_minus4)).to be(true)
     end
   end
 end
