@@ -2,14 +2,15 @@
 
 ## Supported Versions
 
-As-of right now, the latest patch version of each minor version is supported, but versions earlier than `0.4.x` are deprecated and will not receive additional updates after their certificate expires on February 14, 2024.
+As-of right now, the latest patch version of each minor version is supported, but versions earlier than `0.5.x` are deprecated and will not receive additional updates after their certificate expires on February 23, 2024.
 
 | Version | Supported                  | End of Life |
 | ------- | -------------------------- | ----------- |
-| 0.4.x   | :white_check_mark: Current |             |
-| 0.3.x   | :warning: Deprecated       | 2024-02-14  |
-| 0.2.x   | :warning: Deprecated       | 2024-02-14  |
-| 0.1.x   | :warning: Deprecated       | 2024-02-14  |
+| 0.5.x   | :white_check_mark: Current |             |
+| 0.4.x   | :warning: Deprecated       | 2024-02-23  |
+| 0.3.x   | :warning: Deprecated       | 2024-02-23  |
+| 0.2.x   | :warning: Deprecated       | 2024-02-23  |
+| 0.1.x   | :warning: Deprecated       | 2024-02-23  |
 
 ## Certificate Signing and Checksums
 
