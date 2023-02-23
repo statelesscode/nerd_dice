@@ -60,7 +60,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_ndnn_highestn" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_4d6_highest3)).to eq(true)
+      expect(magic.respond_to?(:total_4d6_highest3)).to be(true)
     end
   end
 
@@ -113,7 +113,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_ndnn_highestn" do
 
     it "responds to methods matching the pattern" do
       # equivalent to total_4d6_highest3
-      expect(magic.respond_to?(:total_4d6_highest)).to eq(true)
+      expect(magic.respond_to?(:total_4d6_highest)).to be(true)
     end
   end
 
@@ -138,7 +138,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".total_ndnn_highestn" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:total_3d20_highest_minus4)).to eq(true)
+      expect(magic.respond_to?(:total_3d20_highest_minus4)).to be(true)
     end
   end
 end

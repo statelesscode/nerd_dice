@@ -32,12 +32,12 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_highest" do
 
     it "excludes lower die from total" do
       result = magic.roll_d8_highest
-      expect(result.min.included_in_total?).to eq(false)
+      expect(result.min.included_in_total?).to be(false)
     end
 
     it "includes higher die in total" do
       result = magic.roll_d8_highest
-      expect(result.sort[1].included_in_total?).to eq(true)
+      expect(result.sort[1].included_in_total?).to be(true)
     end
 
     it "rolls 2 dice" do
@@ -58,7 +58,7 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_highest" do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_d6_highest)).to eq(true)
+      expect(magic.respond_to?(:roll_d6_highest)).to be(true)
     end
   end
 
@@ -84,6 +84,6 @@ RSpec.describe NerdDice::ConvenienceMethods, ".roll_dnn_highest" do
   end
 
   it "responds to methods matching the pattern" do
-    expect(magic.respond_to?(:roll_d20_highest_plus6)).to eq(true)
+    expect(magic.respond_to?(:roll_d20_highest_plus6)).to be(true)
   end
 end

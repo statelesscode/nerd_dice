@@ -23,11 +23,11 @@ RSpec.describe NerdDice::ConvenienceMethods do
     end
 
     it "responds to methods matching the pattern" do
-      expect(magic.respond_to?(:roll_d10)).to eq(true)
+      expect(magic.respond_to?(:roll_d10)).to be(true)
     end
 
     it "does not respond to methods that do not match the pattern" do
-      expect(magic.respond_to?(:taxation_is_theft!)).to eq(false)
+      expect(magic.respond_to?(:taxation_is_theft!)).to be(false)
     end
   end
 end

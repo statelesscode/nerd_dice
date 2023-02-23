@@ -63,6 +63,6 @@ RSpec.shared_examples "a specified randomization technique" do
   end
 
   it "does not have a nil argument technique" do
-    expect(arg_technique).not_to be nil
+    expect(arg_technique).not_to be_nil
   end
 end
