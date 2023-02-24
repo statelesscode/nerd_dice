@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    nerd_dice (0.5.0)
+    nerd_dice (0.6.0)
       securerandom (~> 0.2, >= 0.2.2)
 
 GEM
