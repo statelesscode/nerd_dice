@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.metadata["bug_tracker_uri"] = "https://github.com/statelesscode/nerd_dice/issues"
   spec.metadata["documentation_uri"] = "https://github.com/statelesscode/nerd_dice/README.md"
   spec.metadata["github_repo"] = "https://github.com/statelesscode/nerd_dice"
+  spec.metadata["rubygems_mfa_required"] = "true"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
@@ -43,8 +44,13 @@ Gem::Specification.new do |spec|
   spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.end_with?("gem")
 
   # Dependencies
-  spec.add_development_dependency "rubocop", "~> 1.5", ">= 1.5.2"
-  spec.add_development_dependency "rubocop-performance", "~> 1.9", ">= 1.9.1"
-  spec.add_development_dependency "rubocop-rake", "~> 0.5", ">= 0.5.1"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.0", ">= 2.0.1"
+  spec.add_dependency "securerandom", "~> 0.2", ">= 0.2.2"
+
+  # Development Dependencies
+  spec.add_development_dependency "coveralls_reborn", "~> 0.27.0"
+  spec.add_development_dependency "rubocop", "~> 1.46", ">= 1.46.0"
+  spec.add_development_dependency "rubocop-performance", "~> 1.16", ">= 1.16.0"
+  spec.add_development_dependency "rubocop-rake", "~> 0.6", ">= 0.6.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.18", ">= 2.18.1"
+  spec.add_development_dependency "simplecov-lcov", "~> 0.8.0"
 end
