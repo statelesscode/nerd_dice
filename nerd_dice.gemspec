@@ -44,13 +44,13 @@ Gem::Specification.new do |spec|
   spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.end_with?("gem")
 
   # Dependencies
-  spec.add_dependency "securerandom", "~> 0.1", ">= 0.1.1"
+  spec.add_dependency "securerandom", "~> 0.2", ">= 0.2.2"
 
   # Development Dependencies
-  spec.add_development_dependency "coveralls_reborn", "~> 0.23.0"
-  spec.add_development_dependency "rubocop", "~> 1.25", ">= 1.25.0"
-  spec.add_development_dependency "rubocop-performance", "~> 1.13", ">= 1.13.2"
+  spec.add_development_dependency "coveralls_reborn", "~> 0.27.0"
+  spec.add_development_dependency "rubocop", "~> 1.46", ">= 1.46.0"
+  spec.add_development_dependency "rubocop-performance", "~> 1.16", ">= 1.16.0"
   spec.add_development_dependency "rubocop-rake", "~> 0.6", ">= 0.6.0"
-  spec.add_development_dependency "rubocop-rspec", "~> 2.7", ">= 2.7.0"
+  spec.add_development_dependency "rubocop-rspec", "~> 2.18", ">= 2.18.1"
   spec.add_development_dependency "simplecov-lcov", "~> 0.8.0"
 end

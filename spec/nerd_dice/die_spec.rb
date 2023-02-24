@@ -81,7 +81,7 @@ RSpec.describe NerdDice::Die do
         die.roll
         changed = true if die.value != original_value
       end
-      expect(changed).to eq(true)
+      expect(changed).to be(true)
     end
     # rubocop:enable RSpec/ExampleLength
 
