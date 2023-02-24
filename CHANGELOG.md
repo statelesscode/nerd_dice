@@ -5,6 +5,33 @@
 ### Changed
 ### Fixed
 
+## 0.5.0 \(2023-02-23\)
+### Added
+* Add Ruby 3.1 and 3.2 to GitHub actions
+* Add security policy to gem
+* Add contributing guidelines to project
+### Changed
+* Remove Ruby 2.7 from GitHub actions
+* Change minimum Ruby version to 3.0
+* Refactor RuboCop to enable new cops by default and delete redundant config
+* Update bundle for dependencies and development dependencies
+### Fixed
+* Remove hardcoded link from README
+* Fix cognitive complexity code smell in convenience_methods
+* Update expired gem signing certificate
+
+## 0.4.1 \(2023-02-23\)
+### Added
+* Add Ruby 3.1 and 3.2 to GitHub actions
+### Changed
+* Remove Ruby 2.7 from GitHub actions
+* Refactor RuboCop to enable new cops by default and delete redundant config
+* Update bundle for dependencies and development dependencies
+### Fixed
+* Remove hardcoded link from README
+* Fix cognitive complexity code smell in convenience_methods
+* Update expired gem signing certificate
+
 ## 0.4.0 \(2021-10-23\)
 ### Added
 * Add `NerdDice::ConvenienceMethods` method_missing mixin module that allows for dynamic invocation of patterns in the method name that get converted into calls to `NerdDice.roll_dice` or `NerdDice.total_dice` along with allowing the advantage/disadvantage mechanic or bonuses to be parsed from the method name. Full documentation of the module can be found in the [Convenience Methods Mixin](README.md#convenience-methods-mixin) section of the README.
@@ -16,6 +43,17 @@
 ### Fixed
 * Fix typos and horizontal scrolling in README
 * Fix CodeClimate Code Smell on harvest_totals
+
+## 0.3.1 \(2023-02-23\)
+### Added
+* Add Ruby 3.1 and 3.2 to GitHub actions
+### Changed
+* Remove Ruby 2.7 from GitHub actions
+* Refactor RuboCop to enable new cops by default and delete redundant config
+* Update bundle for dependencies and development dependencies
+### Fixed
+* Remove hardcoded link from README
+* Update expired gem signing certificate
 
 ## 0.3.0 \(2021-09-11\)
 ### Added
@@ -45,6 +83,17 @@
 * Enforce that `NerdDice.configuration.ability_score_array_size` must be a positive duck-type integer
 ### Fixed
 
+## 0.2.1 \(2023-02-23\)
+### Added
+* Add Ruby 3.1 and 3.2 to GitHub actions
+### Changed
+* Remove Ruby 2.7 from GitHub actions
+* Refactor RuboCop to enable new cops by default and delete redundant config
+* Update bundle for dependencies and development dependencies
+### Fixed
+* Remove hardcoded link from README
+* Update expired gem signing certificate
+
 ## 0.2.0 \(2021-01-28\)
 ### Added
 * Add ability to configure with `NerdDice.configure` block or `NerdDice.configuration`
@@ -69,12 +118,21 @@ NerdDice.total_dice(6, 3, bonus: 1)
 * `total_dice` no longer calls unqualified `.rand` which improves performance on all generators except for `:securerandom`
 ### Fixed
 
+## 0.1.2 \(2023-02-23\)
+### Added
+### Changed
+* Refactor RuboCop to enable new cops by default and delete redundant config
+* Update bundle for dependencies and development dependencies
+### Fixed
+* Remove hardcoded link from README
+* Update expired gem signing certificate
+
 ## 0.1.1 \(2020-12-12\)
 ### Added
 ### Changed
 ### Fixed
 * Fix broken link to CHANGELOG in gemspec
-* Fix rubocop offenses from 0.1.0 and refactor specs
+* Fix RuboCop offenses from 0.1.0 and refactor specs
 
 ## 0.1.0 \(2020-12-07\)
 
