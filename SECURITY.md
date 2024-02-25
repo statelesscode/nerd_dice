@@ -2,15 +2,15 @@
 
 ## Supported Versions
 
-As-of right now, the latest patch version of each minor version is supported, but versions earlier than `0.5.x` are deprecated and will not receive additional updates after their certificate expires on February 23, 2024.
+As-of right now, only the latest patch version of the `0.5.x` branch is supported. All other versions are End of Life and will no longer receive updates. Update your applications to use version `0.5.x`. Future deprecated versions will receive one year of updates after deprecation and stop receiving updates once the gem signing certificate associated with the last version expires.
 
 | Version | Supported                  | End of Life |
 | ------- | -------------------------- | ----------- |
 | 0.5.x   | :white_check_mark: Current |             |
-| 0.4.x   | :warning: Deprecated       | 2024-02-23  |
-| 0.3.x   | :warning: Deprecated       | 2024-02-23  |
-| 0.2.x   | :warning: Deprecated       | 2024-02-23  |
-| 0.1.x   | :warning: Deprecated       | 2024-02-23  |
+| 0.4.x   | :x: End of Life            | 2024-02-23  |
+| 0.3.x   | :x: End of Life            | 2024-02-23  |
+| 0.2.x   | :x: End of Life            | 2024-02-23  |
+| 0.1.x   | :x: End of Life            | 2024-02-23  |
 
 ## Certificate Signing and Checksums
 

@@ -3,7 +3,22 @@
 ## master \(unreleased\)
 ### Added
 ### Changed
+* Update SECURITY.md to indicate that versions lower than 0.5.x are end-of-life and will not receive further updates
 ### Fixed
+
+## 0.5.1 \(2023-02-24\)
+### Added
+* Add Ruby 3.3 to GitHub actions
+### Changed
+* Update securerandom dependency to 0.3.1
+### Fixed
+* Run some autocorrects for new RuboCop cops like replacing the method
+  forwarding style of *args, **kwargs, &block with the more concise
+  "..."
+* Modify .rubocop.yml to specify gemspec for dev dependencies instead of Gemfile \(default for the new cop Gemspec/DevelopmentDependencies\)
+* Rename some variables that were violating the new RSpec/IndexedLet cop
+* Update bundle for development dependencies
+* Update expired gem signing certificate. New cert expiring 2025-02-24
 
 ## 0.5.0 \(2023-02-23\)
 ### Added
@@ -18,7 +33,7 @@
 ### Fixed
 * Remove hardcoded link from README
 * Fix cognitive complexity code smell in convenience_methods
-* Update expired gem signing certificate
+* Update expired gem signing certificate. New cert expiring 2024-02-23
 
 ## 0.4.1 \(2023-02-23\)
 ### Added
@@ -30,7 +45,7 @@
 ### Fixed
 * Remove hardcoded link from README
 * Fix cognitive complexity code smell in convenience_methods
-* Update expired gem signing certificate
+* Update expired gem signing certificate. New cert expiring 2024-02-23
 
 ## 0.4.0 \(2021-10-23\)
 ### Added
@@ -53,7 +68,7 @@
 * Update bundle for dependencies and development dependencies
 ### Fixed
 * Remove hardcoded link from README
-* Update expired gem signing certificate
+* Update expired gem signing certificate. New cert expiring 2024-02-23
 
 ## 0.3.0 \(2021-09-11\)
 ### Added
@@ -92,7 +107,7 @@
 * Update bundle for dependencies and development dependencies
 ### Fixed
 * Remove hardcoded link from README
-* Update expired gem signing certificate
+* Update expired gem signing certificate. New cert expiring 2024-02-23
 
 ## 0.2.0 \(2021-01-28\)
 ### Added
@@ -125,7 +140,7 @@ NerdDice.total_dice(6, 3, bonus: 1)
 * Update bundle for dependencies and development dependencies
 ### Fixed
 * Remove hardcoded link from README
-* Update expired gem signing certificate
+* Update expired gem signing certificate. New cert expiring 2024-02-23
 
 ## 0.1.1 \(2020-12-12\)
 ### Added
