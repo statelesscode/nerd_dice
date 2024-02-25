@@ -90,11 +90,11 @@ module NerdDice
     # * Subsequent calls to the same method name will not hit method_missing
     # * If the method name does not match the regular expression pattern, the default
     #   implementation of method_missing is called by invoking super
-    def method_missing(method_name, *args, **kwargs, &block)
+    def method_missing(method_name, ...)
       # returns false if no match
-      if match_pattern_and_delegate(method_name, *args, **kwargs, &block)
+      if match_pattern_and_delegate(method_name, ...)
         # send the method after defining it
-        send(method_name, *args, **kwargs, &block)
+        send(method_name, ...)
       else
         super
       end
@@ -111,12 +111,10 @@ module NerdDice
       # Compares the method name to the regular expression patterns for the module
       # * If the pattern matches the convenience method is defined and a truthy value is returned
       # * If the pattern does not match then the method returns false and method_missing invokes `super`
-      def match_pattern_and_delegate(method_name, *args, **kwargs, &block)
+      def match_pattern_and_delegate(method_name, ...)
         case method_name.to_s
-        when /\Aroll_\d*d\d+((#{ADV}|#{DIS})\d*)?#{MOD}?\z/o then define_roll_nndnn(method_name, *args, **kwargs,
-                                                                                    &block)
-        when /\Atotal_\d*d\d+((#{ADV}|#{DIS})\d*)?#{MOD}?\z/o then define_total_nndnn(method_name, *args, **kwargs,
-                                                                                      &block)
+        when /\Aroll_\d*d\d+((#{ADV}|#{DIS})\d*)?#{MOD}?\z/o then define_roll_nndnn(method_name, ...)
+        when /\Atotal_\d*d\d+((#{ADV}|#{DIS})\d*)?#{MOD}?\z/o then define_total_nndnn(method_name, ...)
         else
           false
         end
