@@ -166,6 +166,9 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
     - 'nerd_dice.gemspec'
 
+Gemspec/DevelopmentDependencies:
+  EnforcedStyle: gemspec
+
 Lint/ErbNewArguments:
   Enabled: true
 

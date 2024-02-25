@@ -54,23 +54,23 @@ RSpec.describe NerdDice::Configuration do
     )
   end
 
-  it "will not let you choose a randomization_technique unless it's on the list" do
+  it "does not let you choose a randomization_technique unless it's on the list" do
     expect { config.randomization_technique = :evil_hacker_random }.to raise_error(
       NerdDice::Error, "randomization_technique must be one of #{NerdDice::RANDOMIZATION_TECHNIQUES.join(', ')}"
     )
   end
 
-  it "will let you set randomization_technique to a valid value" do
+  it "lets you set randomization_technique to a valid value" do
     config.randomization_technique = :securerandom
     expect(config.randomization_technique).to eq(:securerandom)
   end
 
-  it "will let you set the die_background_color" do
+  it "lets you set the die_background_color" do
     config.die_background_color = "#DD0000"
     expect(config.die_background_color).to eq("#DD0000")
   end
 
-  it "will let you set the die_foreground_color" do
+  it "lets you set the die_foreground_color" do
     config.die_foreground_color = "#00DD00"
     expect(config.die_foreground_color).to eq("#00DD00")
   end
