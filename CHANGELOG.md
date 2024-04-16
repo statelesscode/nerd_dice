@@ -6,7 +6,7 @@
 * Update SECURITY.md to indicate that versions lower than 0.5.x are end-of-life and will not receive further updates
 ### Fixed
 
-## 0.5.1 \(2023-02-24\)
+## 0.5.1 \(2024-02-24\)
 ### Added
 * Add Ruby 3.3 to GitHub actions
 ### Changed
