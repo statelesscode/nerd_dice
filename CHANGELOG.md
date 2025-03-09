@@ -6,6 +6,19 @@
 * Update SECURITY.md to indicate that versions lower than 0.5.x are end-of-life and will not receive further updates
 ### Fixed
 
+## 0.5.2 \(2025-03-09\)
+### Added
+* Add Ruby 3.4 to GitHub actions
+### Changed
+* Update GitHub actions to use `actions/checkout@v4` instead of `actions/checkout@v2`
+* Update securerandom dependency to 0.3.1
+* Removed Gemfile.lock from the GitHub repo
+### Fixed
+* There was a change in how Ruby 3.4 reports error messages in NoMethodError, where it now uses a single quote at the beginning instead of a backtick. This caused a minor breaking change in how `harvest_totals` reports errors. Added a match for either a backtick or a single quote to make it backwards compatible.
+* Modify .rubocop.yml to use `plugins:` instead of deprecated `require:`
+* Update bundle for development dependencies
+* Update expired gem signing certificate. New cert expiring 2025-03-09
+
 ## 0.5.1 \(2024-02-24\)
 ### Added
 * Add Ruby 3.3 to GitHub actions
