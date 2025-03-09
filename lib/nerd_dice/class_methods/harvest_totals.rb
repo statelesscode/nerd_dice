@@ -32,8 +32,8 @@ module NerdDice
 
       def get_harvest_totals_error_message(rescued_error)
         case rescued_error.message
-        when /`total'/ then "Each element must respond to :total."
-        when /`map'/ then "Argument must respond to :map."
+        when /[`']total'/ then "Each element must respond to :total."
+        when /[`']map'/ then "Argument must respond to :map."
         end
       end
   end
