@@ -38,7 +38,7 @@ RSpec.describe NerdDice, ".harvest_totals" do
   it "re-raises error if it occurs and does not involve map or total" do
     ducks = DuckTypeTotals::Group.new("bad")
     expect { described_class.harvest_totals(ducks) }.to raise_error(
-      NoMethodError, /undefined method `foo'/
+      NoMethodError, /undefined method [`']foo'/
     )
   end
 end

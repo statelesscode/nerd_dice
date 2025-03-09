@@ -6,7 +6,7 @@
 # will be enabled by default, and a case-by-case descision can be made whether
 # to exclude new violations in the configuration explicitly or update the
 # codebase to the gem to conform to the new standard.
-require:
+plugins:
     - rubocop-performance
     - rubocop-rake
     - rubocop-rspec

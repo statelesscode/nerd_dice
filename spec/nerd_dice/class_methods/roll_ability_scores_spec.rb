@@ -46,7 +46,7 @@ RSpec.describe NerdDice, ".roll_ability_scores" do
   end
 
   context "with options on ability scores and dice" do
-    let(:result) { described_class.roll_ability_scores(**ability_score_options.merge(dice_options)) }
+    let(:result) { described_class.roll_ability_scores(**ability_score_options, **dice_options) }
 
     it_behaves_like "the roll_ability_scores_method"
 
