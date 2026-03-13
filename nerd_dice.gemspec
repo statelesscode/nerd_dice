@@ -45,12 +45,4 @@ Gem::Specification.new do |spec|
 
   # Dependencies
   spec.add_dependency "securerandom", "~> 0.3", ">= 0.3.1"
-
-  # Development Dependencies
-  spec.add_development_dependency "coveralls_reborn", "~> 0.28.0"
-  spec.add_development_dependency "rubocop", "~> 1.73", ">= 1.73.2"
-  spec.add_development_dependency "rubocop-performance", "~> 1.24"
-  spec.add_development_dependency "rubocop-rake", "~> 0.7", ">= 0.7.1"
-  spec.add_development_dependency "rubocop-rspec", "~> 3.5"
-  spec.add_development_dependency "simplecov-lcov", "~> 0.8.0"
 end
