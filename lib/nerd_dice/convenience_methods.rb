@@ -272,6 +272,9 @@ module NerdDice
       # * Raises a NerdDice::Error if there is a mismatch
       # * Returns true if no keyword argument bonus
       # * Returns true if keyword argument bonus and method name modifier are consistent
+
+      # disabling because it is a false positive
+      # rubocop:disable Naming/PredicateMethod
       def check_bonus_integrity!(kwargs, bonus)
         bonus_error_message = "Bonus integrity failure: "
         bonus_error_message += "Modifier specified in keyword arguments was #{kwargs[:bonus]}. "
@@ -280,6 +283,7 @@ module NerdDice
 
         true
       end
+      # rubocop:enable Naming/PredicateMethod
 
       # Parses number to keep on a NerdDice::DiceSet
       # * If number_to_keep falsey, just return the DiceSet object

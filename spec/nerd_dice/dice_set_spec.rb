@@ -318,7 +318,6 @@ RSpec.describe NerdDice::DiceSet do
     end
 
     it "returns all dice if the argument matches number_of_dice" do
-      puts "d100 #{dice_d100_with_55_rolled.total}"
       expect(dice_d100_with_55_rolled.highest(1).total).to eq(dice_d100_with_55_rolled.total)
     end
 
