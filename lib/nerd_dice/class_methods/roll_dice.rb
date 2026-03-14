@@ -38,8 +38,8 @@ module NerdDice
     #
     # You can call roll_dice().total to get similar functionality to total_dice
     # or you can chain methods together roll_dice(6, 4, bonus: 3).with_advantage(3).total
-    def roll_dice(number_of_sides, number_of_dice = 1, **opts)
-      DiceSet.new(number_of_sides, number_of_dice, **opts)
+    def roll_dice(number_of_sides, number_of_dice = 1, **)
+      DiceSet.new(number_of_sides, number_of_dice, **)
     end
   end
 end

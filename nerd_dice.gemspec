@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   GEM_DESCRIPTION
   spec.homepage = "https://github.com/statelesscode/nerd_dice"
   spec.licenses = %w[Unlicense MIT]
-  spec.required_ruby_version = Gem::Requirement.new(">= 3.0.0")
+  spec.required_ruby_version = Gem::Requirement.new(">= 3.3.0")
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
 
@@ -44,5 +44,5 @@ Gem::Specification.new do |spec|
   spec.signing_key = File.expand_path("~/.ssh/gem-private_key.pem") if $PROGRAM_NAME.end_with?("gem")
 
   # Dependencies
-  spec.add_dependency "securerandom", "~> 0.3", ">= 0.3.1"
+  spec.add_dependency "securerandom", "~> 0.4", ">= 0.4.1"
 end

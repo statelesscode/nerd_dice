@@ -45,8 +45,8 @@ module NerdDice
     #     :background_color (String) => should resolve to a valid CSS color (format flexible)
     #
     # Return (Array of Integers) => One Integer element for each ability score
-    def total_ability_scores(**opts)
-      harvest_totals(roll_ability_scores(**opts))
+    def total_ability_scores(**)
+      harvest_totals(roll_ability_scores(**))
     end
   end
 end

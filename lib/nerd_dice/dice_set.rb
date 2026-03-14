@@ -33,8 +33,8 @@ module NerdDice
     attr_accessor :background_color, :foreground_color, :damage_type
 
     # required to implement Enumerable uses the @dice collection
-    def each(&block)
-      @dice.each(&block)
+    def each(&)
+      @dice.each(&)
     end
 
     # not included by default in Enumerable: allows [] directly on the DiceSet object

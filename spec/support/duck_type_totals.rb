@@ -4,8 +4,8 @@ module DuckTypeTotals
   class Group
     include Enumerable
 
-    def each(&block)
-      @ducks.each(&block)
+    def each(&)
+      @ducks.each(&)
     end
 
     private
