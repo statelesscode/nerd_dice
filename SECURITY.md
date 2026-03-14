@@ -2,11 +2,12 @@
 
 ## Supported Versions
 
-As-of right now, only the latest patch version of the `0.5.x` branch is supported. All other versions are End of Life and will no longer receive updates. Update your applications to use version `0.5.x`. Future deprecated versions will receive one year of updates after deprecation and stop receiving updates once the gem signing certificate associated with the last version expires.
+As-of right now, the latest patch version of the `0.6.x` branch is fully supported, and the `0.5.x` branch is deprecated with a scheduled End of Life of 2027-03-13. All other versions are End of Life and will no longer receive updates. Update your applications to use a supported version. Future deprecated versions will receive one year of updates after deprecation and stop receiving updates once the gem signing certificate associated with the last version expires.
 
 | Version | Supported                  | End of Life |
 | ------- | -------------------------- | ----------- |
-| 0.5.x   | :white_check_mark: Current |             |
+| 0.6.x   | :white_check_mark: Current |             |
+| 0.5.x   | :warning: Deprecated       | 2027-03-13  |
 | 0.4.x   | :x: End of Life            | 2024-02-23  |
 | 0.3.x   | :x: End of Life            | 2024-02-23  |
 | 0.2.x   | :x: End of Life            | 2024-02-23  |

@@ -3,8 +3,30 @@
 ## master \(unreleased\)
 ### Added
 ### Changed
-* Update SECURITY.md to indicate that versions lower than 0.5.x are end-of-life and will not receive further updates
+* Update SECURITY.md to indicate that version `0.5.x` is deprecated and `0.6.x` is current.
 ### Fixed
+
+## 0.6.0 \(2025-03-14\)
+### Added
+### Changed
+* Change the minimum Ruby version to `3.3`
+* Change `securerandom` dependency to minimum of `0.4.1`
+* Modify code to use anonymous block (`&`) and keyword (`**`) arguments instead of named ones
+### Fixed
+
+## 0.5.3 \(2025-03-13\)
+### Added
+* Add Ruby 4.0 to GitHub actions
+### Changed
+* Update GitHub actions to use `actions/checkout@v6` instead of `actions/checkout@v4`
+* Move development dependencies to `Gemfile` instead of `gemspec` and remove associated configuration from `.rubocop.yml`
+* Add `irb` and `benchmark` to the `Gemfile` because they are no longer part of the standard library
+* Add `mise.toml` to .gitignore
+### Fixed
+* Remove renegade `puts` statement from `dice_set_spec`
+* Fixed Rubocop violations related to RSpec/LeakyLocalVariable in `refresh_seed_spec` by replacing local variable assignments with `let` blocks
+* Add Rubocop disable and enable comments around `check_bonus_integrity!` method in `convenience_methods` due to new false-positive violation
+
 
 ## 0.5.2 \(2025-03-09\)
 ### Added
